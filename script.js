@@ -1,0 +1,63 @@
+const OPENING_DATE = new Date("2026-09-15T19:00:00+02:00");
+
+const gate = document.querySelector(".gate");
+const relicButton = document.querySelector(".map-disc-button");
+const countdown = document.querySelector(".countdown");
+const sequenceTimers = [];
+const units = {
+  days: document.querySelector('[data-unit="days"]'),
+  hours: document.querySelector('[data-unit="hours"]'),
+  minutes: document.querySelector('[data-unit="minutes"]'),
+  seconds: document.querySelector('[data-unit="seconds"]'),
+};
+
+function pad(value, size = 2) {
+  return String(value).padStart(size, "0");
+}
+
+function updateCountdown() {
+  const now = new Date();
+  const remaining = Math.max(0, OPENING_DATE.getTime() - now.getTime());
+  const totalSeconds = Math.floor(remaining / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  units.days.textContent = pad(days, 3);
+  units.hours.textContent = pad(hours);
+  units.minutes.textContent = pad(minutes);
+  units.seconds.textContent = pad(seconds);
+
+  countdown.setAttribute(
+    "aria-label",
+    `Countdown before opening night: ${days} days, ${hours} hours, ${minutes} minutes, and ${seconds} seconds.`
+  );
+}
+
+function revealCountdown() {
+  if (gate.classList.contains("flipped")) {
+    return;
+  }
+
+  gate.classList.add("flipped");
+  relicButton.disabled = true;
+  relicButton.setAttribute("aria-expanded", "true");
+
+  sequenceTimers.push(
+    setTimeout(() => {
+      gate.classList.add("spinning");
+    }, 2100)
+  );
+
+  sequenceTimers.push(
+    setTimeout(() => {
+      gate.classList.add("revealed");
+      countdown.setAttribute("aria-hidden", "false");
+    }, 4300)
+  );
+}
+
+relicButton.addEventListener("click", revealCountdown);
+updateCountdown();
+setInterval(updateCountdown, 1000);

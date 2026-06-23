@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Maelstrom, a pirate bar in Bergen. Enter the map and discover the countdown before opening night."
+    />
+    <title>Maelstrom | Pirate bar in Bergen</title>
+    <link rel="preload" href="assets/maelstrom-pirate-map.png" as="image" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="gate" aria-label="Maelstrom site entrance">
+      <div class="sea-haze" aria-hidden="true"></div>
+
+      <section class="map-stage" aria-live="polite">
+        <div class="map-orbit" aria-hidden="true">
+          <img
+            class="map-image"
+            src="assets/maelstrom-pirate-map.png"
+            alt=""
+            draggable="false"
+          />
+          <div class="vortex"></div>
+        </div>
+
+        <button class="map-disc-button" type="button" aria-expanded="false" aria-label="Turn the map upside down">
+          <svg class="disc-lettering" viewBox="0 0 300 300" aria-hidden="true">
+            <defs>
+              <path id="lettering-top-path" d="M 44 150 A 106 106 0 0 1 256 150" />
+              <path id="lettering-bottom-path" d="M 256 150 A 106 106 0 0 1 44 150" />
+            </defs>
+            <text class="lettering-top">
+              <textPath href="#lettering-top-path" startOffset="50%" text-anchor="middle">UP IS DOWN</textPath>
+            </text>
+            <text class="lettering-bottom">
+              <textPath href="#lettering-bottom-path" startOffset="50%" text-anchor="middle">UP IS DOWN</textPath>
+            </text>
+          </svg>
+          <span class="disc-flip">
+            <span class="disc-map"></span>
+            <span class="ship-scene" aria-hidden="true">
+              <img class="pirate-ship" src="assets/ship.png" alt="" draggable="false" />
+            </span>
+          </span>
+        </button>
+
+        <div class="countdown" aria-hidden="true">
+          <p class="kicker">Opening in Bergen</p>
+          <h1>MAELSTROM</h1>
+          <p class="date">September 15, 2026</p>
+          <div class="time-grid" role="timer" aria-label="Countdown before opening night">
+            <span>
+              <strong data-unit="days">000</strong>
+              <small>days</small>
+            </span>
+            <span>
+              <strong data-unit="hours">00</strong>
+              <small>hours</small>
+            </span>
+            <span>
+              <strong data-unit="minutes">00</strong>
+              <small>minutes</small>
+            </span>
+            <span>
+              <strong data-unit="seconds">00</strong>
+              <small>seconds</small>
+            </span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
