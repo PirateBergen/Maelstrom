@@ -89,7 +89,9 @@ button {
   position: absolute;
   inset: -9%;
   z-index: 0;
+  transform-origin: center;
   transition: transform 1600ms cubic-bezier(0.65, 0, 0.15, 1), filter 1200ms ease;
+  will-change: transform, filter;
 }
 
 .map-image {
@@ -110,8 +112,10 @@ button {
     conic-gradient(from 20deg, transparent, rgba(13, 80, 83, 0.28), transparent, rgba(189, 79, 47, 0.18), transparent);
   mix-blend-mode: multiply;
   opacity: 0;
+  transform-origin: center;
   transform: scale(0.45) rotate(0deg);
   transition: opacity 600ms ease, transform 1500ms cubic-bezier(0.65, 0, 0.15, 1);
+  will-change: transform, opacity;
 }
 
 .map-disc-button {
@@ -161,7 +165,9 @@ button {
     0 0 0 1px rgba(18, 8, 4, 0.86),
     0 22px 62px rgba(0, 0, 0, 0.66);
   place-items: center;
+  transform-origin: center;
   transition: transform 1100ms cubic-bezier(0.62, 0, 0.18, 1);
+  will-change: transform;
 }
 
 .disc-map {
@@ -196,7 +202,9 @@ button {
   letter-spacing: 0.16em;
   pointer-events: none;
   text-shadow: 0 2px 0 #120804, 0 0 12px rgba(0, 0, 0, 0.88);
+  transform-origin: center;
   transition: transform 1100ms cubic-bezier(0.62, 0, 0.18, 1);
+  will-change: transform;
 }
 
 .ship-scene {
@@ -305,8 +313,7 @@ h1 {
 }
 
 .gate.spinning .map-orbit {
-  filter: brightness(0.72) saturate(1.18);
-  transform: rotate(720deg) scale(1.2);
+  animation: map-whirlpool 2400ms cubic-bezier(0.62, 0, 0.14, 1) forwards;
 }
 
 .gate.flipped .abyss-wash {
@@ -318,8 +325,7 @@ h1 {
 }
 
 .gate.spinning .vortex {
-  opacity: 1;
-  transform: scale(1.9) rotate(-420deg);
+  animation: vortex-bloom 2400ms cubic-bezier(0.62, 0, 0.14, 1) forwards;
 }
 
 .gate.flipped .disc-flip {
@@ -331,11 +337,11 @@ h1 {
 }
 
 .gate.spinning .disc-flip {
-  transform: rotate(-720deg) scale(0.74);
+  animation: disc-counter-whirlpool 2400ms cubic-bezier(0.62, 0, 0.14, 1) forwards;
 }
 
 .gate.spinning .disc-lettering {
-  transform: rotate(720deg) scale(0.74);
+  animation: lettering-whirlpool 2400ms cubic-bezier(0.62, 0, 0.14, 1) forwards;
 }
 
 .gate.revealed .map-disc-button {
@@ -352,6 +358,86 @@ h1 {
 @keyframes compass-turn {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes map-whirlpool {
+  0% {
+    filter: brightness(1) saturate(1);
+    transform: rotate(0deg) scale(1);
+  }
+
+  38% {
+    filter: brightness(0.88) saturate(1.08);
+    transform: rotate(150deg) scale(1.05);
+  }
+
+  72% {
+    filter: brightness(0.76) saturate(1.16);
+    transform: rotate(520deg) scale(1.15);
+  }
+
+  100% {
+    filter: brightness(0.72) saturate(1.18);
+    transform: rotate(720deg) scale(1.2);
+  }
+}
+
+@keyframes vortex-bloom {
+  0% {
+    opacity: 0;
+    transform: scale(0.45) rotate(0deg);
+  }
+
+  35% {
+    opacity: 0.52;
+    transform: scale(1.05) rotate(-120deg);
+  }
+
+  72% {
+    opacity: 0.9;
+    transform: scale(1.62) rotate(-315deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.9) rotate(-420deg);
+  }
+}
+
+@keyframes disc-counter-whirlpool {
+  0% {
+    transform: rotate(180deg) scale(1);
+  }
+
+  38% {
+    transform: rotate(-60deg) scale(0.96);
+  }
+
+  72% {
+    transform: rotate(-500deg) scale(0.82);
+  }
+
+  100% {
+    transform: rotate(-720deg) scale(0.74);
+  }
+}
+
+@keyframes lettering-whirlpool {
+  0% {
+    transform: rotate(-180deg) scale(1);
+  }
+
+  38% {
+    transform: rotate(90deg) scale(0.96);
+  }
+
+  72% {
+    transform: rotate(540deg) scale(0.82);
+  }
+
+  100% {
+    transform: rotate(720deg) scale(0.74);
   }
 }
 
