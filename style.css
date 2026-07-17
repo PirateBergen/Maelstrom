@@ -524,6 +524,7 @@ body.site-open .full-site {
   letter-spacing: 0.13em;
   text-transform: uppercase;
   border-radius: 6px;
+  transition: border-color 180ms ease, box-shadow 180ms ease, text-shadow 180ms ease, transform 180ms ease;
 }
 
 .primary-link,
@@ -537,6 +538,45 @@ body.site-open .full-site {
   color: #f5e7c8;
   background: rgba(5, 16, 18, 0.62);
   border: 1px solid rgba(245, 231, 200, 0.28);
+}
+
+.treasure-button {
+  gap: 0.55rem;
+}
+
+.treasure-button img {
+  width: 34px;
+  height: 24px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.54));
+  transform: translateY(-1px);
+  transition: filter 180ms ease, transform 180ms ease;
+}
+
+.treasure-button span {
+  transition: color 180ms ease, text-shadow 180ms ease;
+}
+
+.treasure-button:hover,
+.treasure-button:focus-visible {
+  border-color: rgba(255, 231, 154, 0.88);
+  box-shadow: 0 0 22px rgba(240, 201, 108, 0.26), inset 0 0 20px rgba(255, 238, 184, 0.1);
+  transform: translateY(-1px);
+}
+
+.treasure-button:hover span,
+.treasure-button:focus-visible span {
+  color: #fff7cf;
+  text-shadow:
+    0 0 6px rgba(255, 233, 157, 0.95),
+    0 0 16px rgba(240, 201, 108, 0.7),
+    0 0 30px rgba(20, 170, 174, 0.34);
+}
+
+.treasure-button:hover img,
+.treasure-button:focus-visible img {
+  filter: drop-shadow(0 0 8px rgba(255, 232, 157, 0.86)) drop-shadow(0 5px 7px rgba(0, 0, 0, 0.62));
+  transform: translateY(-2px) scale(1.04);
 }
 
 .content-band {
