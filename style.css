@@ -616,16 +616,20 @@ body.site-open .full-site {
 .rope-separator {
   position: relative;
   z-index: 1;
-  height: clamp(54px, 7vw, 86px);
-  margin: calc(clamp(54px, 7vw, 86px) * -0.38) 0;
+  height: clamp(34px, 4.6vw, 56px);
+  margin: calc(clamp(34px, 4.6vw, 56px) * -0.36) 0;
   pointer-events: none;
   background-image: url("assets/rope-separator.png");
   background-position: center;
   background-repeat: repeat-x;
-  background-size: auto 100%;
+  background-size: auto 82%;
   filter:
-    drop-shadow(0 8px 12px rgba(0, 0, 0, 0.58))
-    drop-shadow(0 -2px 5px rgba(255, 223, 148, 0.18));
+    brightness(0.52)
+    saturate(0.82)
+    contrast(1.18)
+    sepia(0.18)
+    drop-shadow(0 8px 12px rgba(0, 0, 0, 0.72))
+    drop-shadow(0 -1px 4px rgba(129, 83, 34, 0.18));
 }
 
 .content-band {
@@ -985,9 +989,9 @@ body.site-open .full-site {
   }
 
   .rope-separator {
-    height: 52px;
-    margin: -18px 0;
-    background-size: auto 52px;
+    height: 34px;
+    margin: -12px 0;
+    background-size: auto 30px;
   }
 
   .content-band {
