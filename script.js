@@ -7,6 +7,11 @@ const fullSite = document.querySelector(".full-site");
 const previewParams = new URLSearchParams(window.location.search);
 const isSitePreview = previewParams.get("preview") === "site";
 const sequenceTimers = [];
+const photoCarousel = document.querySelector(".photo-carousel");
+const photoTrack = document.querySelector(".photo-track");
+let carouselFrame = 0;
+let carouselOffset = 0;
+let carouselVelocity = 0;
 const units = {
   days: document.querySelector('[data-unit="days"]'),
   hours: document.querySelector('[data-unit="hours"]'),
@@ -71,6 +76,55 @@ function revealCountdown() {
       countdown.setAttribute("aria-hidden", "false");
     }, 4300)
   );
+}
+
+function setCarouselOffset(value) {
+  if (!photoTrack) {
+    return;
+  }
+
+  const maxOffset = Math.max(0, photoTrack.scrollWidth - photoCarousel.clientWidth);
+  carouselOffset = Math.min(Math.max(value, -maxOffset), 0);
+  photoTrack.style.setProperty("--carousel-offset", `${carouselOffset}px`);
+}
+
+function movePhotoCarousel() {
+  if (!photoTrack || carouselVelocity === 0) {
+    carouselFrame = 0;
+    return;
+  }
+
+  setCarouselOffset(carouselOffset + carouselVelocity);
+  carouselFrame = requestAnimationFrame(movePhotoCarousel);
+}
+
+function updateCarouselVelocity(event) {
+  const rect = photoCarousel.getBoundingClientRect();
+  const pointer = (event.clientX - rect.left) / rect.width;
+  const deadZone = 0.18;
+  const maxSpeed = 7;
+
+  if (pointer < 0.5 - deadZone) {
+    carouselVelocity = (0.5 - deadZone - pointer) * maxSpeed;
+  } else if (pointer > 0.5 + deadZone) {
+    carouselVelocity = -((pointer - 0.5 - deadZone) * maxSpeed);
+  } else {
+    carouselVelocity = 0;
+  }
+
+  if (carouselVelocity !== 0 && carouselFrame === 0) {
+    carouselFrame = requestAnimationFrame(movePhotoCarousel);
+  }
+}
+
+function stopPhotoCarousel() {
+  carouselVelocity = 0;
+}
+
+if (photoCarousel && photoTrack) {
+  photoCarousel.addEventListener("mousemove", updateCarouselVelocity);
+  photoCarousel.addEventListener("mouseleave", stopPhotoCarousel);
+  window.addEventListener("resize", () => setCarouselOffset(carouselOffset));
 }
 
 if (isSitePreview || Date.now() >= OPENING_DATE.getTime()) {
