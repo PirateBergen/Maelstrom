@@ -3,6 +3,9 @@ const OPENING_DATE = new Date("2026-09-15T19:00:00+02:00");
 const gate = document.querySelector(".gate");
 const relicButton = document.querySelector(".map-disc-button");
 const countdown = document.querySelector(".countdown");
+const fullSite = document.querySelector(".full-site");
+const previewParams = new URLSearchParams(window.location.search);
+const isSitePreview = previewParams.get("preview") === "site";
 const sequenceTimers = [];
 const units = {
   days: document.querySelector('[data-unit="days"]'),
@@ -18,6 +21,12 @@ function pad(value, size = 2) {
 function updateCountdown() {
   const now = new Date();
   const remaining = Math.max(0, OPENING_DATE.getTime() - now.getTime());
+
+  if (remaining === 0) {
+    openFullSite();
+    return;
+  }
+
   const totalSeconds = Math.floor(remaining / 1000);
   const days = Math.floor(totalSeconds / 86400);
   const hours = Math.floor((totalSeconds % 86400) / 3600);
@@ -33,6 +42,12 @@ function updateCountdown() {
     "aria-label",
     `Countdown before opening night: ${days} days, ${hours} hours, ${minutes} minutes, and ${seconds} seconds.`
   );
+}
+
+function openFullSite() {
+  gate.setAttribute("aria-hidden", "true");
+  fullSite.hidden = false;
+  document.body.classList.add("site-open");
 }
 
 function revealCountdown() {
@@ -58,6 +73,10 @@ function revealCountdown() {
   );
 }
 
-relicButton.addEventListener("click", revealCountdown);
-updateCountdown();
-setInterval(updateCountdown, 1000);
+if (isSitePreview || Date.now() >= OPENING_DATE.getTime()) {
+  openFullSite();
+} else {
+  relicButton.addEventListener("click", revealCountdown);
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+}

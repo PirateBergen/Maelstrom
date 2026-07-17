@@ -73,6 +73,137 @@
       </section>
     </main>
 
+    <main class="full-site" id="site" aria-label="Maelstrom website" hidden>
+      <header class="site-header">
+        <a class="brand-mark" href="#top" aria-label="Maelstrom home">
+          <span class="brand-symbol">M</span>
+          <span>MAELSTROM</span>
+        </a>
+        <nav class="site-nav" aria-label="Main navigation">
+          <a href="#concept">Concept</a>
+          <a href="#menu">Menu</a>
+          <a href="#reservations">Reservations</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <section class="site-hero" id="top">
+        <img class="site-map" src="assets/maelstrom-pirate-map.png" alt="" draggable="false" />
+        <div class="site-hero-content">
+          <p class="site-kicker">Pirate bar in Bergen</p>
+          <h1>MAELSTROM</h1>
+          <p class="site-lede">
+            A candlelit harbor hideout for rum, storms, old maps, and late-night stories.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-link" href="#reservations">Book a table</a>
+            <a class="ghost-link" href="#menu">View menu</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-band intro-band" id="concept">
+        <div class="section-heading">
+          <p class="site-kicker">The concept</p>
+          <h2>Below Bergen, the tide turns.</h2>
+        </div>
+        <div class="concept-grid">
+          <article>
+            <h3>Atmosphere</h3>
+            <p>
+              A pirate tavern built around warm candlelight, dark wood, nautical relics, and a sense of entering a secret
+              room beneath the coast.
+            </p>
+          </article>
+          <article>
+            <h3>Drinks</h3>
+            <p>
+              Rum-led cocktails, stormy signatures, local beer, bold alcohol-free serves, and a menu designed for groups
+              that want a night with a little theatre.
+            </p>
+          </article>
+          <article>
+            <h3>Ritual</h3>
+            <p>
+              Some rooms, offers, and events can be unlocked later through QR routes, hidden from the main navigation but
+              still part of the same Maelstrom world.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="content-band menu-band" id="menu">
+        <div class="section-heading">
+          <p class="site-kicker">First draft menu</p>
+          <h2>Rum, smoke, salt, citrus.</h2>
+        </div>
+        <div class="menu-columns">
+          <div class="menu-panel">
+            <h3>Signature cocktails</h3>
+            <ul>
+              <li><span>Up Is Down</span><strong>Dark rum, lime, ginger, abyss bitters</strong></li>
+              <li><span>The Black Current</span><strong>Spiced rum, blackcurrant, sea salt</strong></li>
+              <li><span>Dead Man's Compass</span><strong>Bourbon, maple, orange smoke</strong></li>
+            </ul>
+          </div>
+          <div class="menu-panel">
+            <h3>From the hold</h3>
+            <ul>
+              <li><span>Rum flight</span><strong>Three pours, one route</strong></li>
+              <li><span>Harbor beer</span><strong>Local taps and bottles</strong></li>
+              <li><span>No-proof storm</span><strong>Ginger, citrus, herbs, spice</strong></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-band booking-band" id="reservations">
+        <div class="booking-copy">
+          <p class="site-kicker">Reservations</p>
+          <h2>Secure a place on deck.</h2>
+          <p>
+            The booking system will be connected here. For launch, this can point to a reservation tool, a form, or a
+            direct contact flow.
+          </p>
+        </div>
+        <form class="booking-form">
+          <label>
+            Name
+            <input type="text" name="name" placeholder="Your name" />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" placeholder="you@example.com" />
+          </label>
+          <label>
+            Date
+            <input type="date" name="date" />
+          </label>
+          <label>
+            Guests
+            <input type="number" name="guests" min="1" max="20" placeholder="2" />
+          </label>
+          <button type="button">Reservation system coming soon</button>
+        </form>
+      </section>
+
+      <section class="content-band contact-band" id="contact">
+        <div>
+          <p class="site-kicker">Find us</p>
+          <h2>Bergen, Norway</h2>
+          <p>
+            Address, opening hours, phone, email, and Google Maps link will live here once the final details are ready.
+          </p>
+        </div>
+        <div class="social-panel">
+          <h3>Socials</h3>
+          <a href="#" aria-label="Instagram link placeholder">Instagram</a>
+          <a href="#" aria-label="TikTok link placeholder">TikTok</a>
+          <a href="#" aria-label="Facebook link placeholder">Facebook</a>
+        </div>
+      </section>
+    </main>
+
     <script src="script.js"></script>
   </body>
 </html>
