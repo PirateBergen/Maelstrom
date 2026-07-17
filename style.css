@@ -853,7 +853,7 @@ body.site-open .full-site {
 
   .site-nav {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.35rem;
     font-size: 0.66rem;
     letter-spacing: 0.06em;
@@ -934,7 +934,7 @@ body.site-open .full-site {
   }
 
   .site-nav {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
 
   .site-hero h1 {
