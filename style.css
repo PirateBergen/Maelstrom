@@ -487,9 +487,10 @@ body.site-open .full-site {
 }
 
 .site-hero h1 {
-  max-width: 100%;
+  width: min(100%, 1500px);
+  max-width: calc(100vw - 64px);
   margin: 0.18em 0 0.12em;
-  font-size: clamp(4rem, 13vw, 11rem);
+  font-size: clamp(4rem, 10.6vw, 9rem);
   white-space: nowrap;
 }
 
