@@ -657,13 +657,6 @@ body.site-open .full-site {
   line-height: 0.98;
 }
 
-.concept-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.concept-grid article,
 .menu-panel,
 .booking-form,
 .social-panel {
@@ -673,11 +666,60 @@ body.site-open .full-site {
   box-shadow: inset 0 0 30px rgba(4, 77, 79, 0.12), 0 24px 52px rgba(0, 0, 0, 0.28);
 }
 
-.concept-grid article {
-  padding: clamp(1.15rem, 2.4vw, 1.8rem);
+.photo-drift {
+  display: grid;
+  grid-auto-columns: minmax(260px, 34vw);
+  grid-auto-flow: column;
+  gap: clamp(0.85rem, 2vw, 1.4rem);
+  margin-inline: calc(clamp(18px, 5vw, 72px) * -0.35);
+  padding: 0 clamp(18px, 5vw, 72px) 0.8rem;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: inline mandatory;
+  scrollbar-color: rgba(240, 201, 108, 0.55) rgba(5, 16, 18, 0.62);
 }
 
-.concept-grid h3,
+.photo-placeholder {
+  position: relative;
+  min-height: clamp(260px, 32vw, 430px);
+  margin: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(245, 231, 200, 0.14), transparent 34%),
+    radial-gradient(circle at 50% 42%, rgba(22, 105, 112, 0.32), transparent 18rem),
+    linear-gradient(145deg, rgba(4, 12, 13, 0.92), rgba(20, 12, 7, 0.88)),
+    url("assets/parchment-background.jpg");
+  background-position: center;
+  background-size: cover;
+  border: 1px solid rgba(245, 231, 200, 0.17);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 0 42px rgba(0, 0, 0, 0.54),
+    0 26px 54px rgba(0, 0, 0, 0.34);
+  scroll-snap-align: center;
+}
+
+.photo-placeholder::before {
+  position: absolute;
+  inset: 14px;
+  content: "";
+  border: 1px solid rgba(240, 201, 108, 0.2);
+  border-radius: 5px;
+}
+
+.photo-placeholder span {
+  position: absolute;
+  left: 50%;
+  bottom: 1.1rem;
+  color: rgba(245, 231, 200, 0.56);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
 .menu-panel h3,
 .social-panel h3 {
   margin: 0 0 0.8rem;
@@ -685,7 +727,6 @@ body.site-open .full-site {
   font-size: 1.1rem;
 }
 
-.concept-grid p,
 .booking-copy p,
 .contact-band p {
   margin: 0;
@@ -1002,11 +1043,16 @@ body.site-open .full-site {
     padding: 54px 18px;
   }
 
-  .concept-grid,
   .menu-columns,
   .booking-band,
   .contact-band {
     grid-template-columns: 1fr;
+  }
+
+  .photo-drift {
+    grid-auto-columns: minmax(236px, 78vw);
+    margin-inline: -18px;
+    padding-inline: 18px;
   }
 
   .booking-band,
