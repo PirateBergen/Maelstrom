@@ -9,6 +9,8 @@ const isSitePreview = previewParams.get("preview") === "site";
 const sequenceTimers = [];
 const photoCarousel = document.querySelector(".photo-carousel");
 const photoTrack = document.querySelector(".photo-track");
+const carouselPrevious = document.querySelector(".carousel-cue-left");
+const carouselNext = document.querySelector(".carousel-cue-right");
 let carouselFrame = 0;
 let carouselOffset = 0;
 let carouselVelocity = 0;
@@ -91,9 +93,11 @@ function setCarouselOffset(value) {
 function movePhotoCarousel() {
   if (!photoTrack || carouselVelocity === 0) {
     carouselFrame = 0;
+    photoCarousel?.classList.remove("is-gliding");
     return;
   }
 
+  photoCarousel.classList.add("is-gliding");
   setCarouselOffset(carouselOffset + carouselVelocity);
   carouselFrame = requestAnimationFrame(movePhotoCarousel);
 }
@@ -121,9 +125,30 @@ function stopPhotoCarousel() {
   carouselVelocity = 0;
 }
 
+function getCarouselStep() {
+  const firstFrame = photoTrack.querySelector(".photo-placeholder");
+
+  if (!firstFrame) {
+    return photoCarousel.clientWidth * 0.72;
+  }
+
+  const trackStyles = window.getComputedStyle(photoTrack);
+  const gap = Number.parseFloat(trackStyles.columnGap || trackStyles.gap || "0");
+
+  return firstFrame.getBoundingClientRect().width + gap;
+}
+
+function jumpPhotoCarousel(direction) {
+  carouselVelocity = 0;
+  photoCarousel.classList.remove("is-gliding");
+  setCarouselOffset(carouselOffset + direction * getCarouselStep());
+}
+
 if (photoCarousel && photoTrack) {
   photoCarousel.addEventListener("mousemove", updateCarouselVelocity);
   photoCarousel.addEventListener("mouseleave", stopPhotoCarousel);
+  carouselPrevious?.addEventListener("click", () => jumpPhotoCarousel(1));
+  carouselNext?.addEventListener("click", () => jumpPhotoCarousel(-1));
   window.addEventListener("resize", () => setCarouselOffset(carouselOffset));
 }
 
