@@ -613,6 +613,21 @@ body.site-open .full-site {
     0 0 30px rgba(20, 170, 174, 0.34);
 }
 
+.rope-separator {
+  position: relative;
+  z-index: 1;
+  height: clamp(54px, 7vw, 86px);
+  margin: calc(clamp(54px, 7vw, 86px) * -0.38) 0;
+  pointer-events: none;
+  background-image: url("assets/rope-separator.png");
+  background-position: center;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  filter:
+    drop-shadow(0 8px 12px rgba(0, 0, 0, 0.58))
+    drop-shadow(0 -2px 5px rgba(255, 223, 148, 0.18));
+}
+
 .content-band {
   padding: clamp(58px, 9vw, 110px) clamp(18px, 5vw, 72px);
   border-top: 1px solid rgba(245, 231, 200, 0.12);
@@ -967,6 +982,12 @@ body.site-open .full-site {
 
   .treasure-button {
     width: min(250px, 78vw);
+  }
+
+  .rope-separator {
+    height: 52px;
+    margin: -18px 0;
+    background-size: auto 52px;
   }
 
   .content-band {
