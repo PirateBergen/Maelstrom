@@ -300,6 +300,26 @@ h1 {
   text-transform: uppercase;
 }
 
+.admin-preview-link {
+  margin-top: 1rem;
+  padding: 0.55rem 0.75rem;
+  color: rgba(245, 231, 200, 0.62);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(3, 9, 10, 0.42);
+  border: 1px solid rgba(245, 231, 200, 0.16);
+  border-radius: 6px;
+}
+
+.admin-preview-link:hover,
+.admin-preview-link:focus-visible {
+  color: #f0c96c;
+  border-color: rgba(240, 201, 108, 0.46);
+}
+
 .gate.flipped .abyss-wash {
   opacity: 0.78;
 }
