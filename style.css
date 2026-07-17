@@ -352,6 +352,7 @@ h1 {
 
 .gate.revealed .countdown {
   opacity: 1;
+  pointer-events: auto;
   transform: translateY(0) scale(1);
 }
 
