@@ -506,12 +506,10 @@ body.site-open .full-site {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.8rem;
+  gap: clamp(0.8rem, 2vw, 1.4rem);
   margin-top: 2rem;
 }
 
-.primary-link,
-.ghost-link,
 .booking-form button {
   display: inline-flex;
   min-height: 46px;
@@ -527,56 +525,76 @@ body.site-open .full-site {
   transition: border-color 180ms ease, box-shadow 180ms ease, text-shadow 180ms ease, transform 180ms ease;
 }
 
-.primary-link,
 .booking-form button {
   color: #130905;
   background: linear-gradient(145deg, #ffe6a0, #c6943a);
   border: 1px solid rgba(255, 238, 184, 0.68);
 }
 
-.ghost-link {
-  color: #f5e7c8;
-  background: rgba(5, 16, 18, 0.62);
-  border: 1px solid rgba(245, 231, 200, 0.28);
-}
-
 .treasure-button {
-  gap: 0.55rem;
-}
-
-.treasure-button img {
-  width: 34px;
-  height: 24px;
-  object-fit: contain;
-  filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.54));
-  transform: translateY(-1px);
+  position: relative;
+  display: grid;
+  width: clamp(190px, 18vw, 270px);
+  aspect-ratio: 2.08 / 1;
+  align-items: center;
+  justify-items: center;
+  padding: 0 1rem;
+  color: #fff4cf;
+  isolation: isolate;
+  background-image: url("assets/treasure-chest.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.55));
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: clamp(0.72rem, 1vw, 0.86rem);
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
   transition: filter 180ms ease, transform 180ms ease;
 }
 
+.treasure-button::before {
+  position: absolute;
+  inset: 22% 12% 18%;
+  z-index: -1;
+  content: "";
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.28) 58%, transparent 72%);
+  border-radius: 999px;
+  opacity: 0.72;
+  transition: opacity 180ms ease, box-shadow 180ms ease;
+}
+
 .treasure-button span {
-  transition: color 180ms ease, text-shadow 180ms ease;
+  transform: translateY(12%);
+  text-shadow:
+    0 2px 2px rgba(0, 0, 0, 0.95),
+    0 0 9px rgba(0, 0, 0, 0.9);
+  transition: color 180ms ease, text-shadow 180ms ease, transform 180ms ease;
 }
 
 .treasure-button:hover,
 .treasure-button:focus-visible {
-  border-color: rgba(255, 231, 154, 0.88);
-  box-shadow: 0 0 22px rgba(240, 201, 108, 0.26), inset 0 0 20px rgba(255, 238, 184, 0.1);
+  filter: drop-shadow(0 0 16px rgba(255, 221, 126, 0.54)) drop-shadow(0 18px 22px rgba(0, 0, 0, 0.58));
+  outline: none;
   transform: translateY(-1px);
+}
+
+.treasure-button:hover::before,
+.treasure-button:focus-visible::before {
+  opacity: 0.96;
+  box-shadow: 0 0 26px rgba(240, 201, 108, 0.28);
 }
 
 .treasure-button:hover span,
 .treasure-button:focus-visible span {
   color: #fff7cf;
+  transform: translateY(8%);
   text-shadow:
     0 0 6px rgba(255, 233, 157, 0.95),
     0 0 16px rgba(240, 201, 108, 0.7),
     0 0 30px rgba(20, 170, 174, 0.34);
-}
-
-.treasure-button:hover img,
-.treasure-button:focus-visible img {
-  filter: drop-shadow(0 0 8px rgba(255, 232, 157, 0.86)) drop-shadow(0 5px 7px rgba(0, 0, 0, 0.62));
-  transform: translateY(-2px) scale(1.04);
 }
 
 .content-band {
@@ -931,9 +949,8 @@ body.site-open .full-site {
     width: 100%;
   }
 
-  .primary-link,
-  .ghost-link {
-    flex: 1 1 180px;
+  .treasure-button {
+    width: min(250px, 78vw);
   }
 
   .content-band {
