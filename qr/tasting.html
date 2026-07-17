@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Maelstrom signature cocktail tasting tier list."
+    />
+    <title>Maelstrom | Tasting Tier List</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="tasting.css" />
+  </head>
+  <body class="tasting-body">
+    <main class="tasting-shell">
+      <section class="tasting-hero">
+        <img class="tasting-map" src="../assets/maelstrom-pirate-map.png" alt="" draggable="false" />
+        <div class="tasting-hero-content">
+          <p class="site-kicker">QR tasting route</p>
+          <h1>Rank the Storm</h1>
+          <p>
+            Taste the Maelstrom signatures as shooters, then place each one in your personal tier list.
+          </p>
+        </div>
+      </section>
+
+      <section class="tasting-board" aria-label="Cocktail ranking">
+        <div class="tasting-instructions">
+          <p class="site-kicker">How it works</p>
+          <h2>Your tiers</h2>
+          <p>
+            S is your absolute favorite. D is not for you. Submit when every cocktail has a tier.
+          </p>
+        </div>
+
+        <div class="tier-summary" id="tierSummary" aria-live="polite"></div>
+        <div class="cocktail-list" id="cocktailList"></div>
+
+        <form class="taster-form" id="tasterForm">
+          <label>
+            Taster name or table
+            <input type="text" name="taster" placeholder="Table 7 / Alex / The crew" required />
+          </label>
+          <label>
+            Optional note
+            <textarea name="note" rows="3" placeholder="Best surprise, too sweet, needs more smoke..."></textarea>
+          </label>
+          <button type="submit">Submit tier list</button>
+          <p class="save-status" id="saveStatus" role="status"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="tasting.js"></script>
+  </body>
+</html>

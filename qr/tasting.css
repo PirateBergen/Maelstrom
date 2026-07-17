@@ -1,0 +1,364 @@
+.tasting-body {
+  overflow: auto;
+  color: var(--foam);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(24, 105, 115, 0.26), transparent 34rem),
+    #050707;
+}
+
+.tasting-shell {
+  min-height: 100vh;
+}
+
+.tasting-hero {
+  position: relative;
+  display: grid;
+  min-height: 58svh;
+  overflow: hidden;
+  place-items: center;
+}
+
+.tasting-hero.compact {
+  min-height: 42svh;
+}
+
+.tasting-map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 40% 50%;
+  filter: brightness(0.48) saturate(0.92) contrast(1.08);
+}
+
+.tasting-hero::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    radial-gradient(circle at 50% 48%, rgba(245, 231, 200, 0.14), transparent 20rem),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(2, 8, 9, 0.86));
+}
+
+.tasting-hero-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(860px, calc(100vw - 32px));
+  text-align: center;
+  place-items: center;
+}
+
+.tasting-hero h1 {
+  margin: 0.16em 0;
+  color: #fff0c4;
+  font-size: clamp(3.1rem, 10vw, 8.2rem);
+  line-height: 0.9;
+}
+
+.tasting-hero p:last-child {
+  width: min(640px, 100%);
+  margin: 0;
+  color: rgba(245, 231, 200, 0.82);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.55;
+}
+
+.tasting-board {
+  display: grid;
+  gap: 1.2rem;
+  padding: clamp(24px, 5vw, 64px);
+}
+
+.tasting-instructions,
+.results-toolbar {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.tasting-instructions {
+  align-items: start;
+  flex-direction: column;
+  max-width: 760px;
+}
+
+.tasting-instructions h2,
+.results-toolbar h2 {
+  margin: 0;
+  color: #fff0c4;
+  font-size: clamp(2rem, 5vw, 4.2rem);
+  line-height: 1;
+}
+
+.tasting-instructions p:last-child {
+  margin: 0;
+  color: rgba(245, 231, 200, 0.72);
+  line-height: 1.65;
+}
+
+.tier-summary {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.tier-row {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  min-height: 58px;
+  overflow: hidden;
+  background: rgba(5, 16, 18, 0.68);
+  border: 1px solid rgba(245, 231, 200, 0.14);
+  border-radius: 8px;
+}
+
+.tier-label {
+  display: grid;
+  color: #120904;
+  background: linear-gradient(145deg, #ffe6a0, #c6943a);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 1.2rem;
+  font-weight: 900;
+  place-items: center;
+}
+
+.tier-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  padding: 0.6rem;
+  color: rgba(245, 231, 200, 0.62);
+}
+
+.tier-pill {
+  padding: 0.42rem 0.55rem;
+  color: #fff0c4;
+  background: rgba(245, 231, 200, 0.07);
+  border: 1px solid rgba(245, 231, 200, 0.13);
+  border-radius: 999px;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.cocktail-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.cocktail-card,
+.taster-form,
+.leader-card,
+.submission-card {
+  background: rgba(5, 16, 18, 0.7);
+  border: 1px solid rgba(245, 231, 200, 0.15);
+  border-radius: 8px;
+  box-shadow: inset 0 0 30px rgba(4, 77, 79, 0.12), 0 24px 52px rgba(0, 0, 0, 0.28);
+}
+
+.cocktail-card {
+  display: grid;
+  gap: 0.9rem;
+  padding: clamp(1rem, 2.5vw, 1.45rem);
+}
+
+.cocktail-card h3 {
+  margin: 0;
+  color: #fff0c4;
+  font-size: 1.28rem;
+}
+
+.cocktail-card p {
+  margin: 0;
+  color: rgba(245, 231, 200, 0.7);
+  line-height: 1.55;
+}
+
+.tier-buttons {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.tier-buttons button,
+.taster-form button,
+.results-toolbar button {
+  min-height: 42px;
+  color: #f5e7c8;
+  cursor: pointer;
+  background: rgba(245, 231, 200, 0.07);
+  border: 1px solid rgba(245, 231, 200, 0.18);
+  border-radius: 6px;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.tier-buttons button.active,
+.taster-form button {
+  color: #130905;
+  background: linear-gradient(145deg, #ffe6a0, #c6943a);
+}
+
+.taster-form {
+  display: grid;
+  gap: 0.9rem;
+  padding: clamp(1rem, 2.5vw, 1.45rem);
+}
+
+.taster-form label {
+  display: grid;
+  gap: 0.35rem;
+  color: #f0c96c;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.taster-form input,
+.taster-form textarea {
+  width: 100%;
+  padding: 0.78rem 0.82rem;
+  color: #fff0c4;
+  background: rgba(1, 7, 8, 0.82);
+  border: 1px solid rgba(245, 231, 200, 0.2);
+  border-radius: 6px;
+}
+
+.save-status {
+  min-height: 1.3em;
+  margin: 0;
+  color: rgba(245, 231, 200, 0.78);
+}
+
+.leaderboard,
+.submission-log {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.leader-card,
+.submission-card {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1rem;
+}
+
+.leader-card {
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+}
+
+.leader-rank {
+  display: grid;
+  width: 42px;
+  aspect-ratio: 1;
+  color: #130905;
+  background: linear-gradient(145deg, #ffe6a0, #c6943a);
+  border-radius: 50%;
+  font-weight: 900;
+  place-items: center;
+}
+
+.leader-name,
+.submission-card strong {
+  color: #fff0c4;
+  font-size: 1.05rem;
+}
+
+.leader-score {
+  color: #f0c96c;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-weight: 900;
+}
+
+.submission-card small {
+  color: rgba(245, 231, 200, 0.58);
+}
+
+.qr-panel {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) 1fr;
+  gap: clamp(1rem, 4vw, 2rem);
+  align-items: center;
+  padding: clamp(1rem, 3vw, 2rem);
+  background: rgba(5, 16, 18, 0.7);
+  border: 1px solid rgba(245, 231, 200, 0.15);
+  border-radius: 8px;
+}
+
+.qr-code {
+  width: min(260px, 100%);
+  height: auto;
+  padding: 12px;
+  background: #f5e7c8;
+  border-radius: 8px;
+}
+
+.qr-panel h2 {
+  margin: 0.25rem 0 0.7rem;
+  color: #fff0c4;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1;
+}
+
+.qr-panel p {
+  color: rgba(245, 231, 200, 0.76);
+  line-height: 1.65;
+  overflow-wrap: anywhere;
+}
+
+.hero-actions.left {
+  justify-content: flex-start;
+}
+
+@media (max-width: 720px) {
+  .tasting-hero {
+    min-height: 48svh;
+  }
+
+  .tasting-hero h1 {
+    font-size: clamp(2.65rem, 15vw, 4.7rem);
+  }
+
+  .tasting-board {
+    padding: 28px 16px;
+  }
+
+  .cocktail-list {
+    grid-template-columns: 1fr;
+  }
+
+  .tier-row {
+    grid-template-columns: 46px 1fr;
+  }
+
+  .results-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .leader-card {
+    grid-template-columns: auto 1fr;
+  }
+
+  .leader-score {
+    grid-column: 2;
+  }
+
+  .qr-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .qr-code {
+    justify-self: center;
+  }
+}

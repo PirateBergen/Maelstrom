@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Maelstrom cocktail tasting results." />
+    <title>Maelstrom | Tasting Results</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="tasting.css" />
+  </head>
+  <body class="tasting-body">
+    <main class="tasting-shell">
+      <section class="tasting-hero compact">
+        <img class="tasting-map" src="../assets/maelstrom-pirate-map.png" alt="" draggable="false" />
+        <div class="tasting-hero-content">
+          <p class="site-kicker">Hidden crew page</p>
+          <h1>Tasting Results</h1>
+          <p>
+            Ranking preview for submitted cocktail tier lists. Backend sync can be connected here later.
+          </p>
+        </div>
+      </section>
+
+      <section class="tasting-board">
+        <div class="results-toolbar">
+          <div>
+            <p class="site-kicker">Current leaderboard</p>
+            <h2>Signature ranking</h2>
+          </div>
+          <button type="button" id="clearLocalResults">Clear local test data</button>
+        </div>
+        <div class="leaderboard" id="leaderboard"></div>
+        <div class="submission-log" id="submissionLog"></div>
+      </section>
+    </main>
+
+    <script src="tasting.js"></script>
+    <script src="results.js"></script>
+  </body>
+</html>
