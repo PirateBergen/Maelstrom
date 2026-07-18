@@ -659,6 +659,8 @@ body.site-open .full-site {
 
 .intro-band .section-heading {
   max-width: none;
+  justify-items: center;
+  text-align: center;
 }
 
 .intro-band .section-heading h2 {
@@ -667,6 +669,7 @@ body.site-open .full-site {
   font-size: clamp(1rem, 2.35vw, 2.65rem);
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: center;
   white-space: nowrap;
 }
 
