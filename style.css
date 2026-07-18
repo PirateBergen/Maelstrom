@@ -947,7 +947,7 @@ body.site-open .full-site {
 .photo-placeholder span {
   position: absolute;
   left: 50%;
-  bottom: 15.4%;
+  bottom: var(--label-bottom, 15.4%);
   z-index: 1;
   color: rgba(245, 231, 200, 0.68);
   font-family: "Trebuchet MS", Arial, sans-serif;
@@ -989,9 +989,10 @@ body.site-open .full-site {
   --frame-image: url("assets/frame-red-wood.png");
   --frame-width: clamp(190px, 19vw, 280px);
   --frame-ratio: 382 / 500;
-  --photo-inset: 10.5% 15.4% 11%;
-  --photo-width: 69.2%;
-  --photo-height: 78.5%;
+  --photo-inset: 13.2% 15.8% 14.2%;
+  --photo-width: 68.4%;
+  --photo-height: 72.6%;
+  --label-bottom: 14.8%;
 }
 
 .frame-dark-gold {
