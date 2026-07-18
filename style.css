@@ -161,7 +161,7 @@ a {
 .disc-map {
   background-image:
     radial-gradient(circle, rgba(245, 231, 200, 0.05) 0 42%, rgba(11, 35, 35, 0.24) 58%, rgba(13, 7, 3, 0.56) 100%),
-    url("assets/maelstrom-pirate-map.png");
+    url("assets/maelstrom-pirate-map.webp");
   background-position: 40% 50%;
   background-size: auto 118vh;
   filter: contrast(1.08) saturate(0.96);
@@ -561,7 +561,7 @@ body.site-open .full-site {
   padding: 0 1rem;
   color: #fff4cf;
   isolation: isolate;
-  background-image: url("assets/treasure-chest.png");
+  background-image: url("assets/treasure-chest.webp");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -598,7 +598,7 @@ body.site-open .full-site {
 .treasure-button:focus-visible,
 .treasure-button:active,
 .treasure-button.is-open {
-  background-image: url("assets/treasure-chest-open.png");
+  background-image: url("assets/treasure-chest-open.webp");
   background-position: center 52%;
   background-size: 118% auto;
   filter: drop-shadow(0 0 16px rgba(255, 221, 126, 0.54)) drop-shadow(0 18px 22px rgba(0, 0, 0, 0.58));
@@ -632,7 +632,7 @@ body.site-open .full-site {
   height: clamp(34px, 4.6vw, 56px);
   margin: calc(clamp(34px, 4.6vw, 56px) * -0.36) 0;
   pointer-events: none;
-  background-image: url("assets/rope-separator.png");
+  background-image: url("assets/rope-separator.webp");
   background-position: center;
   background-repeat: repeat-x;
   background-size: auto 82%;
@@ -835,7 +835,7 @@ body.site-open .full-site {
   position: absolute;
   inset: 0;
   content: "";
-  background-image: var(--frame-image, url("assets/gold-frame.png"));
+  background-image: var(--frame-image, url("assets/frame-gold-ornate.webp"));
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -865,7 +865,7 @@ body.site-open .full-site {
 }
 
 .frame-green {
-  --frame-image: url("assets/frame-green.png");
+  --frame-image: url("assets/frame-green.webp");
   --frame-width: clamp(220px, 23vw, 330px);
   --frame-ratio: 674 / 960;
   --photo-inset: 23% 22% 13%;
@@ -874,7 +874,7 @@ body.site-open .full-site {
 }
 
 .frame-gold {
-  --frame-image: url("assets/frame-gold-ornate.png");
+  --frame-image: url("assets/frame-gold-ornate.webp");
   --frame-width: clamp(230px, 24vw, 350px);
   --frame-ratio: 650 / 975;
   --photo-inset: 15% 18% 13%;
@@ -883,7 +883,7 @@ body.site-open .full-site {
 }
 
 .frame-dark-wood {
-  --frame-image: url("assets/frame-dark-wood.png");
+  --frame-image: url("assets/frame-dark-wood.webp");
   --frame-width: clamp(225px, 23vw, 340px);
   --frame-ratio: 736 / 1067;
   --photo-inset: 12% 17% 14%;
@@ -892,7 +892,7 @@ body.site-open .full-site {
 }
 
 .frame-red {
-  --frame-image: url("assets/frame-red-wood.png");
+  --frame-image: url("assets/frame-red-wood.webp");
   --frame-width: clamp(190px, 19vw, 280px);
   --frame-ratio: 382 / 500;
   --photo-inset: 13.2% 15.8% 14.2%;
@@ -902,7 +902,7 @@ body.site-open .full-site {
 }
 
 .frame-dark-gold {
-  --frame-image: url("assets/frame-dark-gold.png");
+  --frame-image: url("assets/frame-dark-gold.webp");
   --frame-width: clamp(225px, 23vw, 340px);
   --frame-ratio: 604 / 700;
   --photo-inset: 15% 17% 15%;
@@ -911,7 +911,7 @@ body.site-open .full-site {
 }
 
 .frame-dark-gold-landscape {
-  --frame-image: url("assets/frame-dark-gold-landscape.png");
+  --frame-image: url("assets/frame-dark-gold-landscape.webp");
   --frame-width: clamp(330px, 35vw, 520px);
   --frame-ratio: 700 / 604;
   --photo-inset: 17% 12.5% 15%;
@@ -920,7 +920,7 @@ body.site-open .full-site {
 }
 
 .frame-dark-wood-landscape {
-  --frame-image: url("assets/frame-dark-wood-landscape.png");
+  --frame-image: url("assets/frame-dark-wood-landscape.webp");
   --frame-width: clamp(335px, 36vw, 540px);
   --frame-ratio: 1104 / 736;
   --photo-inset: 20% 15% 20%;
@@ -1150,7 +1150,7 @@ body.lightbox-open {
   display: grid;
   width: min(760px, calc(100vw - 40px));
   aspect-ratio: 840 / 360;
-  background-image: url("assets/social-plank.png");
+  background-image: url("assets/social-plank.webp");
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
