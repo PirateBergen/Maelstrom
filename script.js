@@ -14,7 +14,6 @@ const carouselNext = document.querySelector(".carousel-cue-right");
 const photoLightbox = document.querySelector(".photo-lightbox");
 const lightboxFrame = document.querySelector(".lightbox-frame");
 const lightboxClose = document.querySelector(".lightbox-close");
-const ropeLanterns = document.querySelectorAll(".rope-lantern");
 const treasureButtons = document.querySelectorAll(".treasure-button");
 let carouselFrame = 0;
 let carouselOffset = 0;
@@ -234,13 +233,6 @@ if (photoCarousel && photoTrack) {
 }
 
 lightboxClose?.addEventListener("click", () => closeLightbox());
-
-ropeLanterns.forEach((lantern) => {
-  lantern.addEventListener("click", () => {
-    lantern.classList.toggle("is-lit");
-    lantern.setAttribute("aria-pressed", lantern.classList.contains("is-lit") ? "true" : "false");
-  });
-});
 
 treasureButtons.forEach((button) => {
   button.addEventListener("pointerdown", () => {
