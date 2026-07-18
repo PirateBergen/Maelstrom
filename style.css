@@ -979,10 +979,10 @@ body.site-open .full-site {
 .frame-dark-wood {
   --frame-image: url("assets/frame-dark-wood.png");
   --frame-width: clamp(225px, 23vw, 340px);
-  --frame-ratio: 736 / 1104;
-  --photo-inset: 16% 20% 14%;
-  --photo-width: 60%;
-  --photo-height: 70%;
+  --frame-ratio: 736 / 1067;
+  --photo-inset: 12% 17% 14%;
+  --photo-width: 66%;
+  --photo-height: 74%;
 }
 
 .frame-red {
