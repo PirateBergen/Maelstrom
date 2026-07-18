@@ -647,9 +647,9 @@ body.site-open .full-site {
 
 .rope-lantern {
   position: absolute;
-  top: 34%;
+  top: 24%;
   z-index: 2;
-  width: var(--lantern-size, clamp(58px, 8vw, 104px));
+  width: var(--lantern-size, clamp(34px, 4.8vw, 62px));
   aspect-ratio: var(--lantern-ratio, 1);
   padding: 0;
   cursor: pointer;
@@ -661,10 +661,10 @@ body.site-open .full-site {
   background-size: contain;
   border: 0;
   filter:
-    brightness(0.44)
-    saturate(0.7)
-    drop-shadow(0 12px 15px rgba(0, 0, 0, 0.62));
-  transform: translateX(-50%) rotate(var(--lantern-rotate, 0deg));
+    brightness(0.92)
+    saturate(0.98)
+    drop-shadow(0 8px 10px rgba(0, 0, 0, 0.48));
+  transform: translateX(-50%);
   transform-origin: 50% 4%;
   transition: filter 220ms ease, transform 220ms ease;
 }
@@ -690,12 +690,12 @@ body.site-open .full-site {
 .rope-lantern.is-lit {
   outline: none;
   filter:
-    brightness(1.05)
-    saturate(1.15)
+    brightness(1.04)
+    saturate(1.08)
     drop-shadow(0 0 10px rgba(255, 189, 77, 0.7))
     drop-shadow(0 0 28px rgba(255, 135, 29, 0.44))
     drop-shadow(0 16px 18px rgba(0, 0, 0, 0.65));
-  transform: translateX(-50%) rotate(var(--lantern-rotate, 0deg)) scale(1.03);
+  transform: translateX(-50%) scale(1.03);
 }
 
 .rope-lantern:hover::before,
@@ -716,27 +716,23 @@ body.site-open .full-site {
 }
 
 .lantern-a {
-  left: 18%;
-  --lantern-size: clamp(62px, 7vw, 98px);
-  --lantern-rotate: -4deg;
+  left: 15%;
+  --lantern-size: clamp(36px, 4.7vw, 60px);
 }
 
 .lantern-b {
-  left: 76%;
-  --lantern-size: clamp(44px, 5.4vw, 78px);
-  --lantern-rotate: 5deg;
+  left: 82%;
+  --lantern-size: clamp(28px, 3.9vw, 48px);
 }
 
 .lantern-c {
-  left: 31%;
-  --lantern-size: clamp(42px, 5.1vw, 74px);
-  --lantern-rotate: 3deg;
+  left: 23%;
+  --lantern-size: clamp(28px, 3.7vw, 46px);
 }
 
 .lantern-d {
-  left: 66%;
-  --lantern-size: clamp(58px, 6.4vw, 90px);
-  --lantern-rotate: -6deg;
+  left: 74%;
+  --lantern-size: clamp(34px, 4.3vw, 56px);
 }
 
 .content-band {
