@@ -595,22 +595,31 @@ body.site-open .full-site {
 }
 
 .treasure-button:hover,
-.treasure-button:focus-visible {
+.treasure-button:focus-visible,
+.treasure-button:active,
+.treasure-button.is-open {
+  background-image: url("assets/treasure-chest-open.png");
+  background-position: center 52%;
+  background-size: 118% auto;
   filter: drop-shadow(0 0 16px rgba(255, 221, 126, 0.54)) drop-shadow(0 18px 22px rgba(0, 0, 0, 0.58));
   outline: none;
   transform: translateY(-1px);
 }
 
 .treasure-button:hover::before,
-.treasure-button:focus-visible::before {
+.treasure-button:focus-visible::before,
+.treasure-button:active::before,
+.treasure-button.is-open::before {
   opacity: 0.96;
   box-shadow: 0 0 26px rgba(240, 201, 108, 0.28);
 }
 
 .treasure-button:hover span,
-.treasure-button:focus-visible span {
+.treasure-button:focus-visible span,
+.treasure-button:active span,
+.treasure-button.is-open span {
   color: #fff7cf;
-  transform: translateY(8%);
+  transform: translateY(2%);
   text-shadow:
     0 0 6px rgba(255, 233, 157, 0.95),
     0 0 16px rgba(240, 201, 108, 0.7),
