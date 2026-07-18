@@ -636,6 +636,100 @@ body.site-open .full-site {
     drop-shadow(0 -1px 4px rgba(129, 83, 34, 0.18));
 }
 
+.rope-lantern {
+  position: absolute;
+  top: 34%;
+  z-index: 2;
+  width: var(--lantern-size, clamp(58px, 8vw, 104px));
+  aspect-ratio: var(--lantern-ratio, 1);
+  padding: 0;
+  cursor: pointer;
+  pointer-events: auto;
+  background-color: transparent;
+  background-image: var(--lantern-image);
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: 0;
+  filter:
+    brightness(0.44)
+    saturate(0.7)
+    drop-shadow(0 12px 15px rgba(0, 0, 0, 0.62));
+  transform: translateX(-50%) rotate(var(--lantern-rotate, 0deg));
+  transform-origin: 50% 4%;
+  transition: filter 220ms ease, transform 220ms ease;
+}
+
+.rope-lantern::before {
+  position: absolute;
+  top: 36%;
+  left: 50%;
+  width: 62%;
+  aspect-ratio: 1;
+  content: "";
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 183, 73, 0.84), rgba(255, 132, 23, 0.34) 45%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0;
+  mix-blend-mode: screen;
+  transform: translate(-50%, -50%);
+  transition: opacity 220ms ease, filter 220ms ease;
+}
+
+.rope-lantern:hover,
+.rope-lantern:focus-visible,
+.rope-lantern.is-lit {
+  outline: none;
+  filter:
+    brightness(1.05)
+    saturate(1.15)
+    drop-shadow(0 0 10px rgba(255, 189, 77, 0.7))
+    drop-shadow(0 0 28px rgba(255, 135, 29, 0.44))
+    drop-shadow(0 16px 18px rgba(0, 0, 0, 0.65));
+  transform: translateX(-50%) rotate(var(--lantern-rotate, 0deg)) scale(1.03);
+}
+
+.rope-lantern:hover::before,
+.rope-lantern:focus-visible::before,
+.rope-lantern.is-lit::before {
+  opacity: 0.85;
+  filter: blur(1px);
+}
+
+.lantern-warm {
+  --lantern-image: url("assets/lantern-warm.png");
+  --lantern-ratio: 1;
+}
+
+.lantern-rust {
+  --lantern-image: url("assets/lantern-rust.png");
+  --lantern-ratio: 707 / 2048;
+}
+
+.lantern-a {
+  left: 18%;
+  --lantern-size: clamp(62px, 7vw, 98px);
+  --lantern-rotate: -4deg;
+}
+
+.lantern-b {
+  left: 76%;
+  --lantern-size: clamp(44px, 5.4vw, 78px);
+  --lantern-rotate: 5deg;
+}
+
+.lantern-c {
+  left: 31%;
+  --lantern-size: clamp(42px, 5.1vw, 74px);
+  --lantern-rotate: 3deg;
+}
+
+.lantern-d {
+  left: 66%;
+  --lantern-size: clamp(58px, 6.4vw, 90px);
+  --lantern-rotate: -6deg;
+}
+
 .content-band {
   padding: clamp(58px, 9vw, 110px) clamp(18px, 5vw, 72px);
   border-top: 1px solid rgba(245, 231, 200, 0.12);
