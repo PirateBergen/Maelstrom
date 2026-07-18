@@ -11,9 +11,14 @@ const photoCarousel = document.querySelector(".photo-carousel");
 const photoTrack = document.querySelector(".photo-track");
 const carouselPrevious = document.querySelector(".carousel-cue-left");
 const carouselNext = document.querySelector(".carousel-cue-right");
+const photoLightbox = document.querySelector(".photo-lightbox");
+const lightboxFrame = document.querySelector(".lightbox-frame");
+const lightboxClose = document.querySelector(".lightbox-close");
 let carouselFrame = 0;
 let carouselOffset = 0;
 let carouselVelocity = 0;
+let lightboxHistoryEntry = false;
+let lightboxPreviousFocus = null;
 const units = {
   days: document.querySelector('[data-unit="days"]'),
   hours: document.querySelector('[data-unit="hours"]'),
@@ -135,13 +140,116 @@ function jumpPhotoCarousel(direction) {
   setCarouselOffset(carouselOffset + direction * getCarouselStep());
 }
 
+function setLightboxContent(sourceFrame) {
+  const frameClasses = Array.from(sourceFrame.classList).filter((className) =>
+    className.startsWith("frame-") || className === "landscape"
+  );
+  const sourceImage = sourceFrame.querySelector("img");
+  const sourceLabel = sourceFrame.querySelector("span")?.textContent || "Photo";
+  const label = document.createElement("span");
+
+  lightboxFrame.className = ["photo-placeholder", "lightbox-frame", ...frameClasses].join(" ");
+  lightboxFrame.textContent = "";
+
+  if (sourceImage) {
+    lightboxFrame.appendChild(sourceImage.cloneNode(true));
+  }
+
+  label.textContent = sourceLabel;
+  lightboxFrame.appendChild(label);
+}
+
+function hideLightbox() {
+  photoLightbox.hidden = true;
+  document.body.classList.remove("lightbox-open");
+  lightboxHistoryEntry = false;
+  lightboxPreviousFocus?.focus?.();
+  lightboxPreviousFocus = null;
+}
+
+function closeLightbox(fromHistory = false) {
+  if (!photoLightbox || photoLightbox.hidden) {
+    return;
+  }
+
+  if (lightboxHistoryEntry && !fromHistory) {
+    history.back();
+    return;
+  }
+
+  hideLightbox();
+}
+
+function openLightbox(sourceFrame) {
+  if (!photoLightbox || !lightboxFrame) {
+    return;
+  }
+
+  stopPhotoCarousel();
+  setLightboxContent(sourceFrame);
+  lightboxPreviousFocus = document.activeElement;
+  photoLightbox.hidden = false;
+  document.body.classList.add("lightbox-open");
+  lightboxClose?.focus();
+
+  if (!lightboxHistoryEntry) {
+    history.pushState({ maelstromLightbox: true }, "", window.location.href);
+    lightboxHistoryEntry = true;
+  }
+}
+
 if (photoCarousel && photoTrack) {
   photoCarousel.addEventListener("mousemove", updateCarouselVelocity);
   photoCarousel.addEventListener("mouseleave", stopPhotoCarousel);
   carouselPrevious?.addEventListener("click", () => jumpPhotoCarousel(1));
   carouselNext?.addEventListener("click", () => jumpPhotoCarousel(-1));
   window.addEventListener("resize", () => setCarouselOffset(carouselOffset));
+
+  photoTrack.querySelectorAll(".photo-placeholder").forEach((frame) => {
+    frame.setAttribute("role", "button");
+    frame.setAttribute("tabindex", frame.hasAttribute("aria-hidden") ? "-1" : "0");
+    frame.setAttribute("aria-label", `Open ${frame.querySelector("span")?.textContent || "photo"}`);
+  });
+
+  photoTrack.addEventListener("click", (event) => {
+    const frame = event.target.closest(".photo-placeholder");
+
+    if (frame) {
+      openLightbox(frame);
+    }
+  });
+
+  photoTrack.addEventListener("keydown", (event) => {
+    const frame = event.target.closest(".photo-placeholder");
+
+    if (!frame || (event.key !== "Enter" && event.key !== " ")) {
+      return;
+    }
+
+    event.preventDefault();
+    openLightbox(frame);
+  });
 }
+
+lightboxClose?.addEventListener("click", () => closeLightbox());
+
+photoLightbox?.addEventListener("click", (event) => {
+  if (event.target === photoLightbox) {
+    closeLightbox();
+  }
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeLightbox();
+  }
+});
+
+window.addEventListener("popstate", () => {
+  if (photoLightbox && !photoLightbox.hidden) {
+    closeLightbox(true);
+  }
+});
 
 if (isSitePreview || Date.now() >= OPENING_DATE.getTime()) {
   openFullSite();
