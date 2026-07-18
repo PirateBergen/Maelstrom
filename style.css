@@ -665,11 +665,18 @@ body.site-open .full-site {
 
 .intro-band .section-heading h2 {
   width: 100%;
-  max-width: calc(100vw - clamp(36px, 10vw, 144px));
-  font-size: clamp(1rem, 2.35vw, 2.65rem);
+  max-width: min(1180px, calc(100vw - clamp(36px, 10vw, 144px)));
+  margin-inline: auto;
+  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: clamp(1.05rem, 2vw, 2.25rem);
+  font-weight: 400;
+  letter-spacing: 0.045em;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
+  text-shadow:
+    0 1px 0 rgba(83, 45, 18, 0.82),
+    0 0 18px rgba(240, 201, 108, 0.16);
   white-space: nowrap;
 }
 
@@ -782,17 +789,18 @@ body.site-open .full-site {
 
 .photo-placeholder {
   position: relative;
-  flex: 0 0 clamp(220px, 24vw, 340px);
-  aspect-ratio: 650 / 975;
+  flex: 0 0 var(--frame-width, clamp(220px, 24vw, 340px));
+  aspect-ratio: var(--frame-ratio, 650 / 975);
   min-height: 0;
   margin: 0;
   background: transparent;
   filter: drop-shadow(0 22px 26px rgba(0, 0, 0, 0.44));
+  transform: translateY(var(--frame-y, 0)) rotate(var(--frame-rotate, 0deg));
 }
 
 .photo-placeholder::before {
   position: absolute;
-  inset: 12.4% 17.5% 12.4%;
+  inset: var(--photo-inset, 12.4% 17.5% 12.4%);
   content: "";
   background:
     linear-gradient(135deg, rgba(245, 231, 200, 0.16), transparent 34%),
@@ -809,7 +817,7 @@ body.site-open .full-site {
   position: absolute;
   inset: 0;
   content: "";
-  background-image: url("assets/gold-frame.png");
+  background-image: var(--frame-image, url("assets/gold-frame.png"));
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -818,9 +826,9 @@ body.site-open .full-site {
 
 .photo-placeholder img {
   position: absolute;
-  inset: 12.4% 17.5% 12.4%;
-  width: 65%;
-  height: 75.2%;
+  inset: var(--photo-inset, 12.4% 17.5% 12.4%);
+  width: var(--photo-width, 65%);
+  height: var(--photo-height, 75.2%);
   object-fit: cover;
 }
 
@@ -836,6 +844,85 @@ body.site-open .full-site {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   transform: translateX(-50%);
+}
+
+.frame-green {
+  --frame-image: url("assets/frame-green.png");
+  --frame-width: clamp(220px, 23vw, 330px);
+  --frame-ratio: 674 / 960;
+  --photo-inset: 23% 22% 13%;
+  --photo-width: 56%;
+  --photo-height: 64%;
+}
+
+.frame-gold {
+  --frame-image: url("assets/frame-gold-ornate.png");
+  --frame-width: clamp(230px, 24vw, 350px);
+  --frame-ratio: 650 / 975;
+  --photo-inset: 15% 18% 13%;
+  --photo-width: 64%;
+  --photo-height: 72%;
+}
+
+.frame-dark-wood {
+  --frame-image: url("assets/frame-dark-wood.png");
+  --frame-width: clamp(225px, 23vw, 340px);
+  --frame-ratio: 736 / 1104;
+  --photo-inset: 16% 20% 14%;
+  --photo-width: 60%;
+  --photo-height: 70%;
+}
+
+.frame-red {
+  --frame-image: url("assets/frame-red-wood.png");
+  --frame-width: clamp(190px, 19vw, 280px);
+  --frame-ratio: 382 / 500;
+  --photo-inset: 10.5% 15.4% 11%;
+  --photo-width: 69.2%;
+  --photo-height: 78.5%;
+}
+
+.frame-dark-gold {
+  --frame-image: url("assets/frame-dark-gold.png");
+  --frame-width: clamp(225px, 23vw, 340px);
+  --frame-ratio: 604 / 700;
+  --photo-inset: 15% 17% 15%;
+  --photo-width: 66%;
+  --photo-height: 70%;
+}
+
+.frame-dark-gold-landscape {
+  --frame-image: url("assets/frame-dark-gold-landscape.png");
+  --frame-width: clamp(330px, 35vw, 520px);
+  --frame-ratio: 700 / 604;
+  --photo-inset: 17% 12.5% 15%;
+  --photo-width: 75%;
+  --photo-height: 68%;
+}
+
+.frame-dark-wood-landscape {
+  --frame-image: url("assets/frame-dark-wood-landscape.png");
+  --frame-width: clamp(335px, 36vw, 540px);
+  --frame-ratio: 1104 / 736;
+  --photo-inset: 20% 15% 20%;
+  --photo-width: 70%;
+  --photo-height: 60%;
+}
+
+.tilt-left {
+  --frame-rotate: -1.8deg;
+}
+
+.tilt-right {
+  --frame-rotate: 1.4deg;
+}
+
+.lift-small {
+  --frame-y: -10px;
+}
+
+.lift-large {
+  --frame-y: -18px;
 }
 
 .menu-panel h3,
@@ -1181,7 +1268,15 @@ body.site-open .full-site {
   }
 
   .photo-placeholder {
-    flex-basis: min(58vw, 250px);
+    flex-basis: var(--frame-mobile-width, min(58vw, 250px));
+  }
+
+  .frame-dark-gold-landscape {
+    --frame-mobile-width: min(78vw, 330px);
+  }
+
+  .frame-dark-wood-landscape {
+    --frame-mobile-width: min(80vw, 340px);
   }
 
   .booking-band,

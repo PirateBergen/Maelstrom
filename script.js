@@ -126,16 +126,7 @@ function stopPhotoCarousel() {
 }
 
 function getCarouselStep() {
-  const firstFrame = photoTrack.querySelector(".photo-placeholder");
-
-  if (!firstFrame) {
-    return photoCarousel.clientWidth * 0.72;
-  }
-
-  const trackStyles = window.getComputedStyle(photoTrack);
-  const gap = Number.parseFloat(trackStyles.columnGap || trackStyles.gap || "0");
-
-  return firstFrame.getBoundingClientRect().width + gap;
+  return photoCarousel.clientWidth * 0.78;
 }
 
 function jumpPhotoCarousel(direction) {
