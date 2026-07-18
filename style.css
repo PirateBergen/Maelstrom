@@ -1173,11 +1173,11 @@ body.lightbox-open {
 
 .contact-band::after {
   right: max(-70px, -4vw);
-  top: -18px;
+  bottom: 0;
   width: clamp(150px, 22vw, 300px);
   aspect-ratio: 515 / 808;
   background-image: url("assets/contact-corner-map.webp");
-  background-position: right top;
+  background-position: right bottom;
 }
 
 .social-links {
@@ -1197,8 +1197,8 @@ body.lightbox-open {
   aspect-ratio: 1;
   border-radius: 50%;
   filter:
-    drop-shadow(0 0 7px rgba(255, 244, 200, 0.34))
-    drop-shadow(0 0 18px rgba(218, 168, 72, 0.28))
+    drop-shadow(0 0 7px rgba(111, 218, 232, 0.4))
+    drop-shadow(0 0 18px rgba(28, 132, 160, 0.34))
     drop-shadow(0 12px 16px rgba(0, 0, 0, 0.62));
   place-items: center;
   transition: filter 180ms ease, transform 180ms ease, opacity 180ms ease;
@@ -1210,12 +1210,12 @@ body.lightbox-open {
   height: 100%;
   object-fit: contain;
   filter:
-    invert(86%)
-    sepia(57%)
-    saturate(540%)
-    hue-rotate(355deg)
-    brightness(1.15)
-    contrast(1.05);
+    invert(74%)
+    sepia(60%)
+    saturate(760%)
+    hue-rotate(139deg)
+    brightness(0.92)
+    contrast(1.12);
   user-select: none;
 }
 
@@ -1223,9 +1223,9 @@ body.lightbox-open {
 .social-icon:focus-visible {
   outline: none;
   filter:
-    drop-shadow(0 0 10px rgba(255, 249, 216, 0.78))
-    drop-shadow(0 0 24px rgba(235, 182, 72, 0.64))
-    drop-shadow(0 0 46px rgba(112, 196, 205, 0.22))
+    drop-shadow(0 0 10px rgba(164, 244, 255, 0.82))
+    drop-shadow(0 0 24px rgba(41, 177, 207, 0.68))
+    drop-shadow(0 0 46px rgba(8, 76, 102, 0.72))
     drop-shadow(0 14px 16px rgba(0, 0, 0, 0.58));
   transform: translateY(-4px) scale(1.1);
 }
