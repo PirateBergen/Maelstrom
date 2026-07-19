@@ -514,6 +514,17 @@ body.site-open .full-site {
   white-space: nowrap;
 }
 
+.site-logo-title {
+  display: block;
+  width: min(860px, calc(100vw - 54px));
+  height: auto;
+  margin: 0 0 clamp(0.8rem, 2vw, 1.4rem);
+  filter:
+    drop-shadow(0 12px 20px rgba(0, 0, 0, 0.72))
+    drop-shadow(0 0 18px rgba(146, 226, 232, 0.14));
+  user-select: none;
+}
+
 .site-lede {
   width: min(650px, 100%);
   margin: 0;
@@ -1422,6 +1433,11 @@ body.lightbox-open {
     font-size: clamp(3.05rem, 17vw, 5.2rem);
   }
 
+  .site-logo-title {
+    width: min(86vw, 520px);
+    margin-bottom: 1rem;
+  }
+
   .site-lede {
     font-size: 1rem;
   }
@@ -1519,6 +1535,10 @@ body.lightbox-open {
 
   .site-hero h1 {
     font-size: clamp(2.5rem, 15vw, 4.2rem);
+  }
+
+  .site-logo-title {
+    width: min(88vw, 420px);
   }
 }
 
