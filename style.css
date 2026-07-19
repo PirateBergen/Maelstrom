@@ -713,7 +713,14 @@ body.site-open .full-site {
   text-shadow:
     0 1px 0 rgba(83, 45, 18, 0.82),
     0 0 18px rgba(240, 201, 108, 0.16);
+  text-transform: uppercase;
+  transform-origin: center;
   white-space: nowrap;
+}
+
+.intro-band .section-heading h2:hover,
+.intro-band .section-heading h2:focus-visible {
+  animation: quote-flip 900ms cubic-bezier(0.45, 0, 0.18, 1);
 }
 
 .menu-panel,
@@ -1297,6 +1304,18 @@ body.lightbox-open {
 @keyframes slow-drift {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes quote-flip {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  45%,
+  55% {
+    transform: rotate(180deg);
   }
 }
 
