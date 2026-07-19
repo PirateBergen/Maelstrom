@@ -401,24 +401,40 @@ body.site-open .full-site {
 .brand-mark {
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
   color: #fff1c5;
   font-family: "Trebuchet MS", Arial, sans-serif;
   font-size: 0.95rem;
   font-weight: 800;
   letter-spacing: 0.16em;
+  transition: filter 180ms ease, transform 180ms ease;
+}
+
+.brand-mark:hover,
+.brand-mark:focus-visible {
+  outline: none;
+  filter:
+    drop-shadow(0 0 10px rgba(164, 244, 255, 0.42))
+    drop-shadow(0 0 18px rgba(240, 201, 108, 0.24));
+  transform: translateY(-1px);
 }
 
 .brand-symbol {
   display: grid;
-  width: 34px;
-  aspect-ratio: 1;
-  color: #130905;
-  background: linear-gradient(145deg, #f5d77f, #90612a);
-  border-radius: 50%;
+  width: clamp(46px, 4.6vw, 62px);
+  aspect-ratio: 256 / 245;
+  color: #fff4cf;
+  background-image: url("assets/brand-porthole.webp");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
   place-items: center;
   font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(0.82rem, 1.4vw, 1rem);
+  font-weight: 900;
   letter-spacing: 0;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    0 0 7px rgba(0, 0, 0, 0.78);
 }
 
 .site-nav {
