@@ -496,15 +496,19 @@ body.vote-confirmed .site-header {
   }
 
   .tasting-hero {
-    min-height: 48svh;
+    min-height: 38svh;
+  }
+
+  .tasting-hero.compact {
+    min-height: 32svh;
   }
 
   .tasting-hero h1 {
-    font-size: clamp(2.65rem, 15vw, 4.7rem);
+    font-size: clamp(2.2rem, 12vw, 4rem);
   }
 
   .tasting-board {
-    padding: 28px 16px;
+    padding: 22px 14px;
   }
 
   .cocktail-list {
@@ -512,7 +516,18 @@ body.vote-confirmed .site-header {
   }
 
   .tier-row {
-    grid-template-columns: 46px 1fr;
+    grid-template-columns: 42px 1fr;
+    gap: 0.58rem;
+  }
+
+  .tier-buttons {
+    gap: 0.28rem;
+  }
+
+  .tier-buttons button,
+  .remove-rank {
+    min-height: 38px;
+    padding-inline: 0.45rem;
   }
 
   .results-toolbar {
