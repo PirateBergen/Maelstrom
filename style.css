@@ -259,6 +259,17 @@ h1 {
     0 16px 44px rgba(0, 0, 0, 0.84);
 }
 
+.countdown-logo {
+  display: block;
+  width: min(820px, calc(100vw - 64px));
+  height: auto;
+  margin: clamp(0.55rem, 2vw, 1.1rem) auto clamp(0.45rem, 1.5vw, 0.8rem);
+  filter:
+    drop-shadow(0 12px 18px rgba(0, 0, 0, 0.74))
+    drop-shadow(0 0 18px rgba(146, 226, 232, 0.12));
+  user-select: none;
+}
+
 .date {
   color: rgba(245, 231, 200, 0.86);
   font-size: clamp(0.8rem, 1.8vw, 1.05rem);
@@ -1519,6 +1530,12 @@ body.lightbox-open {
     line-height: 0.92;
     overflow-wrap: normal;
     white-space: nowrap;
+  }
+
+  .countdown-logo {
+    width: min(88vw, 500px);
+    margin-top: 0.6rem;
+    margin-bottom: 0.45rem;
   }
 
   .time-grid {
