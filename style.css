@@ -926,10 +926,6 @@ body.site-open .full-site {
   object-fit: cover;
 }
 
-.photo-placeholder img.photo-contain {
-  object-fit: contain;
-}
-
 .photo-placeholder span {
   position: absolute;
   left: 50%;
@@ -942,12 +938,6 @@ body.site-open .full-site {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   transform: translateX(-50%);
-}
-
-.chapter-frame {
-  --photo-inset: 11% 15% 12%;
-  --photo-width: 70%;
-  --photo-height: 77%;
 }
 
 .frame-green {
