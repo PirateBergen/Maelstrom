@@ -303,6 +303,20 @@
   border-radius: 8px;
 }
 
+.qr-target {
+  max-width: 100%;
+  padding: 0.75rem 0.85rem;
+  color: rgba(245, 231, 200, 0.78);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+  background: rgba(2, 8, 9, 0.66);
+  border: 1px solid rgba(245, 231, 200, 0.14);
+  border-radius: 6px;
+}
+
 .qr-panel h2 {
   margin: 0.25rem 0 0.7rem;
   color: #fff0c4;

@@ -1378,6 +1378,15 @@ body.lightbox-open {
   transform: translateY(-4px) scale(1.1);
 }
 
+.social-icon.is-disabled {
+  cursor: default;
+}
+
+.social-icon.is-disabled:hover,
+.social-icon.is-disabled:focus-visible {
+  transform: none;
+}
+
 @keyframes compass-turn {
   to {
     transform: rotate(360deg);

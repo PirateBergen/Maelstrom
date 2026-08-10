@@ -47,7 +47,7 @@ function renderResults() {
         ${submission.note ? `<small>${submission.note}</small>` : ""}
       </article>
     `).join("")
-    : `<article class="submission-card"><strong>No local submissions yet.</strong><span>Submit a test tier list first.</span></article>`;
+    : `<article class="submission-card"><strong>No public votes yet.</strong><span>The live shared ranking will be connected before guest tastings begin.</span></article>`;
 }
 
 document.querySelector("#clearLocalResults")?.addEventListener("click", () => {
