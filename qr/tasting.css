@@ -29,7 +29,7 @@ body.vote-confirmed .tasting-shell {
   z-index: 20;
   display: grid;
   min-height: 100svh;
-  padding: max(26px, env(safe-area-inset-top)) 18px max(26px, env(safe-area-inset-bottom));
+  padding: max(18px, env(safe-area-inset-top)) 18px max(18px, env(safe-area-inset-bottom));
   overflow: hidden;
   background:
     radial-gradient(circle at 50% 38%, rgba(27, 116, 126, 0.24), transparent 24rem),
@@ -58,15 +58,18 @@ body.vote-confirmed .tasting-shell {
   z-index: 1;
   display: grid;
   width: min(520px, calc(100vw - 36px));
+  max-height: calc(100svh - 36px);
   justify-items: center;
   text-align: center;
+  transform: translateY(-1.2svh);
 }
 
 .vote-thanks-logo {
   display: block;
-  width: min(280px, 58vw);
+  width: min(220px, 42vw);
+  max-height: min(58svh, 520px);
   height: auto;
-  margin-bottom: clamp(1.1rem, 4vw, 1.8rem);
+  margin-bottom: clamp(0.75rem, 2.5vw, 1.2rem);
   filter:
     invert(1)
     drop-shadow(0 0 14px rgba(164, 244, 255, 0.18))
@@ -77,10 +80,10 @@ body.vote-confirmed .tasting-shell {
 }
 
 .vote-thanks h2 {
-  max-width: 12ch;
-  margin: 0.2rem 0 0;
+  max-width: min(13ch, 100%);
+  margin: 0.1rem 0 0;
   color: #fff0c4;
-  font-size: clamp(2.4rem, 10vw, 5rem);
+  font-size: clamp(2rem, 7vw, 3.9rem);
   line-height: 0.92;
   text-shadow:
     0 2px 0 rgba(111, 53, 29, 0.9),
@@ -461,6 +464,22 @@ body.vote-confirmed .tasting-shell {
 }
 
 @media (max-width: 720px) {
+  .vote-thanks-content {
+    width: min(390px, calc(100vw - 28px));
+    max-height: calc(100svh - 28px);
+  }
+
+  .vote-thanks-logo {
+    width: min(170px, 46vw);
+    max-height: 50svh;
+    margin-bottom: 0.75rem;
+  }
+
+  .vote-thanks h2 {
+    max-width: 11ch;
+    font-size: clamp(1.85rem, 11vw, 3.2rem);
+  }
+
   .tasting-hero {
     min-height: 48svh;
   }
