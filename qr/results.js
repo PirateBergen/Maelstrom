@@ -22,8 +22,65 @@ function scoreSubmissions(submissions) {
     .sort((a, b) => b.average - a.average || b.votes - a.votes);
 }
 
-function renderResults() {
-  const submissions = readSubmissions();
+function fetchRemoteSubmissions() {
+  if (!RESULT_ENDPOINT) {
+    return Promise.resolve([]);
+  }
+
+  return new Promise((resolve, reject) => {
+    const callbackName = `maelstromResults${Date.now()}${Math.floor(Math.random() * 1000)}`;
+    const script = document.createElement("script");
+    const separator = RESULT_ENDPOINT.includes("?") ? "&" : "?";
+    const timer = setTimeout(() => {
+      cleanup();
+      reject(new Error("Remote results timed out"));
+    }, 9000);
+
+    function cleanup() {
+      clearTimeout(timer);
+      delete window[callbackName];
+      script.remove();
+    }
+
+    window[callbackName] = (payload) => {
+      cleanup();
+      resolve(Array.isArray(payload?.submissions) ? payload.submissions : []);
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("Remote results failed"));
+    };
+
+    script.src = `${RESULT_ENDPOINT}${separator}callback=${encodeURIComponent(callbackName)}&cache=${Date.now()}`;
+    document.body.appendChild(script);
+  });
+}
+
+function mergeSubmissions(localSubmissions, remoteSubmissions) {
+  const byId = new Map();
+
+  [...localSubmissions, ...remoteSubmissions].forEach((submission) => {
+    if (submission?.id) {
+      byId.set(submission.id, submission);
+    }
+  });
+
+  return [...byId.values()];
+}
+
+async function renderResults() {
+  const localSubmissions = readSubmissions();
+  let submissions = localSubmissions;
+  let remoteError = false;
+
+  try {
+    const remoteSubmissions = await fetchRemoteSubmissions();
+    submissions = mergeSubmissions(localSubmissions, remoteSubmissions);
+  } catch {
+    remoteError = true;
+  }
+
   const leaderboard = document.querySelector("#leaderboard");
   const log = document.querySelector("#submissionLog");
   const ranked = scoreSubmissions(submissions);
@@ -48,6 +105,13 @@ function renderResults() {
       </article>
     `).join("")
     : `<article class="submission-card"><strong>No public votes yet.</strong><span>The live shared ranking will be connected before guest tastings begin.</span></article>`;
+
+  if (remoteError) {
+    log.insertAdjacentHTML(
+      "afterbegin",
+      `<article class="submission-card"><strong>Live results unavailable.</strong><span>Showing local data only.</span></article>`
+    );
+  }
 }
 
 document.querySelector("#clearLocalResults")?.addEventListener("click", () => {

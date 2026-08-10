@@ -1,5 +1,5 @@
 const STORAGE_KEY = "maelstrom-tasting-submissions-v1";
-const RESULT_ENDPOINT = "";
+const RESULT_ENDPOINT = window.MAELSTROM_RESULTS_ENDPOINT || "";
 const TIERS = ["S", "A", "B", "C", "D"];
 const TIER_POINTS = { S: 5, A: 4, B: 3, C: 2, D: 1 };
 
@@ -111,17 +111,14 @@ function renderCocktails() {
 async function submitToEndpoint(payload) {
   if (!RESULT_ENDPOINT) return { skipped: true };
 
-  const response = await fetch(RESULT_ENDPOINT, {
+  await fetch(RESULT_ENDPOINT, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify(payload),
   });
 
-  if (!response.ok) {
-    throw new Error("Remote save failed");
-  }
-
-  return response.json().catch(() => ({ ok: true }));
+  return { ok: true };
 }
 
 function setupForm() {

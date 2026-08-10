@@ -1,0 +1,1 @@
+window.MAELSTROM_RESULTS_ENDPOINT = "";
