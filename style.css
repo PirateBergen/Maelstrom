@@ -1465,10 +1465,18 @@ body.lightbox-open {
 }
 
 @media (max-width: 720px) {
-  html,
+  html {
+    min-height: 100svh;
+  }
+
   body {
     min-height: 100svh;
     overflow: hidden;
+  }
+
+  body.site-open {
+    min-height: 100%;
+    overflow: auto;
   }
 
   .gate {
