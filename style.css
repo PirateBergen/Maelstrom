@@ -892,6 +892,7 @@ body.site-open .full-site {
 .photo-placeholder::before {
   position: absolute;
   inset: var(--photo-inset, 12.4% 17.5% 12.4%);
+  z-index: 0;
   content: "";
   background:
     linear-gradient(135deg, rgba(245, 231, 200, 0.16), transparent 34%),
@@ -907,6 +908,7 @@ body.site-open .full-site {
 .photo-placeholder::after {
   position: absolute;
   inset: 0;
+  z-index: 2;
   content: "";
   background-image: var(--frame-image, url("assets/frame-gold-ornate.webp"));
   background-position: center;
@@ -918,16 +920,21 @@ body.site-open .full-site {
 .photo-placeholder img {
   position: absolute;
   inset: var(--photo-inset, 12.4% 17.5% 12.4%);
+  z-index: 1;
   width: var(--photo-width, 65%);
   height: var(--photo-height, 75.2%);
   object-fit: cover;
+}
+
+.photo-placeholder img.photo-contain {
+  object-fit: contain;
 }
 
 .photo-placeholder span {
   position: absolute;
   left: 50%;
   bottom: var(--label-bottom, 15.4%);
-  z-index: 1;
+  z-index: 3;
   color: rgba(245, 231, 200, 0.68);
   font-family: "Trebuchet MS", Arial, sans-serif;
   font-size: 0.74rem;
@@ -935,6 +942,12 @@ body.site-open .full-site {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   transform: translateX(-50%);
+}
+
+.chapter-frame {
+  --photo-inset: 11% 15% 12%;
+  --photo-width: 70%;
+  --photo-height: 77%;
 }
 
 .frame-green {
