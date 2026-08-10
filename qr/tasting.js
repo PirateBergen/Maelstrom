@@ -71,6 +71,19 @@ function markSubmitted() {
   localStorage.setItem(SUBMITTED_KEY, "true");
 }
 
+function showVoteThanks() {
+  const thanks = document.querySelector("#voteThanks");
+  const shell = document.querySelector(".tasting-shell");
+
+  if (!thanks) {
+    return;
+  }
+
+  thanks.hidden = false;
+  shell?.setAttribute("aria-hidden", "true");
+  document.body.classList.add("vote-confirmed");
+}
+
 function lockForm(form, status) {
   form.classList.add("is-locked");
   document.querySelectorAll(".tier-buttons button, #tasterForm input, #tasterForm textarea, #tasterForm button").forEach((control) => {
@@ -160,6 +173,7 @@ function setupForm() {
 
   if (hasAlreadySubmitted()) {
     lockForm(form, status);
+    showVoteThanks();
     return;
   }
 
@@ -199,6 +213,7 @@ function setupForm() {
       status.textContent = RESULT_ENDPOINT
         ? "Saved. Thank you."
         : "Saved on this device. Backend sync is not connected yet.";
+      showVoteThanks();
     } catch {
       status.textContent = "Saved on this device, but remote sync failed.";
     }

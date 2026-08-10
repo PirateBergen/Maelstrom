@@ -10,6 +10,84 @@
   min-height: 100vh;
 }
 
+body.vote-confirmed {
+  min-height: 100svh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(14, 100, 112, 0.22), transparent 25rem),
+    radial-gradient(circle at 50% 78%, rgba(184, 131, 50, 0.1), transparent 18rem),
+    #020606;
+}
+
+body.vote-confirmed .tasting-shell {
+  display: none;
+}
+
+.vote-thanks {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  min-height: 100svh;
+  padding: max(26px, env(safe-area-inset-top)) 18px max(26px, env(safe-area-inset-bottom));
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(27, 116, 126, 0.24), transparent 24rem),
+    linear-gradient(180deg, rgba(1, 4, 5, 0.86), rgba(0, 0, 0, 0.98));
+  place-items: center;
+}
+
+.vote-thanks[hidden] {
+  display: none;
+}
+
+.vote-thanks::before {
+  position: absolute;
+  inset: -18vmax;
+  content: "";
+  background:
+    repeating-conic-gradient(from 20deg, rgba(240, 201, 108, 0.055) 0deg 8deg, transparent 8deg 20deg),
+    radial-gradient(circle, transparent 0 24%, rgba(0, 0, 0, 0.82) 68%);
+  filter: blur(18px);
+  opacity: 0.5;
+  animation: thanks-drift 30s linear infinite;
+}
+
+.vote-thanks-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(520px, calc(100vw - 36px));
+  justify-items: center;
+  text-align: center;
+}
+
+.vote-thanks-logo {
+  display: block;
+  width: min(280px, 58vw);
+  height: auto;
+  margin-bottom: clamp(1.1rem, 4vw, 1.8rem);
+  filter:
+    invert(1)
+    drop-shadow(0 0 14px rgba(164, 244, 255, 0.18))
+    drop-shadow(0 22px 28px rgba(0, 0, 0, 0.66));
+  transform-origin: 50% 43%;
+  animation: up-is-down-swing 2400ms cubic-bezier(0.44, 0, 0.18, 1) 260ms both;
+  user-select: none;
+}
+
+.vote-thanks h2 {
+  max-width: 12ch;
+  margin: 0.2rem 0 0;
+  color: #fff0c4;
+  font-size: clamp(2.4rem, 10vw, 5rem);
+  line-height: 0.92;
+  text-shadow:
+    0 2px 0 rgba(111, 53, 29, 0.9),
+    0 0 28px rgba(240, 201, 108, 0.2),
+    0 18px 38px rgba(0, 0, 0, 0.72);
+}
+
 .tasting-hero {
   position: relative;
   display: grid;
@@ -341,6 +419,45 @@
 
 .hero-actions.left {
   justify-content: flex-start;
+}
+
+@keyframes up-is-down-swing {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) rotate(0deg) scale(0.92);
+  }
+
+  18% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+
+  42% {
+    transform: rotate(188deg) scale(1);
+  }
+
+  58% {
+    transform: rotate(172deg);
+  }
+
+  73% {
+    transform: rotate(183deg);
+  }
+
+  86% {
+    transform: rotate(178deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes thanks-drift {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 720px) {
