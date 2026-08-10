@@ -1,4 +1,6 @@
 const STORAGE_KEY = "maelstrom-tasting-submissions-v1";
+const VISITOR_KEY = "maelstrom-tasting-visitor-v1";
+const SUBMITTED_KEY = "maelstrom-tasting-submitted-v1";
 const RESULT_ENDPOINT = window.MAELSTROM_RESULTS_ENDPOINT || "";
 const TIERS = ["S", "A", "B", "C", "D"];
 const TIER_POINTS = { S: 5, A: 4, B: 3, C: 2, D: 1 };
@@ -48,6 +50,36 @@ function readSubmissions() {
 
 function writeSubmissions(submissions) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(submissions));
+}
+
+function getVisitorId() {
+  let visitorId = localStorage.getItem(VISITOR_KEY);
+
+  if (!visitorId) {
+    visitorId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
+    localStorage.setItem(VISITOR_KEY, visitorId);
+  }
+
+  return visitorId;
+}
+
+function hasAlreadySubmitted() {
+  return localStorage.getItem(SUBMITTED_KEY) === "true";
+}
+
+function markSubmitted() {
+  localStorage.setItem(SUBMITTED_KEY, "true");
+}
+
+function lockForm(form, status) {
+  form.classList.add("is-locked");
+  document.querySelectorAll(".tier-buttons button, #tasterForm input, #tasterForm textarea, #tasterForm button").forEach((control) => {
+    control.disabled = true;
+  });
+
+  if (status) {
+    status.textContent = "Your tier list has already been submitted from this device.";
+  }
 }
 
 function getCocktailName(id) {
@@ -126,8 +158,19 @@ function setupForm() {
   const status = document.querySelector("#saveStatus");
   if (!form) return;
 
+  if (hasAlreadySubmitted()) {
+    lockForm(form, status);
+    return;
+  }
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+
+    if (hasAlreadySubmitted()) {
+      lockForm(form, status);
+      return;
+    }
+
     const missing = COCKTAILS.filter((cocktail) => !state[cocktail.id]);
 
     if (missing.length) {
@@ -138,6 +181,7 @@ function setupForm() {
     const data = new FormData(form);
     const payload = {
       id: crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}`,
+      visitorId: getVisitorId(),
       createdAt: new Date().toISOString(),
       taster: data.get("taster"),
       note: data.get("note"),
@@ -150,6 +194,8 @@ function setupForm() {
 
     try {
       await submitToEndpoint(payload);
+      markSubmitted();
+      lockForm(form, status);
       status.textContent = RESULT_ENDPOINT
         ? "Saved. Thank you."
         : "Saved on this device. Backend sync is not connected yet.";

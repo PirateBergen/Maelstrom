@@ -233,6 +233,15 @@
   border-radius: 6px;
 }
 
+.taster-form.is-locked {
+  opacity: 0.72;
+}
+
+.taster-form.is-locked button {
+  cursor: not-allowed;
+  filter: grayscale(0.6);
+}
+
 .save-status {
   min-height: 1.3em;
   margin: 0;

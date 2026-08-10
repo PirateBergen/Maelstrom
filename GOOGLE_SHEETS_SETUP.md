@@ -9,7 +9,7 @@ Create a Google Sheet named `Maelstrom Tier List`.
 Add a first row with these columns:
 
 ```text
-id | createdAt | taster | note | rankings
+id | visitorId | createdAt | taster | note | rankings
 ```
 
 ## 2. Add Apps Script
@@ -20,6 +20,7 @@ Paste this code:
 
 ```javascript
 const SHEET_NAME = "Submissions";
+const HEADERS = ["id", "visitorId", "createdAt", "taster", "note", "rankings"];
 
 function getSheet() {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
@@ -27,18 +28,44 @@ function getSheet() {
 
   if (!sheet) {
     sheet = spreadsheet.insertSheet(SHEET_NAME);
-    sheet.appendRow(["id", "createdAt", "taster", "note", "rankings"]);
+  }
+
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(HEADERS);
+  }
+
+  const currentHeaders = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  if (currentHeaders.indexOf("visitorId") === -1) {
+    sheet.insertColumnAfter(1);
+    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
   }
 
   return sheet;
 }
 
+function hasVisitorAlreadyVoted(sheet, visitorId) {
+  if (!visitorId || sheet.getLastRow() < 2) {
+    return false;
+  }
+
+  const visitorIds = sheet.getRange(2, 2, sheet.getLastRow() - 1, 1).getValues().flat();
+  return visitorIds.includes(visitorId);
+}
+
 function doPost(event) {
   const sheet = getSheet();
   const payload = JSON.parse(event.postData.contents || "{}");
+  const visitorId = String(payload.visitorId || "");
+
+  if (hasVisitorAlreadyVoted(sheet, visitorId)) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: false, duplicate: true }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 
   sheet.appendRow([
     payload.id || Utilities.getUuid(),
+    visitorId,
     payload.createdAt || new Date().toISOString(),
     payload.taster || "",
     payload.note || "",
@@ -57,10 +84,11 @@ function doGet(event) {
     .filter((row) => row[0])
     .map((row) => ({
       id: String(row[0]),
-      createdAt: row[1] instanceof Date ? row[1].toISOString() : String(row[1] || ""),
-      taster: String(row[2] || ""),
-      note: String(row[3] || ""),
-      rankings: JSON.parse(row[4] || "{}"),
+      visitorId: String(row[1] || ""),
+      createdAt: row[2] instanceof Date ? row[2].toISOString() : String(row[2] || ""),
+      taster: String(row[3] || ""),
+      note: String(row[4] || ""),
+      rankings: JSON.parse(row[5] || "{}"),
     }));
 
   const output = { submissions };
