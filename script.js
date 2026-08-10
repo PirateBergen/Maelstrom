@@ -6,19 +6,13 @@ const countdown = document.querySelector(".countdown");
 const fullSite = document.querySelector(".full-site");
 const previewParams = new URLSearchParams(window.location.search);
 const isSitePreview = previewParams.get("preview") === "site";
-const isAdminMode = (() => {
-  const urlHasAdminKey = previewParams.get("admin") === "maelstrom";
+const isAdminMode = previewParams.get("admin") === "maelstrom";
 
-  try {
-    if (urlHasAdminKey) {
-      window.localStorage.setItem("maelstrom-admin-mode", "true");
-    }
-
-    return urlHasAdminKey || window.localStorage.getItem("maelstrom-admin-mode") === "true";
-  } catch {
-    return urlHasAdminKey;
-  }
-})();
+try {
+  window.localStorage.removeItem("maelstrom-admin-mode");
+} catch {
+  // Storage can be unavailable in private modes; the URL key still works.
+}
 const sequenceTimers = [];
 const photoCarousel = document.querySelector(".photo-carousel");
 const photoTrack = document.querySelector(".photo-track");
