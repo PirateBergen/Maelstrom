@@ -23,6 +23,10 @@ body.vote-confirmed .tasting-shell {
   display: none;
 }
 
+body.vote-confirmed .site-header {
+  display: none;
+}
+
 .vote-thanks {
   position: fixed;
   inset: 0;
