@@ -380,7 +380,7 @@ h1 {
   overflow-x: hidden;
   background:
     linear-gradient(90deg, #020808 0%, rgba(0, 0, 0, 0.88) 7%, rgba(0, 0, 0, 0.42) 18%, transparent 34%, transparent 66%, rgba(0, 0, 0, 0.42) 82%, rgba(0, 0, 0, 0.88) 93%, #020808 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.08) 30%, rgba(0, 0, 0, 0.24) 72%, rgba(0, 0, 0, 0.48) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.08) 30%, rgba(0, 0, 0, 0.24) 66%, rgba(0, 0, 0, 0.66) 90%, #000 100%),
     url("assets/maelstrom-full-section-bg.jpg");
   background-position: center top;
   background-repeat: no-repeat;
@@ -689,17 +689,18 @@ body.site-open .full-site {
   font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
   font-size: clamp(1.05rem, 2vw, 2.25rem);
   color: #020605;
-  font-weight: 500;
+  font-weight: 700;
   letter-spacing: 0.045em;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
   text-shadow:
-    0 1px 0 rgba(172, 249, 255, 0.26),
-    0 0 4px rgba(190, 252, 255, 0.9),
-    0 0 12px rgba(76, 231, 255, 0.72),
-    0 0 26px rgba(12, 153, 198, 0.58),
-    0 0 46px rgba(3, 71, 116, 0.62);
+    0 1px 0 rgba(201, 255, 255, 0.42),
+    0 0 3px rgba(222, 255, 255, 1),
+    0 0 10px rgba(112, 240, 255, 0.92),
+    0 0 24px rgba(26, 174, 210, 0.78),
+    0 0 48px rgba(3, 87, 133, 0.76),
+    0 0 78px rgba(0, 38, 68, 0.72);
   text-transform: uppercase;
   transform-origin: center;
   white-space: nowrap;
@@ -1528,10 +1529,11 @@ body.lightbox-open {
     top: 0;
     right: 0;
     left: 0;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.62rem;
-    padding: max(10px, env(safe-area-inset-top)) 14px 11px;
+    height: 0;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0;
+    padding: max(10px, env(safe-area-inset-top)) 14px 0;
   }
 
   .full-site {
@@ -1543,6 +1545,10 @@ body.lightbox-open {
   }
 
   .site-nav {
+    position: absolute;
+    top: clamp(285px, 45svh, 395px);
+    right: 14px;
+    left: 14px;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.38rem;
@@ -1558,9 +1564,10 @@ body.lightbox-open {
   }
 
   .site-hero {
-    min-height: 68svh;
-    margin-bottom: -96px;
+    min-height: clamp(420px, 62svh, 560px);
+    margin-bottom: 0;
     overflow: hidden;
+    place-items: start center;
   }
 
   .site-map {
@@ -1572,9 +1579,9 @@ body.lightbox-open {
   }
 
   .site-hero-content {
-    min-height: 68svh;
-    padding: 34px 0;
-    transform: translateY(18px);
+    min-height: 0;
+    padding: max(72px, calc(env(safe-area-inset-top) + 66px)) 0 0;
+    transform: none;
   }
 
   .site-hero h1 {
@@ -1592,6 +1599,10 @@ body.lightbox-open {
 
   .content-band {
     padding: 42px 18px;
+  }
+
+  .intro-band {
+    padding-top: 18px;
   }
 
   .menu-columns,
