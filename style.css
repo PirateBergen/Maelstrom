@@ -1567,7 +1567,7 @@ body.lightbox-open {
   .menu-page .site-nav,
   .gallery-page .site-nav,
   .tasting-body .site-nav {
-    top: max(76px, calc(env(safe-area-inset-top) + 66px));
+    top: max(38px, calc(env(safe-area-inset-top) + 30px));
   }
 
   .menu-page .content-band,
