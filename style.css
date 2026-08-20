@@ -530,7 +530,7 @@ body.site-open .full-site {
   background:
     radial-gradient(circle at 50% 48%, rgba(245, 231, 200, 0.06), transparent 24rem),
     linear-gradient(90deg, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.03) 42%, rgba(0, 0, 0, 0.04) 58%, rgba(0, 0, 0, 0.66)),
-    linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.58) 10%, rgba(0, 0, 0, 0.16) 28%, rgba(0, 0, 0, 0.34) 61%, rgba(0, 0, 0, 0.9) 82%, #000 100%);
+    linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.58) 10%, rgba(0, 0, 0, 0.16) 28%, rgba(0, 0, 0, 0.26) 56%, rgba(0, 0, 0, 0.78) 72%, #000 100%);
 }
 
 .site-hero-content {
