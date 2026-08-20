@@ -530,7 +530,7 @@ body.site-open .full-site {
   background:
     radial-gradient(circle at 50% 48%, rgba(245, 231, 200, 0.06), transparent 24rem),
     linear-gradient(90deg, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.03) 42%, rgba(0, 0, 0, 0.04) 58%, rgba(0, 0, 0, 0.66)),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.18) 18%, rgba(0, 0, 0, 0.28) 58%, rgba(0, 0, 0, 0.98));
+    linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.58) 10%, rgba(0, 0, 0, 0.16) 28%, rgba(0, 0, 0, 0.34) 61%, rgba(0, 0, 0, 0.9) 82%, #000 100%);
 }
 
 .site-hero-content {
@@ -544,7 +544,19 @@ body.site-open .full-site {
 }
 
 .site-hero-content::before {
-  display: none;
+  position: absolute;
+  inset: 50% auto auto 50%;
+  z-index: -1;
+  width: min(940px, 88vw);
+  aspect-ratio: 2.8 / 1;
+  content: "";
+  background:
+    radial-gradient(ellipse at center, rgba(83, 239, 255, 0.34), rgba(11, 148, 190, 0.2) 34%, rgba(0, 40, 72, 0.1) 58%, transparent 74%);
+  filter: blur(18px);
+  opacity: 0.95;
+  transform: translate(-50%, -48%);
+  animation: logo-aura-breathe 3.8s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .site-kicker {
@@ -573,9 +585,47 @@ body.site-open .full-site {
   height: auto;
   margin: 0 0 clamp(0.8rem, 2vw, 1.4rem);
   filter:
-    drop-shadow(0 16px 24px rgba(0, 0, 0, 0.82))
-    drop-shadow(0 2px 1px rgba(255, 255, 255, 0.22));
+    drop-shadow(0 14px 20px rgba(0, 0, 0, 0.76))
+    drop-shadow(0 0 5px rgba(217, 255, 255, 0.98))
+    drop-shadow(0 0 18px rgba(76, 231, 255, 0.92))
+    drop-shadow(0 0 42px rgba(12, 153, 198, 0.78))
+    drop-shadow(0 0 82px rgba(3, 71, 116, 0.86));
+  animation: logo-neon-breathe 3.8s ease-in-out infinite;
   user-select: none;
+}
+
+@keyframes logo-aura-breathe {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+
+  48% {
+    opacity: 1;
+    transform: translate(-50%, -48%) scale(1.04);
+  }
+}
+
+@keyframes logo-neon-breathe {
+  0%,
+  100% {
+    filter:
+      drop-shadow(0 14px 20px rgba(0, 0, 0, 0.76))
+      drop-shadow(0 0 5px rgba(196, 252, 255, 0.88))
+      drop-shadow(0 0 15px rgba(64, 219, 239, 0.72))
+      drop-shadow(0 0 34px rgba(8, 123, 164, 0.56))
+      drop-shadow(0 0 66px rgba(3, 61, 95, 0.72));
+  }
+
+  48% {
+    filter:
+      drop-shadow(0 14px 20px rgba(0, 0, 0, 0.78))
+      drop-shadow(0 0 7px rgba(221, 255, 255, 1))
+      drop-shadow(0 0 24px rgba(82, 236, 255, 0.98))
+      drop-shadow(0 0 54px rgba(12, 153, 198, 0.82))
+      drop-shadow(0 0 96px rgba(7, 93, 134, 0.86));
+  }
 }
 
 .site-lede {
@@ -617,10 +667,10 @@ body.site-open .full-site {
 .abyss-map-block {
   position: relative;
   overflow: hidden;
-  margin-top: clamp(-92px, -7vw, -52px);
-  padding-top: clamp(92px, 8vw, 140px);
+  margin-top: clamp(-170px, -11vw, -104px);
+  padding-top: clamp(170px, 12vw, 230px);
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.94), rgba(1, 9, 10, 0.5) clamp(76px, 9vw, 150px), transparent 28%),
+    linear-gradient(180deg, #000 0, rgba(0, 0, 0, 0.98) clamp(44px, 5vw, 88px), rgba(0, 0, 0, 0.72) clamp(112px, 10vw, 190px), transparent 34%),
     radial-gradient(circle at 48% 30%, rgba(28, 155, 164, 0.2), transparent 34rem),
     radial-gradient(circle at 52% 78%, rgba(16, 119, 126, 0.14), transparent 28rem),
     linear-gradient(180deg, rgba(0, 0, 0, 0.46), rgba(1, 8, 9, 0.38) 42%, rgba(0, 0, 0, 0.78)),
@@ -640,7 +690,7 @@ body.site-open .full-site {
   z-index: 0;
   content: "";
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.62), transparent 20%, transparent 72%, rgba(0, 0, 0, 0.52)),
+    linear-gradient(180deg, #000 0, rgba(0, 0, 0, 0.86) clamp(52px, 6vw, 110px), transparent 28%, transparent 72%, rgba(0, 0, 0, 0.52)),
     linear-gradient(90deg, rgba(0, 0, 0, 0.44), transparent 20%, transparent 80%, rgba(0, 0, 0, 0.44));
   pointer-events: none;
 }
