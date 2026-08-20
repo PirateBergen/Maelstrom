@@ -727,6 +727,36 @@ body.site-open .full-site {
   background-size: auto 122%;
 }
 
+.intro-band {
+  position: relative;
+  overflow: hidden;
+  padding-bottom: clamp(88px, 11vw, 150px);
+  background:
+    radial-gradient(circle at 48% 42%, rgba(16, 119, 126, 0.18), transparent 34rem),
+    linear-gradient(180deg, rgba(2, 7, 8, 0.44), rgba(0, 0, 0, 0.62) 72%, rgba(0, 0, 0, 0.9)),
+    url("assets/abyss-pirate-map.webp");
+  background-position: center;
+  background-repeat: repeat-x;
+  background-size: auto 122%;
+}
+
+.intro-band::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  z-index: 0;
+  height: clamp(96px, 12vw, 180px);
+  content: "";
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.72) 62%, rgba(0, 0, 0, 0.92));
+  pointer-events: none;
+}
+
+.intro-band > * {
+  position: relative;
+  z-index: 1;
+}
+
 .section-heading {
   display: grid;
   max-width: 840px;
@@ -1323,7 +1353,16 @@ body.lightbox-open {
   display: grid;
   position: relative;
   overflow: hidden;
+  margin-top: -1px;
   min-height: clamp(300px, 42vw, 520px);
+  border-top: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.9), rgba(2, 12, 13, 0.5) 28%, rgba(0, 0, 0, 0.76)),
+    radial-gradient(circle at 52% 42%, rgba(16, 119, 126, 0.18), transparent 34rem),
+    url("assets/abyss-pirate-map.webp");
+  background-position: center;
+  background-repeat: repeat-x;
+  background-size: auto 122%;
   place-items: center;
 }
 
