@@ -384,7 +384,7 @@ h1 {
     url("assets/maelstrom-full-section-bg.jpg");
   background-position: center top;
   background-repeat: no-repeat;
-  background-size: 100% auto;
+  background-size: clamp(900px, 68vw, 1280px) auto;
   background-attachment: scroll;
   background-color: #020808;
 }
@@ -1530,7 +1530,7 @@ body.lightbox-open {
   }
 
   .full-site {
-    background-size: auto 100%;
+    background-size: 112% auto;
   }
 
   .brand-mark {
