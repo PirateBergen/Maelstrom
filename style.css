@@ -404,17 +404,24 @@ body.site-open .full-site {
 }
 
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  right: 0;
+  left: 0;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
   padding: 18px clamp(18px, 4vw, 56px);
-  background: rgba(3, 8, 8, 0.78);
-  border-bottom: 1px solid rgba(245, 231, 200, 0.14);
-  backdrop-filter: blur(16px);
+  pointer-events: none;
+  background: transparent;
+  border-bottom: 0;
+  backdrop-filter: none;
+}
+
+.site-header > * {
+  pointer-events: auto;
 }
 
 .brand-mark {
@@ -500,7 +507,7 @@ body.site-open .full-site {
 .site-hero {
   position: relative;
   display: grid;
-  min-height: calc(100svh - 72px);
+  min-height: 100svh;
   overflow: hidden;
   place-items: center;
 }
@@ -1527,8 +1534,10 @@ body.lightbox-open {
   }
 
   .site-header {
-    position: sticky;
+    position: fixed;
     top: 0;
+    right: 0;
+    left: 0;
     flex-direction: column;
     align-items: stretch;
     gap: 0.62rem;
@@ -1555,11 +1564,11 @@ body.lightbox-open {
   }
 
   .site-hero {
-    min-height: auto;
+    min-height: 100svh;
   }
 
   .site-hero-content {
-    min-height: calc(100svh - 112px);
+    min-height: 100svh;
     padding: 34px 0;
   }
 
