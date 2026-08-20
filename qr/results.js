@@ -87,6 +87,14 @@ function getComment(submission) {
   return String(submission?.note || "").trim();
 }
 
+function isAfterResultsReset(submission) {
+  const resetTime = Date.parse(window.MAELSTROM_RESULTS_RESET_AT || "");
+  if (!Number.isFinite(resetTime)) return true;
+
+  const createdTime = Date.parse(submission?.createdAt || "");
+  return Number.isFinite(createdTime) && createdTime >= resetTime;
+}
+
 async function renderResults() {
   const localSubmissions = readSubmissions();
   let submissions = localSubmissions;
@@ -98,6 +106,9 @@ async function renderResults() {
   } catch {
     remoteError = true;
   }
+
+  submissions = submissions.filter(isAfterResultsReset);
+  writeSubmissions(submissions);
 
   const leaderboard = document.querySelector("#leaderboard");
   const log = document.querySelector("#submissionLog");
