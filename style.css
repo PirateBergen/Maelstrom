@@ -716,6 +716,17 @@ body.site-open .full-site {
   border-top: 1px solid rgba(245, 231, 200, 0.12);
 }
 
+.intro-band,
+.contact-band {
+  background:
+    radial-gradient(circle at 48% 42%, rgba(16, 119, 126, 0.16), transparent 34rem),
+    linear-gradient(180deg, rgba(2, 7, 8, 0.48), rgba(0, 0, 0, 0.76)),
+    url("assets/abyss-pirate-map.webp");
+  background-position: center;
+  background-repeat: repeat-x;
+  background-size: auto 122%;
+}
+
 .section-heading {
   display: grid;
   max-width: 840px;
@@ -1313,9 +1324,6 @@ body.lightbox-open {
   position: relative;
   overflow: hidden;
   min-height: clamp(300px, 42vw, 520px);
-  background:
-    radial-gradient(circle at center, rgba(13, 35, 34, 0.3), rgba(0, 0, 0, 0) 45%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.96));
   place-items: center;
 }
 
