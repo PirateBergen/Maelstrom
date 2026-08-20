@@ -1659,11 +1659,16 @@ body.lightbox-open {
   }
 
   .contact-band {
-    min-height: 210px;
+    min-height: 190px;
+    margin-top: -28px;
+    padding: 10px 18px 72px;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.42) 58%, #000 100%);
+    place-items: start center;
   }
 
   .social-links {
     width: min(92vw, 520px);
+    min-height: 88px;
   }
 
   .social-icon {
