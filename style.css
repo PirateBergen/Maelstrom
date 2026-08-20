@@ -379,7 +379,7 @@ h1 {
   min-height: 100vh;
   overflow-x: hidden;
   background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.52), transparent 18%, transparent 82%, rgba(0, 0, 0, 0.52)),
+    linear-gradient(90deg, #020808 0%, rgba(0, 0, 0, 0.88) 7%, rgba(0, 0, 0, 0.42) 18%, transparent 34%, transparent 66%, rgba(0, 0, 0, 0.42) 82%, rgba(0, 0, 0, 0.88) 93%, #020808 100%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.08) 30%, rgba(0, 0, 0, 0.24) 72%, rgba(0, 0, 0, 0.48) 100%),
     url("assets/maelstrom-full-section-bg.jpg");
   background-position: center top;
