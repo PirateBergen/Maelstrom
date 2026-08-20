@@ -559,9 +559,34 @@ body.site-open .full-site {
   height: auto;
   margin: 0 0 clamp(0.8rem, 2vw, 1.4rem);
   filter:
-    drop-shadow(0 12px 20px rgba(0, 0, 0, 0.72))
-    drop-shadow(0 0 18px rgba(146, 226, 232, 0.14));
+    drop-shadow(0 14px 20px rgba(0, 0, 0, 0.76))
+    drop-shadow(0 0 4px rgba(196, 252, 255, 0.92))
+    drop-shadow(0 0 13px rgba(64, 219, 239, 0.74))
+    drop-shadow(0 0 30px rgba(8, 123, 164, 0.54))
+    drop-shadow(0 0 58px rgba(3, 61, 95, 0.6));
+  animation: logo-neon-breathe 3.8s ease-in-out infinite;
   user-select: none;
+}
+
+@keyframes logo-neon-breathe {
+  0%,
+  100% {
+    filter:
+      drop-shadow(0 14px 20px rgba(0, 0, 0, 0.76))
+      drop-shadow(0 0 4px rgba(196, 252, 255, 0.78))
+      drop-shadow(0 0 12px rgba(64, 219, 239, 0.58))
+      drop-shadow(0 0 26px rgba(8, 123, 164, 0.42))
+      drop-shadow(0 0 48px rgba(3, 61, 95, 0.5));
+  }
+
+  48% {
+    filter:
+      drop-shadow(0 14px 20px rgba(0, 0, 0, 0.78))
+      drop-shadow(0 0 5px rgba(221, 255, 255, 0.98))
+      drop-shadow(0 0 17px rgba(82, 236, 255, 0.86))
+      drop-shadow(0 0 38px rgba(12, 153, 198, 0.68))
+      drop-shadow(0 0 70px rgba(7, 93, 134, 0.72));
+  }
 }
 
 .site-lede {
