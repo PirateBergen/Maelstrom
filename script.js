@@ -21,7 +21,6 @@ const carouselNext = document.querySelector(".carousel-cue-right");
 const photoLightbox = document.querySelector(".photo-lightbox");
 const lightboxFrame = document.querySelector(".lightbox-frame");
 const lightboxClose = document.querySelector(".lightbox-close");
-const treasureButtons = document.querySelectorAll(".treasure-button");
 let carouselFrame = 0;
 let carouselOffset = 0;
 let carouselVelocity = 0;
@@ -242,12 +241,6 @@ if (photoCarousel && photoTrack) {
 }
 
 lightboxClose?.addEventListener("click", () => closeLightbox());
-
-treasureButtons.forEach((button) => {
-  button.addEventListener("pointerdown", () => {
-    button.classList.add("is-open");
-  });
-});
 
 photoLightbox?.addEventListener("click", (event) => {
   if (event.target === photoLightbox) {
