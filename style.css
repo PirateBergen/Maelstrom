@@ -574,20 +574,6 @@ body.site-open .full-site {
   letter-spacing: 0.16em;
 }
 
-.cover-credit {
-  position: absolute;
-  right: clamp(12px, 2vw, 28px);
-  bottom: clamp(10px, 2vw, 22px);
-  z-index: 2;
-  margin: 0;
-  color: rgba(245, 231, 200, 0.56);
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.88);
-}
-
 .booking-form button {
   display: inline-flex;
   min-height: 46px;
