@@ -677,6 +677,17 @@ body.site-open .full-site {
   line-height: 0.98;
 }
 
+.section-heading h2.page-title,
+.page-title {
+  color: #030707;
+  text-shadow:
+    0 1px 0 rgba(218, 255, 255, 0.56),
+    0 0 4px rgba(222, 255, 255, 0.95),
+    0 0 13px rgba(69, 228, 255, 0.7),
+    0 0 28px rgba(8, 139, 188, 0.58),
+    0 0 46px rgba(2, 68, 103, 0.62);
+}
+
 .intro-band .section-heading {
   max-width: none;
   justify-items: center;

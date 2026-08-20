@@ -2,8 +2,13 @@
   overflow: auto;
   color: var(--foam);
   background:
-    radial-gradient(circle at 50% 0%, rgba(24, 105, 115, 0.26), transparent 34rem),
-    #050707;
+    linear-gradient(90deg, #020808 0%, rgba(0, 0, 0, 0.88) 7%, rgba(0, 0, 0, 0.42) 18%, transparent 34%, transparent 66%, rgba(0, 0, 0, 0.42) 82%, rgba(0, 0, 0, 0.88) 93%, #020808 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.08) 30%, rgba(0, 0, 0, 0.24) 66%, rgba(0, 0, 0, 0.66) 90%, #000 100%),
+    url("../assets/maelstrom-full-section-bg.jpg");
+  background-color: #020808;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: clamp(760px, 54vw, 1040px) auto;
 }
 
 .tasting-shell {
@@ -120,6 +125,7 @@ body.vote-confirmed .site-header {
   height: 100%;
   object-fit: cover;
   object-position: 40% 50%;
+  display: none;
   filter: brightness(0.48) saturate(0.92) contrast(1.08);
 }
 
@@ -128,8 +134,8 @@ body.vote-confirmed .site-header {
   inset: 0;
   content: "";
   background:
-    radial-gradient(circle at 50% 48%, rgba(245, 231, 200, 0.14), transparent 20rem),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(2, 8, 9, 0.86));
+    radial-gradient(circle at 50% 48%, rgba(47, 204, 220, 0.12), transparent 22rem),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(2, 8, 9, 0.42));
 }
 
 .tasting-hero-content {
@@ -146,6 +152,10 @@ body.vote-confirmed .site-header {
   color: #fff0c4;
   font-size: clamp(3.1rem, 10vw, 8.2rem);
   line-height: 0.9;
+}
+
+.tasting-hero h1.page-title {
+  color: #030707;
 }
 
 .tasting-hero p:last-child {
