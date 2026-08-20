@@ -69,6 +69,24 @@ function mergeSubmissions(localSubmissions, remoteSubmissions) {
   return [...byId.values()];
 }
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function getSignature(submission) {
+  const signature = String(submission?.taster || "").trim();
+  return signature ? escapeHtml(signature) : "Anonymous";
+}
+
+function getComment(submission) {
+  return String(submission?.note || "").trim();
+}
+
 async function renderResults() {
   const localSubmissions = readSubmissions();
   let submissions = localSubmissions;
@@ -93,18 +111,20 @@ async function renderResults() {
     </article>
   `).join("");
 
-  log.innerHTML = submissions.length
-    ? submissions.slice().reverse().map((submission) => `
+  const comments = submissions
+    .filter((submission) => getComment(submission))
+    .slice()
+    .reverse();
+
+  log.innerHTML = comments.length
+    ? comments.map((submission) => `
       <article class="submission-card">
-        <strong>${submission.taster}</strong>
+        <strong>${getSignature(submission)}</strong>
         <small>${new Date(submission.createdAt).toLocaleString()}</small>
-        <span>${Object.entries(submission.rankings)
-          .map(([id, tier]) => `${getCocktailName(id)}: ${tier}`)
-          .join(" / ")}</span>
-        ${submission.note ? `<small>${submission.note}</small>` : ""}
+        <span>${escapeHtml(getComment(submission))}</span>
       </article>
     `).join("")
-    : `<article class="submission-card"><strong>No public votes yet.</strong><span>The live shared ranking will be connected before guest tastings begin.</span></article>`;
+    : `<article class="submission-card"><strong>No comments yet.</strong><span>General tasting comments will appear here after guests leave a note.</span></article>`;
 
   if (remoteError) {
     log.insertAdjacentHTML(
