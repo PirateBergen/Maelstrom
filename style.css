@@ -379,12 +379,14 @@ h1 {
   min-height: 100vh;
   overflow-x: hidden;
   background:
-    radial-gradient(circle at 50% 0%, rgba(22, 105, 112, 0.22), transparent 34rem),
-    linear-gradient(180deg, rgba(3, 8, 8, 0.8) 0%, rgba(5, 12, 12, 0.88) 42%, rgba(3, 4, 4, 0.94) 100%),
-    url("assets/parchment-background.jpg");
+    linear-gradient(90deg, rgba(0, 0, 0, 0.52), transparent 18%, transparent 82%, rgba(0, 0, 0, 0.52)),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.08) 30%, rgba(0, 0, 0, 0.24) 72%, rgba(0, 0, 0, 0.48) 100%),
+    url("assets/maelstrom-full-section-bg.jpg");
   background-position: center top;
-  background-size: auto, auto, cover;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
   background-attachment: scroll;
+  background-color: #020808;
 }
 
 .full-site[hidden] {
@@ -509,25 +511,15 @@ body.site-open .full-site {
   position: relative;
   display: grid;
   z-index: 2;
-  min-height: 0;
-  margin-bottom: clamp(-235px, -15vw, -148px);
-  overflow: visible;
-  background: #000;
+  min-height: clamp(520px, 56vw, 820px);
+  margin-bottom: 0;
+  overflow: hidden;
+  background: transparent;
   place-items: center;
 }
 
 .site-map {
-  position: relative;
-  grid-area: 1 / 1;
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  object-position: center;
-  filter: brightness(0.82) saturate(0.96) contrast(1.04);
-  mask-image: linear-gradient(180deg, #000 0%, #000 52%, rgba(0, 0, 0, 0.78) 68%, rgba(0, 0, 0, 0.36) 84%, transparent 100%);
-  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 52%, rgba(0, 0, 0, 0.78) 68%, rgba(0, 0, 0, 0.36) 84%, transparent 100%);
-  transform: scale(0.935);
-  transform-origin: center top;
+  display: none;
 }
 
 .site-hero::after {
@@ -535,8 +527,8 @@ body.site-open .full-site {
   inset: 0;
   content: "";
   background:
-    radial-gradient(circle at 50% 48%, rgba(245, 231, 200, 0.06), transparent 24rem),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.02) 42%, rgba(0, 0, 0, 0.03) 58%, rgba(0, 0, 0, 0.6));
+    radial-gradient(circle at 50% 42%, rgba(95, 239, 255, 0.08), transparent 24rem),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.02) 42%, rgba(0, 0, 0, 0.03) 58%, rgba(0, 0, 0, 0.5));
   pointer-events: none;
 }
 
@@ -637,16 +629,8 @@ body.site-open .full-site {
   z-index: 1;
   overflow: hidden;
   margin-top: 0;
-  padding-top: clamp(210px, 16vw, 300px);
-  background:
-    radial-gradient(circle at 48% 30%, rgba(28, 155, 164, 0.2), transparent 34rem),
-    radial-gradient(circle at 52% 78%, rgba(16, 119, 126, 0.14), transparent 28rem),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.46), rgba(1, 8, 9, 0.38) 42%, rgba(0, 0, 0, 0.78)),
-    url("assets/abyss-pirate-map.webp");
-  background-attachment: scroll;
-  background-position: center 34%;
-  background-repeat: repeat-x;
-  background-size: auto 118%;
+  padding-top: 0;
+  background: transparent;
 }
 
 .abyss-map-block::before {
@@ -658,7 +642,8 @@ body.site-open .full-site {
   z-index: 0;
   content: "";
   background:
-    linear-gradient(180deg, transparent 0%, transparent 72%, rgba(0, 0, 0, 0.52)),
+    radial-gradient(circle at 50% 32%, rgba(22, 150, 165, 0.14), transparent 34rem),
+    linear-gradient(180deg, transparent 0%, transparent 72%, rgba(0, 0, 0, 0.42)),
     linear-gradient(90deg, rgba(0, 0, 0, 0.44), transparent 20%, transparent 80%, rgba(0, 0, 0, 0.44));
   pointer-events: none;
 }
@@ -1542,6 +1527,10 @@ body.lightbox-open {
     align-items: stretch;
     gap: 0.62rem;
     padding: max(10px, env(safe-area-inset-top)) 14px 11px;
+  }
+
+  .full-site {
+    background-size: auto 100%;
   }
 
   .brand-mark {
