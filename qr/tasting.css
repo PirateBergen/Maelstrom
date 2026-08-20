@@ -474,6 +474,10 @@ body.vote-confirmed .site-header {
 }
 
 @media (max-width: 720px) {
+  .tasting-shell {
+    padding-top: max(142px, calc(env(safe-area-inset-top) + 132px));
+  }
+
   .vote-thanks-content {
     width: min(390px, calc(100vw - 28px));
     max-height: calc(100svh - 28px);

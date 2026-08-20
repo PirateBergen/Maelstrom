@@ -1564,6 +1564,17 @@ body.lightbox-open {
     padding: 0.88rem 0.28rem 0.34rem;
   }
 
+  .menu-page .site-nav,
+  .gallery-page .site-nav,
+  .tasting-body .site-nav {
+    top: max(76px, calc(env(safe-area-inset-top) + 66px));
+  }
+
+  .menu-page .content-band,
+  .gallery-page .content-band {
+    padding-top: max(150px, calc(env(safe-area-inset-top) + 138px));
+  }
+
   .site-hero {
     min-height: clamp(342px, 51svh, 460px);
     margin-bottom: 0;
