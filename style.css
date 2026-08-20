@@ -511,7 +511,7 @@ body.site-open .full-site {
   position: relative;
   display: grid;
   z-index: 2;
-  min-height: clamp(520px, 56vw, 820px);
+  min-height: clamp(430px, 46vw, 680px);
   margin-bottom: 0;
   overflow: hidden;
   background: transparent;
@@ -656,6 +656,7 @@ body.site-open .full-site {
 }
 
 .intro-band {
+  padding-top: clamp(22px, 3vw, 44px);
   padding-bottom: clamp(58px, 8vw, 96px);
 }
 
@@ -687,14 +688,18 @@ body.site-open .full-site {
   margin-inline: auto;
   font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
   font-size: clamp(1.05rem, 2vw, 2.25rem);
-  font-weight: 400;
+  color: #020605;
+  font-weight: 500;
   letter-spacing: 0.045em;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
   text-shadow:
-    0 1px 0 rgba(83, 45, 18, 0.82),
-    0 0 18px rgba(240, 201, 108, 0.16);
+    0 1px 0 rgba(172, 249, 255, 0.26),
+    0 0 4px rgba(190, 252, 255, 0.9),
+    0 0 12px rgba(76, 231, 255, 0.72),
+    0 0 26px rgba(12, 153, 198, 0.58),
+    0 0 46px rgba(3, 71, 116, 0.62);
   text-transform: uppercase;
   transform-origin: center;
   white-space: nowrap;
@@ -1553,8 +1558,8 @@ body.lightbox-open {
   }
 
   .site-hero {
-    min-height: 78svh;
-    margin-bottom: -128px;
+    min-height: 68svh;
+    margin-bottom: -96px;
     overflow: hidden;
   }
 
@@ -1567,7 +1572,7 @@ body.lightbox-open {
   }
 
   .site-hero-content {
-    min-height: 78svh;
+    min-height: 68svh;
     padding: 34px 0;
     transform: translateY(18px);
   }
@@ -1586,7 +1591,7 @@ body.lightbox-open {
   }
 
   .content-band {
-    padding: 54px 18px;
+    padding: 42px 18px;
   }
 
   .menu-columns,
