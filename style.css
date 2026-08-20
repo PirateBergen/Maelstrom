@@ -508,19 +508,23 @@ body.site-open .full-site {
 .site-hero {
   position: relative;
   display: grid;
-  min-height: 100svh;
-  overflow: hidden;
+  z-index: 2;
+  min-height: 0;
+  margin-bottom: clamp(-190px, -12vw, -118px);
+  overflow: visible;
   place-items: center;
 }
 
 .site-map {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  grid-area: 1 / 1;
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  object-fit: contain;
   object-position: center;
   filter: brightness(0.82) saturate(0.96) contrast(1.04);
+  mask-image: linear-gradient(180deg, #000 0%, #000 70%, rgba(0, 0, 0, 0.72) 82%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 70%, rgba(0, 0, 0, 0.72) 82%, transparent 100%);
 }
 
 .site-hero::after {
@@ -529,13 +533,14 @@ body.site-open .full-site {
   content: "";
   background:
     radial-gradient(circle at 50% 48%, rgba(245, 231, 200, 0.06), transparent 24rem),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.03) 42%, rgba(0, 0, 0, 0.04) 58%, rgba(0, 0, 0, 0.66)),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.52) 0%, rgba(0, 0, 0, 0.14) 20%, rgba(0, 0, 0, 0.08) 55%, rgba(0, 0, 0, 0.12) 100%);
+    linear-gradient(90deg, rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.02) 42%, rgba(0, 0, 0, 0.03) 58%, rgba(0, 0, 0, 0.6));
+  pointer-events: none;
 }
 
 .site-hero-content {
   position: relative;
   z-index: 1;
+  grid-area: 1 / 1;
   display: grid;
   width: min(980px, calc(100vw - 32px));
   padding: clamp(56px, 10vh, 110px) 0;
@@ -666,11 +671,11 @@ body.site-open .full-site {
 
 .abyss-map-block {
   position: relative;
+  z-index: 1;
   overflow: hidden;
-  margin-top: clamp(-170px, -11vw, -104px);
-  padding-top: clamp(170px, 12vw, 230px);
+  margin-top: 0;
+  padding-top: clamp(170px, 13vw, 250px);
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.24) 0, rgba(0, 0, 0, 0.16) clamp(76px, 8vw, 144px), transparent 34%),
     radial-gradient(circle at 48% 30%, rgba(28, 155, 164, 0.2), transparent 34rem),
     radial-gradient(circle at 52% 78%, rgba(16, 119, 126, 0.14), transparent 28rem),
     linear-gradient(180deg, rgba(0, 0, 0, 0.46), rgba(1, 8, 9, 0.38) 42%, rgba(0, 0, 0, 0.78)),
@@ -690,7 +695,7 @@ body.site-open .full-site {
   z-index: 0;
   content: "";
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0, transparent 24%, transparent 72%, rgba(0, 0, 0, 0.52)),
+    linear-gradient(180deg, transparent 0%, transparent 72%, rgba(0, 0, 0, 0.52)),
     linear-gradient(90deg, rgba(0, 0, 0, 0.44), transparent 20%, transparent 80%, rgba(0, 0, 0, 0.44));
   pointer-events: none;
 }
@@ -1596,11 +1601,20 @@ body.lightbox-open {
   }
 
   .site-hero {
-    min-height: 100svh;
+    min-height: 78svh;
+    margin-bottom: -112px;
+    overflow: hidden;
+  }
+
+  .site-map {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    object-fit: cover;
   }
 
   .site-hero-content {
-    min-height: 100svh;
+    min-height: 78svh;
     padding: 34px 0;
   }
 
