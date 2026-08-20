@@ -512,6 +512,7 @@ body.site-open .full-site {
   min-height: 0;
   margin-bottom: clamp(-190px, -12vw, -118px);
   overflow: visible;
+  background: #000;
   place-items: center;
 }
 
@@ -525,6 +526,8 @@ body.site-open .full-site {
   filter: brightness(0.82) saturate(0.96) contrast(1.04);
   mask-image: linear-gradient(180deg, #000 0%, #000 70%, rgba(0, 0, 0, 0.72) 82%, transparent 100%);
   -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 70%, rgba(0, 0, 0, 0.72) 82%, transparent 100%);
+  transform: scale(0.965);
+  transform-origin: center top;
 }
 
 .site-hero::after {
@@ -546,6 +549,7 @@ body.site-open .full-site {
   padding: clamp(56px, 10vh, 110px) 0;
   text-align: center;
   place-items: center;
+  transform: translateY(clamp(18px, 2.6vw, 42px));
 }
 
 .site-hero-content::before {
@@ -1611,11 +1615,13 @@ body.lightbox-open {
     inset: 0;
     height: 100%;
     object-fit: cover;
+    transform: scale(0.975);
   }
 
   .site-hero-content {
     min-height: 78svh;
     padding: 34px 0;
+    transform: translateY(18px);
   }
 
   .site-hero h1 {
