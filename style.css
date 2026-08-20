@@ -522,7 +522,7 @@ body.site-open .full-site {
   background:
     radial-gradient(circle at 50% 50%, rgba(245, 231, 200, 0.08), transparent 24rem),
     linear-gradient(90deg, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.04) 42%, rgba(0, 0, 0, 0.05) 58%, rgba(0, 0, 0, 0.62)),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.38) 54%, rgba(0, 0, 0, 0.66));
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.38) 48%, rgba(0, 0, 0, 0.88));
 }
 
 .site-hero-content {
@@ -595,25 +595,6 @@ body.site-open .full-site {
   border: 1px solid rgba(255, 238, 184, 0.68);
 }
 
-.rope-separator {
-  position: relative;
-  z-index: 1;
-  height: clamp(34px, 4.6vw, 56px);
-  margin: calc(clamp(34px, 4.6vw, 56px) * -0.36) 0;
-  pointer-events: none;
-  background-image: url("assets/rope-separator.webp");
-  background-position: center;
-  background-repeat: repeat-x;
-  background-size: auto 82%;
-  filter:
-    brightness(0.52)
-    saturate(0.82)
-    contrast(1.18)
-    sepia(0.18)
-    drop-shadow(0 8px 12px rgba(0, 0, 0, 0.72))
-    drop-shadow(0 -1px 4px rgba(129, 83, 34, 0.18));
-}
-
 .content-band {
   padding: clamp(58px, 9vw, 110px) clamp(18px, 5vw, 72px);
   border-top: 1px solid rgba(245, 231, 200, 0.12);
@@ -622,7 +603,10 @@ body.site-open .full-site {
 .abyss-map-block {
   position: relative;
   overflow: hidden;
+  margin-top: clamp(-92px, -7vw, -52px);
+  padding-top: clamp(92px, 8vw, 140px);
   background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.94), rgba(1, 9, 10, 0.5) clamp(76px, 9vw, 150px), transparent 28%),
     radial-gradient(circle at 48% 30%, rgba(28, 155, 164, 0.2), transparent 34rem),
     radial-gradient(circle at 52% 78%, rgba(16, 119, 126, 0.14), transparent 28rem),
     linear-gradient(180deg, rgba(0, 0, 0, 0.46), rgba(1, 8, 9, 0.38) 42%, rgba(0, 0, 0, 0.78)),
@@ -642,7 +626,7 @@ body.site-open .full-site {
   z-index: 0;
   content: "";
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.28), transparent 18%, transparent 72%, rgba(0, 0, 0, 0.52)),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.62), transparent 20%, transparent 72%, rgba(0, 0, 0, 0.52)),
     linear-gradient(90deg, rgba(0, 0, 0, 0.44), transparent 20%, transparent 80%, rgba(0, 0, 0, 0.44));
   pointer-events: none;
 }
@@ -1565,12 +1549,6 @@ body.lightbox-open {
 
   .site-lede {
     font-size: 1rem;
-  }
-
-  .rope-separator {
-    height: 34px;
-    margin: -12px 0;
-    background-size: auto 30px;
   }
 
   .content-band {
