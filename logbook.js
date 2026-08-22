@@ -72,6 +72,7 @@ const LOGBOOK_PAGE_POSITIONS = [
 let logbookPage = 1;
 let touchStartX = 0;
 let touchStartY = 0;
+let ignoreNextSheetClick = false;
 
 function escapeHtml(value) {
   return String(value)
@@ -126,13 +127,15 @@ function renderLogbookPage() {
 }
 
 logbookButtons.forEach((button) => {
-  button.addEventListener("click", () => {
+  button.addEventListener("click", (event) => {
+    event.stopPropagation();
     changeLogbookPage(1);
   });
 });
 
 logbookPrevButtons.forEach((button) => {
-  button.addEventListener("click", () => {
+  button.addEventListener("click", (event) => {
+    event.stopPropagation();
     changeLogbookPage(-1);
   });
 });
@@ -150,6 +153,15 @@ function changeLogbookPage(direction) {
 
   renderLogbookPage();
 }
+
+logbookSheet?.addEventListener("click", () => {
+  if (ignoreNextSheetClick) {
+    ignoreNextSheetClick = false;
+    return;
+  }
+
+  changeLogbookPage(1);
+});
 
 logbookSheet?.addEventListener(
   "touchstart",
@@ -172,6 +184,7 @@ logbookSheet?.addEventListener(
       return;
     }
 
+    ignoreNextSheetClick = true;
     changeLogbookPage(deltaX < 0 ? 1 : -1);
   },
   { passive: true },
