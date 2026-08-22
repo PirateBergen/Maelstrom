@@ -14,6 +14,10 @@ const LOGBOOK_PAGES = [
   {
     date: "May 4, 1717",
     text: `The morning was rough, and so was the night, but I had little time to think about it. I took a few belongings and hurried to the magnificent ship that would be my home for an unknown amount of time. I did not truly realize what I was about to do, and perhaps it was better that way. No man needs to think too much at the beginning of a new life. I quickly met my fellow travellers. Some were locals, others foreigners who had joined the crew before me during earlier stops. The captain introduced me to the others as the man in charge of the sails. It was an honorable role, and without delay, I gave my first orders. The anchor was raised, and I climbed into the rigging to release one of the folded sails. The sea wind hit my face; the air was cold, almost freezing up there. I watched my homeland slowly fade into the distance while my men worked around me. The coast stretched behind us. The pale houses of the town stood close together behind the walls, while the fort, standing at the water's edge, seemed to watch over me one last time. Farewell, my beautiful homeland. I took out my flask, filled with my best wine, and drank a farewell sip. It had never tasted so sweet as it did in that moment.`,
+    illustration: {
+      src: "assets/logbook-entry-two-coast.webp",
+      alt: "Watercolor coast sketch",
+    },
   },
   {
     date: "May 8, 1717",
@@ -94,10 +98,15 @@ function renderLogbookPage() {
 
   logbookSheet.style.setProperty("--logbook-page-x", x);
   logbookSheet.style.setProperty("--logbook-page-y", y);
+  const illustration = page.illustration
+    ? `<img class="logbook-entry-illustration" src="${escapeHtml(page.illustration.src)}" alt="${escapeHtml(page.illustration.alt)}" draggable="false" />`
+    : "";
+
   logbookSheet.innerHTML = `
     <article class="logbook-entry">
       <time>${escapeHtml(page.date)}</time>
       <div>${paragraphs}</div>
+      ${illustration}
     </article>
   `;
 }

@@ -1349,6 +1349,20 @@ body.lightbox-open {
   margin-bottom: 0;
 }
 
+.logbook-entry-illustration {
+  display: block;
+  width: min(82%, 420px);
+  margin: clamp(0.75rem, 2vw, 1.1rem) auto 0;
+  mix-blend-mode: multiply;
+  filter:
+    sepia(0.34)
+    saturate(0.8)
+    contrast(0.96)
+    brightness(0.92);
+  opacity: 0.58;
+  pointer-events: none;
+}
+
 .logbook-entry::-webkit-scrollbar {
   width: 6px;
 }
@@ -1855,6 +1869,12 @@ body.lightbox-open {
   .logbook-entry time {
     margin-bottom: 0.42rem;
     font-size: clamp(0.95rem, 4.2vw, 1.15rem);
+  }
+
+  .logbook-entry-illustration {
+    width: min(92%, 330px);
+    margin-top: 0.85rem;
+    opacity: 0.52;
   }
 
   .logbook-controls {
