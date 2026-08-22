@@ -1313,6 +1313,13 @@ body.lightbox-open {
   border-radius: 999px;
 }
 
+.logbook-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
 .logbook-turn-button {
   min-height: 44px;
   padding: 0.78rem 1.2rem;
@@ -1791,8 +1798,11 @@ body.lightbox-open {
     font-size: clamp(0.95rem, 4.2vw, 1.15rem);
   }
 
-  .logbook-turn-button {
+  .logbook-controls {
     display: none;
+  }
+
+  .logbook-turn-button {
     min-height: 40px;
     padding: 0.68rem 1rem;
     font-size: 0.66rem;

@@ -1,4 +1,5 @@
 const logbookButton = document.querySelector("[data-logbook-next]");
+const logbookPrevButton = document.querySelector("[data-logbook-prev]");
 const logbookStatus = document.querySelector("[data-logbook-status]");
 const logbookSheet = document.querySelector("[data-logbook-sheet]");
 
@@ -89,6 +90,10 @@ function renderLogbookPage() {
 
 logbookButton?.addEventListener("click", () => {
   changeLogbookPage(1);
+});
+
+logbookPrevButton?.addEventListener("click", () => {
+  changeLogbookPage(-1);
 });
 
 function changeLogbookPage(direction) {
