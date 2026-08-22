@@ -176,13 +176,15 @@ function changeLogbookPage(direction) {
   renderLogbookPage();
 }
 
-logbookSheet?.addEventListener("click", () => {
+logbookSheet?.addEventListener("click", (event) => {
   if (ignoreNextSheetClick) {
     ignoreNextSheetClick = false;
     return;
   }
 
-  changeLogbookPage(1);
+  const rect = logbookSheet.getBoundingClientRect();
+  const clickX = event.clientX - rect.left;
+  changeLogbookPage(clickX < rect.width / 2 ? -1 : 1);
 });
 
 logbookSheet?.addEventListener(
