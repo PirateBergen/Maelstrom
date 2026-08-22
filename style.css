@@ -5,6 +5,7 @@
   --foam: #f5e7c8;
   --deep: #051113;
   --teal: #0f5556;
+  --logbook-zoom: 1;
 }
 
 * {
@@ -1175,6 +1176,7 @@ body.lightbox-open {
   align-content: center;
   padding-top: clamp(112px, 12vw, 150px);
   padding-bottom: clamp(34px, 6vw, 74px);
+  overflow-x: auto;
   background: transparent;
 }
 
@@ -1280,6 +1282,7 @@ body.lightbox-open {
   width: min(660px, 100%);
   aspect-ratio: 0.72 / 1;
   overflow: hidden;
+  zoom: var(--logbook-zoom);
   --logbook-page-x: 50%;
   --logbook-page-y: 50%;
   background:
@@ -1530,6 +1533,58 @@ body.lightbox-open {
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.75rem;
+}
+
+.logbook-zoom-controls {
+  order: -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.28rem;
+  background: rgba(5, 5, 5, 0.66);
+  border: 1px solid rgba(245, 231, 200, 0.18);
+  border-radius: 999px;
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.26),
+    inset 0 0 14px rgba(255, 244, 207, 0.04);
+}
+
+.logbook-zoom-button,
+.logbook-zoom-value {
+  min-width: 42px;
+  min-height: 38px;
+  padding: 0 0.72rem;
+  color: #fff1c5;
+  cursor: pointer;
+  background: rgba(255, 244, 207, 0.06);
+  border: 1px solid rgba(245, 231, 200, 0.12);
+  border-radius: 999px;
+  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.logbook-zoom-value {
+  min-width: 64px;
+  color: #f7d77d;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+}
+
+.logbook-zoom-button:hover,
+.logbook-zoom-button:focus-visible,
+.logbook-zoom-value:hover,
+.logbook-zoom-value:focus-visible {
+  color: #f7d77d;
+  border-color: rgba(245, 231, 200, 0.34);
+  outline: none;
+  box-shadow: 0 0 16px rgba(240, 201, 108, 0.13);
+}
+
+.logbook-zoom-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .logbook-mobile-arrow {
@@ -2009,9 +2064,14 @@ body.lightbox-open {
     padding: 1.35rem 1.05rem;
     overflow: visible;
     border-right: 0;
+    color: rgba(21, 10, 4, 0.94);
     font-family: "Segoe Print", "Bradley Hand ITC", "Lucida Handwriting", "Comic Sans MS", cursive;
     font-size: clamp(0.72rem, 3.15vw, 0.88rem);
+    font-weight: 700;
     line-height: 1.34;
+    text-shadow:
+      0 0.35px 0 rgba(34, 16, 7, 0.5),
+      0 0 0.65px rgba(34, 16, 7, 0.22);
     touch-action: pan-y;
   }
 
@@ -2056,6 +2116,18 @@ body.lightbox-open {
 
   .logbook-controls {
     display: none;
+  }
+
+  .logbook-zoom-controls {
+    gap: 0.28rem;
+    padding: 0.22rem;
+  }
+
+  .logbook-zoom-button,
+  .logbook-zoom-value {
+    min-width: 38px;
+    min-height: 34px;
+    padding: 0 0.58rem;
   }
 
   .logbook-mobile-arrow {

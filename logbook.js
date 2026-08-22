@@ -2,6 +2,10 @@ const logbookButtons = document.querySelectorAll("[data-logbook-next]");
 const logbookPrevButtons = document.querySelectorAll("[data-logbook-prev]");
 const logbookStatus = document.querySelector("[data-logbook-status]");
 const logbookSheet = document.querySelector("[data-logbook-sheet]");
+const logbookZoomIn = document.querySelector("[data-logbook-zoom-in]");
+const logbookZoomOut = document.querySelector("[data-logbook-zoom-out]");
+const logbookZoomReset = document.querySelector("[data-logbook-zoom-reset]");
+const logbookZoomControls = document.querySelector(".logbook-zoom-controls");
 
 const LOGBOOK_PAGES = [
   {
@@ -79,6 +83,7 @@ let logbookPage = 1;
 let touchStartX = 0;
 let touchStartY = 0;
 let ignoreNextSheetClick = false;
+let logbookZoom = 1;
 
 function preloadLogbookImages() {
   LOGBOOK_PAGES.forEach((page) => {
@@ -99,6 +104,25 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function applyLogbookZoom() {
+  const clampedZoom = Math.min(Math.max(logbookZoom, 0.85), 1.45);
+  logbookZoom = clampedZoom;
+
+  document.documentElement.style.setProperty("--logbook-zoom", clampedZoom.toFixed(2));
+
+  if (logbookZoomReset) {
+    logbookZoomReset.textContent = `${Math.round(clampedZoom * 100)}%`;
+  }
+
+  if (logbookZoomOut) {
+    logbookZoomOut.disabled = clampedZoom <= 0.85;
+  }
+
+  if (logbookZoomIn) {
+    logbookZoomIn.disabled = clampedZoom >= 1.45;
+  }
 }
 
 function renderLogbookPage() {
@@ -162,6 +186,28 @@ logbookPrevButtons.forEach((button) => {
   });
 });
 
+logbookZoomControls?.addEventListener("click", (event) => {
+  event.stopPropagation();
+});
+
+logbookZoomIn?.addEventListener("click", (event) => {
+  event.stopPropagation();
+  logbookZoom += 0.1;
+  applyLogbookZoom();
+});
+
+logbookZoomOut?.addEventListener("click", (event) => {
+  event.stopPropagation();
+  logbookZoom -= 0.1;
+  applyLogbookZoom();
+});
+
+logbookZoomReset?.addEventListener("click", (event) => {
+  event.stopPropagation();
+  logbookZoom = 1;
+  applyLogbookZoom();
+});
+
 function changeLogbookPage(direction) {
   logbookPage += direction;
 
@@ -215,4 +261,5 @@ logbookSheet?.addEventListener(
 );
 
 preloadLogbookImages();
+applyLogbookZoom();
 renderLogbookPage();

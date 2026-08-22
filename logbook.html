@@ -10,7 +10,7 @@
     <link rel="preload" href="assets/logbook-entry-three-frank-face.webp" as="image" />
     <link rel="preload" href="assets/logbook-entry-four-boat.webp" as="image" />
     <link rel="preload" href="assets/logbook-entry-five-naples.webp" as="image" />
-    <link rel="stylesheet" href="style.css?v=20260822-i18n-logbook-preload" />
+    <link rel="stylesheet" href="style.css?v=20260822-logbook-zoom" />
   </head>
   <body class="site-open">
     <main class="full-site logbook-page" id="site" aria-label="Journal de bord du Maelstrom">
@@ -36,6 +36,11 @@
           <button class="logbook-mobile-arrow logbook-mobile-arrow-next" type="button" data-logbook-next aria-label="Page suivante" data-i18n-aria="pageNext">
             &gt;
           </button>
+          <div class="logbook-zoom-controls" aria-label="Zoom">
+            <button class="logbook-zoom-button" type="button" data-logbook-zoom-out aria-label="Dézoomer" data-i18n-aria="zoomOut">−</button>
+            <button class="logbook-zoom-value" type="button" data-logbook-zoom-reset aria-label="Réinitialiser le zoom" data-i18n-aria="resetZoom">100%</button>
+            <button class="logbook-zoom-button" type="button" data-logbook-zoom-in aria-label="Zoomer" data-i18n-aria="zoomIn">+</button>
+          </div>
           <div class="logbook-controls">
             <button class="logbook-turn-button" type="button" data-logbook-prev data-i18n="pagePrevious">
               Page precedente
@@ -48,7 +53,7 @@
         </div>
       </section>
     </main>
-    <script src="i18n.js?v=20260822-i18n-logbook-preload"></script>
-    <script src="logbook.js?v=20260822-logbook-click-sides"></script>
+    <script src="i18n.js?v=20260822-logbook-zoom"></script>
+    <script src="logbook.js?v=20260822-logbook-zoom"></script>
   </body>
 </html>
