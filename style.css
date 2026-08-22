@@ -508,6 +508,10 @@ body.site-open .full-site {
   transform: translateY(-2px);
 }
 
+.site-nav a[href$="logbook.html"] {
+  width: clamp(118px, 10.4vw, 162px);
+}
+
 .site-hero {
   position: relative;
   display: grid;
@@ -1100,6 +1104,13 @@ body.lightbox-open {
     rgba(0, 0, 0, 0.2);
 }
 
+.logbook-band {
+  min-height: calc(100svh - 104px);
+  background:
+    radial-gradient(circle at 50% 20%, rgba(245, 231, 200, 0.08), transparent 28rem),
+    rgba(0, 0, 0, 0.18);
+}
+
 .gallery-page .section-heading {
   max-width: none;
   justify-items: center;
@@ -1184,6 +1195,33 @@ body.lightbox-open {
 
 .menu-band .section-heading h2 {
   text-transform: uppercase;
+}
+
+.logbook-band .section-heading {
+  max-width: none;
+  justify-items: center;
+  text-align: center;
+}
+
+.journal-panel {
+  display: grid;
+  width: min(760px, 100%);
+  gap: 0.9rem;
+  padding: clamp(1.2rem, 3vw, 2rem);
+  margin: 0 auto;
+  color: rgba(245, 231, 200, 0.78);
+  background: rgba(6, 6, 6, 0.68);
+  border: 1px solid rgba(245, 231, 200, 0.14);
+  border-radius: 8px;
+  box-shadow:
+    inset 0 0 34px rgba(255, 244, 207, 0.035),
+    0 22px 48px rgba(0, 0, 0, 0.34);
+  text-align: center;
+}
+
+.journal-panel p {
+  margin: 0;
+  line-height: 1.7;
 }
 
 .menu-columns {
@@ -1562,27 +1600,39 @@ body.lightbox-open {
     right: 14px;
     left: 14px;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 0.38rem;
-    font-size: 0.58rem;
+    font-size: 0.52rem;
     justify-items: center;
     letter-spacing: 0.04em;
   }
 
   .site-nav a {
-    width: min(100%, 164px);
-    min-height: 40px;
-    padding: 0.88rem 0.28rem 0.34rem;
+    grid-column: span 2;
+    width: min(100%, 126px);
+    min-height: 36px;
+    padding: 0.78rem 0.2rem 0.28rem;
+  }
+
+  .site-nav a[href$="logbook.html"] {
+    width: min(100%, 144px);
+    font-size: 0.48rem;
+  }
+
+  .site-nav a:nth-last-child(2) {
+    grid-column: 2 / span 2;
   }
 
   .menu-page .site-nav,
   .gallery-page .site-nav,
+  .logbook-page .site-nav,
   .tasting-body .site-nav {
     top: max(38px, calc(env(safe-area-inset-top) + 30px));
   }
 
   .menu-page .content-band,
-  .gallery-page .content-band {
+  .gallery-page .content-band,
+  .logbook-page .content-band {
     padding-top: max(150px, calc(env(safe-area-inset-top) + 138px));
   }
 
@@ -1725,7 +1775,7 @@ body.lightbox-open {
   }
 
   .site-nav {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 
   .site-hero h1 {
