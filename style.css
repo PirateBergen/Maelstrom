@@ -1363,6 +1363,16 @@ body.lightbox-open {
   pointer-events: none;
 }
 
+.logbook-entry-illustration-portrait {
+  width: min(54%, 255px);
+  filter:
+    sepia(0.42)
+    saturate(0.78)
+    contrast(1.08)
+    brightness(0.86);
+  opacity: 0.64;
+}
+
 .logbook-entry::-webkit-scrollbar {
   width: 6px;
 }
@@ -1875,6 +1885,11 @@ body.lightbox-open {
     width: min(92%, 330px);
     margin-top: 0.85rem;
     opacity: 0.52;
+  }
+
+  .logbook-entry-illustration-portrait {
+    width: min(70%, 230px);
+    opacity: 0.58;
   }
 
   .logbook-controls {

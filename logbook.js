@@ -10,6 +10,11 @@ const LOGBOOK_PAGES = [
   {
     date: "May 3, 1717",
     text: `If I had known this morning where this day would take me, I surely would not have believed it. Yet here I am, leaving my homeland, and I would be lying if I said I felt no excitement about this new chapter. Everyone knows Captain Frank. So I was somewhat surprised when he came to me at the tavern, carrying two mugs of rum, one of them meant for me. Many people had given him my name, as he was looking to form a crew worthy of his new quest. It is true that I have a good reputation across many lands for being a skilled sailor. Still, I am only a merchant, and stories of pirates have never really interested me. I cannot say exactly what convinced me, but after a few hours sitting around that table with him, I agreed to join his fleet. After all, there is no one here keeping me, and I often find myself wondering what meaning my life truly has.`,
+    illustration: {
+      src: "assets/logbook-entry-one-frank.webp",
+      alt: "Captain Frank sketch",
+      variant: "portrait",
+    },
   },
   {
     date: "May 4, 1717",
@@ -99,7 +104,7 @@ function renderLogbookPage() {
   logbookSheet.style.setProperty("--logbook-page-x", x);
   logbookSheet.style.setProperty("--logbook-page-y", y);
   const illustration = page.illustration
-    ? `<img class="logbook-entry-illustration" src="${escapeHtml(page.illustration.src)}" alt="${escapeHtml(page.illustration.alt)}" draggable="false" />`
+    ? `<img class="logbook-entry-illustration ${page.illustration.variant ? `logbook-entry-illustration-${escapeHtml(page.illustration.variant)}` : ""}" src="${escapeHtml(page.illustration.src)}" alt="${escapeHtml(page.illustration.alt)}" draggable="false" />`
     : "";
 
   logbookSheet.innerHTML = `
