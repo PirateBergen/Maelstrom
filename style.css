@@ -1349,39 +1349,75 @@ body.lightbox-open {
   margin-bottom: 0;
 }
 
-.logbook-entry-illustration {
+.logbook-entry-illustration-wrap {
+  position: relative;
   display: block;
   width: min(86%, 460px);
   margin: clamp(0.55rem, 1.4vw, 0.9rem) auto 0;
-  mix-blend-mode: multiply;
-  filter:
-    sepia(0.18)
-    saturate(1.08)
-    contrast(1.08)
-    brightness(1.02);
-  opacity: 0.78;
+  isolation: isolate;
   pointer-events: none;
 }
 
-.logbook-entry-illustration-portrait {
-  width: min(60%, 300px);
-  filter:
-    sepia(0.2)
-    saturate(1.02)
-    contrast(1.14)
-    brightness(0.96);
-  opacity: 0.78;
+.logbook-entry-illustration-wrap::after {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  content: "";
+  pointer-events: none;
+  background-image: url("assets/logbook-parchment.jpg");
+  background-position: center;
+  background-size: 340px auto;
+  mix-blend-mode: soft-light;
+  opacity: 0.26;
+  -webkit-mask-image: var(--illustration-mask);
+  mask-image: var(--illustration-mask);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 }
 
-.logbook-entry-illustration-face {
+.logbook-entry-illustration {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  mix-blend-mode: multiply;
+  filter:
+    sepia(0.08)
+    saturate(1.22)
+    contrast(1.12)
+    brightness(1.05);
+  opacity: 0.9;
+}
+
+.logbook-entry-illustration-wrap.logbook-entry-illustration-portrait {
+  width: min(60%, 300px);
+}
+
+.logbook-entry-illustration-portrait .logbook-entry-illustration {
+  filter:
+    sepia(0.1)
+    saturate(1.16)
+    contrast(1.18)
+    brightness(1.02);
+  opacity: 0.9;
+}
+
+.logbook-entry-illustration-wrap.logbook-entry-illustration-face {
   width: min(68%, 340px);
   margin-top: clamp(0.25rem, 1vw, 0.55rem);
+}
+
+.logbook-entry-illustration-face .logbook-entry-illustration {
   filter:
-    sepia(0.16)
-    saturate(1.1)
-    contrast(1.16)
-    brightness(1);
-  opacity: 0.82;
+    sepia(0.08)
+    saturate(1.2)
+    contrast(1.18)
+    brightness(1.04);
+  opacity: 0.92;
 }
 
 .logbook-entry::-webkit-scrollbar {
@@ -1892,20 +1928,17 @@ body.lightbox-open {
     font-size: clamp(0.95rem, 4.2vw, 1.15rem);
   }
 
-  .logbook-entry-illustration {
+  .logbook-entry-illustration-wrap {
     width: min(92%, 330px);
     margin-top: 0.85rem;
-    opacity: 0.72;
   }
 
-  .logbook-entry-illustration-portrait {
+  .logbook-entry-illustration-wrap.logbook-entry-illustration-portrait {
     width: min(70%, 230px);
-    opacity: 0.72;
   }
 
-  .logbook-entry-illustration-face {
+  .logbook-entry-illustration-wrap.logbook-entry-illustration-face {
     width: min(76%, 250px);
-    opacity: 0.76;
   }
 
   .logbook-controls {

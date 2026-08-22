@@ -113,8 +113,11 @@ function renderLogbookPage() {
 
   logbookSheet.style.setProperty("--logbook-page-x", x);
   logbookSheet.style.setProperty("--logbook-page-y", y);
+  const illustrationClass = page.illustration?.variant
+    ? ` logbook-entry-illustration-${escapeHtml(page.illustration.variant)}`
+    : "";
   const illustration = page.illustration
-    ? `<img class="logbook-entry-illustration ${page.illustration.variant ? `logbook-entry-illustration-${escapeHtml(page.illustration.variant)}` : ""}" src="${escapeHtml(page.illustration.src)}" alt="${escapeHtml(page.illustration.alt)}" draggable="false" />`
+    ? `<span class="logbook-entry-illustration-wrap${illustrationClass}" style="--illustration-mask: url('${escapeHtml(page.illustration.src)}');"><img class="logbook-entry-illustration" src="${escapeHtml(page.illustration.src)}" alt="${escapeHtml(page.illustration.alt)}" draggable="false" /></span>`
     : "";
 
   logbookSheet.innerHTML = `
