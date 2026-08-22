@@ -27,6 +27,11 @@ const LOGBOOK_PAGES = [
   {
     date: "May 8, 1717",
     text: `Everyone knows Frank. It feels rather strange to find myself aboard his ship. Many have walked these planks before me; some have died, others have fled, and a few veterans are still here by my side. His reputation precedes him. He is not afraid to make sacrifices to get what he wants, and one must admit that it works. That is surely why, despite the obvious risks, so many choose to join him, myself included. The promise of adventure and treasure is a powerful motivation. That said, the quest that led him to recruit me is as surprising as it is fascinating: the love of a woman. If there is one thing the legends never tell, it is that the Captain is a romantic. And yet, his heart is already taken. He met her years ago in France. He did not give me her name, but told me she came from a small town in the northeast, where a delicious sparkling drink is made. Those were his words. I have never tasted such a drink, but he praised it enough to make me very eager to try it one day. Still, if you ask me, his love for this drink is probably tied to the feelings he has for this young woman. He admitted that he has been searching for her for years, and recently, a woman gifted with visions gave him information that makes him believe his beloved is now within reach. I am not sure I believe in such sorcery, but who knows? Perhaps time will prove me wrong. A man who has seen as much as he has is probably in a better position to know that this world is full of mysteries and things that cannot be explained.`,
+    illustration: {
+      src: "assets/logbook-entry-three-frank-face.webp",
+      alt: "Captain Frank portrait sketch",
+      variant: "portrait",
+    },
   },
   {
     date: "May 12, 1717",
