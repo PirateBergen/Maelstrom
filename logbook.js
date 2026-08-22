@@ -5,6 +5,9 @@ const logbookSheet = document.querySelector("[data-logbook-sheet]");
 
 const LOGBOOK_PAGES = [
   {
+    cover: true,
+  },
+  {
     date: "May 3, 1717",
     text: `If I had known this morning where this day would take me, I surely would not have believed it. Yet here I am, leaving my homeland, and I would be lying if I said I felt no excitement about this new chapter. Everyone knows Captain Frank. So I was somewhat surprised when he came to me at the tavern, carrying two mugs of rum, one of them meant for me. Many people had given him my name, as he was looking to form a crew worthy of his new quest. It is true that I have a good reputation across many lands for being a skilled sailor. Still, I am only a merchant, and stories of pirates have never really interested me. I cannot say exactly what convinced me, but after a few hours sitting around that table with him, I agreed to join his fleet. After all, there is no one here keeping me, and I often find myself wondering what meaning my life truly has.`,
   },
@@ -65,14 +68,21 @@ function renderLogbookPage() {
   const page = LOGBOOK_PAGES[logbookPage - 1];
 
   if (logbookStatus) {
-    logbookStatus.textContent = `Page ${logbookPage} sur ${LOGBOOK_PAGES.length}`;
+    logbookStatus.textContent = page.cover ? "Couverture" : `Page ${logbookPage - 1} sur ${LOGBOOK_PAGES.length - 1}`;
   }
 
   if (!logbookSheet || !page) {
     return;
   }
 
-  const [x, y] = LOGBOOK_PAGE_POSITIONS[logbookPage - 1] || LOGBOOK_PAGE_POSITIONS[0];
+  logbookSheet.classList.toggle("is-logbook-cover", Boolean(page.cover));
+
+  if (page.cover) {
+    logbookSheet.innerHTML = "";
+    return;
+  }
+
+  const [x, y] = LOGBOOK_PAGE_POSITIONS[logbookPage - 2] || LOGBOOK_PAGE_POSITIONS[0];
   const paragraphs = page.text
     .split(/\n\s*\n/)
     .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
