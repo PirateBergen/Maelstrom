@@ -404,8 +404,8 @@ h1 {
 .logbook-page {
   min-height: 100svh;
   background:
-    linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0.94) 8%, rgba(0, 0, 0, 0.62) 20%, rgba(0, 0, 0, 0.16) 34%, transparent 46%, transparent 54%, rgba(0, 0, 0, 0.16) 66%, rgba(0, 0, 0, 0.62) 80%, rgba(0, 0, 0, 0.94) 92%, #000 100%),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.22) 14%, rgba(0, 0, 0, 0.06) 54%, rgba(0, 0, 0, 0.46) 86%, #000 100%),
+    linear-gradient(90deg, #000 0%, #000 11%, rgba(0, 0, 0, 0.92) 20%, rgba(0, 0, 0, 0.58) 31%, rgba(0, 0, 0, 0.18) 41%, transparent 49%, transparent 51%, rgba(0, 0, 0, 0.18) 59%, rgba(0, 0, 0, 0.58) 69%, rgba(0, 0, 0, 0.92) 80%, #000 89%, #000 100%),
+    linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.74) 8%, rgba(0, 0, 0, 0.2) 22%, rgba(0, 0, 0, 0.04) 56%, rgba(0, 0, 0, 0.58) 88%, #000 100%),
     url("assets/logbook-parchment.jpg");
   background-color: #000;
   background-position: center top;
@@ -1248,6 +1248,7 @@ body.lightbox-open {
   border-radius: 8px;
   filter: drop-shadow(0 24px 28px rgba(0, 0, 0, 0.28));
   box-shadow:
+    inset 0 0 74px rgba(0, 0, 0, 0.22),
     inset 0 0 44px rgba(79, 36, 10, 0.12),
     inset 0 0 1px rgba(255, 248, 220, 0.3);
 }
@@ -1257,9 +1258,10 @@ body.lightbox-open {
   inset: 0;
   content: "";
   background:
-    radial-gradient(circle at 50% 44%, transparent 46%, rgba(73, 34, 11, 0.12)),
-    linear-gradient(90deg, rgba(55, 25, 7, 0.08), transparent 18%, transparent 82%, rgba(55, 25, 7, 0.08)),
-    linear-gradient(180deg, rgba(255, 250, 220, 0.08), transparent 22%, transparent 80%, rgba(64, 28, 7, 0.08));
+    linear-gradient(90deg, rgba(0, 0, 0, 0.38), rgba(0, 0, 0, 0.08) 12%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.08) 88%, rgba(0, 0, 0, 0.38)),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.32), transparent 16%, transparent 82%, rgba(0, 0, 0, 0.32)),
+    radial-gradient(circle at 50% 44%, transparent 42%, rgba(73, 34, 11, 0.16)),
+    linear-gradient(180deg, rgba(255, 250, 220, 0.06), transparent 22%, transparent 80%, rgba(64, 28, 7, 0.08));
   pointer-events: none;
 }
 
