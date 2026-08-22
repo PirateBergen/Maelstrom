@@ -48,6 +48,8 @@ const LOGBOOK_PAGE_POSITIONS = [
   ["50%", "56%"],
 ];
 let logbookPage = 1;
+let touchStartX = 0;
+let touchStartY = 0;
 
 function escapeHtml(value) {
   return String(value)
@@ -86,8 +88,47 @@ function renderLogbookPage() {
 }
 
 logbookButton?.addEventListener("click", () => {
-  logbookPage = logbookPage >= LOGBOOK_PAGES.length ? 1 : logbookPage + 1;
-  renderLogbookPage();
+  changeLogbookPage(1);
 });
+
+function changeLogbookPage(direction) {
+  logbookPage += direction;
+
+  if (logbookPage > LOGBOOK_PAGES.length) {
+    logbookPage = 1;
+  }
+
+  if (logbookPage < 1) {
+    logbookPage = LOGBOOK_PAGES.length;
+  }
+
+  renderLogbookPage();
+}
+
+logbookSheet?.addEventListener(
+  "touchstart",
+  (event) => {
+    const touch = event.changedTouches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  },
+  { passive: true },
+);
+
+logbookSheet?.addEventListener(
+  "touchend",
+  (event) => {
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+
+    if (Math.abs(deltaX) < 48 || Math.abs(deltaX) < Math.abs(deltaY) * 1.35) {
+      return;
+    }
+
+    changeLogbookPage(deltaX < 0 ? 1 : -1);
+  },
+  { passive: true },
+);
 
 renderLogbookPage();
