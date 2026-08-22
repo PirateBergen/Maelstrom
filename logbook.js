@@ -30,7 +30,7 @@ const LOGBOOK_PAGES = [
     illustration: {
       src: "assets/logbook-entry-three-frank-face.webp",
       alt: "Captain Frank portrait sketch",
-      variant: "portrait",
+      variant: "face",
     },
   },
   {
