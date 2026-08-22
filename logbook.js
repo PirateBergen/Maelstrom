@@ -78,7 +78,12 @@ function renderLogbookPage() {
   logbookSheet.classList.toggle("is-logbook-cover", Boolean(page.cover));
 
   if (page.cover) {
-    logbookSheet.innerHTML = "";
+    logbookSheet.innerHTML = `
+      <article class="logbook-cover-content" aria-label="Chapter One">
+        <h1>Chapter One</h1>
+        <img src="assets/logbook-chapter-one-emblem.webp" alt="Long live the King" draggable="false" />
+      </article>
+    `;
     return;
   }
 
