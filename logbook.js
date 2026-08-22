@@ -54,6 +54,11 @@ Nothing could have suggested that such a laboratory was hidden inside. The room 
 The question made the man smile. He took a drink from his strange mixture before confirming his identity and welcoming us inside.
 
 Of course, he knew Frank. Like everyone else.`,
+    illustration: {
+      src: "assets/logbook-entry-five-naples.webp",
+      alt: "Naples alchemist entry sketch",
+      variant: "side",
+    },
   },
   {
     date: "May 19, 1717",
@@ -116,12 +121,13 @@ function renderLogbookPage() {
   const illustrationClass = page.illustration?.variant
     ? ` logbook-entry-illustration-${escapeHtml(page.illustration.variant)}`
     : "";
+  const entryClass = page.illustration?.variant === "side" ? " logbook-entry-with-side-art" : "";
   const illustration = page.illustration
     ? `<span class="logbook-entry-illustration-wrap${illustrationClass}" style="--illustration-mask: url('${escapeHtml(page.illustration.src)}');"><img class="logbook-entry-illustration" src="${escapeHtml(page.illustration.src)}" alt="${escapeHtml(page.illustration.alt)}" draggable="false" /></span>`
     : "";
 
   logbookSheet.innerHTML = `
-    <article class="logbook-entry">
+    <article class="logbook-entry${entryClass}">
       <time>${escapeHtml(page.date)}</time>
       <div>${paragraphs}</div>
       ${illustration}

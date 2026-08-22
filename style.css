@@ -1420,6 +1420,43 @@ body.lightbox-open {
   opacity: 0.92;
 }
 
+.logbook-entry-with-side-art {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(170px, 34%);
+  column-gap: clamp(0.75rem, 2vw, 1.25rem);
+  align-items: start;
+  padding-right: clamp(1.1rem, 2vw, 1.65rem);
+}
+
+.logbook-entry-with-side-art time,
+.logbook-entry-with-side-art > div {
+  grid-column: 1;
+}
+
+.logbook-entry-illustration-wrap.logbook-entry-illustration-side {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  align-self: stretch;
+  width: 100%;
+  max-width: 220px;
+  height: 100%;
+  min-height: 430px;
+  margin: 0 0 0 auto;
+}
+
+.logbook-entry-illustration-side .logbook-entry-illustration {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: right center;
+  filter:
+    sepia(0.07)
+    saturate(1.18)
+    contrast(1.14)
+    brightness(1.04);
+  opacity: 0.9;
+}
+
 .logbook-entry::-webkit-scrollbar {
   width: 6px;
 }
@@ -1939,6 +1976,23 @@ body.lightbox-open {
 
   .logbook-entry-illustration-wrap.logbook-entry-illustration-face {
     width: min(76%, 250px);
+  }
+
+  .logbook-entry-with-side-art {
+    display: block;
+    padding-right: 1.05rem;
+  }
+
+  .logbook-entry-illustration-wrap.logbook-entry-illustration-side {
+    width: min(72%, 210px);
+    max-width: none;
+    height: auto;
+    min-height: 0;
+    margin: 0.8rem auto 0;
+  }
+
+  .logbook-entry-illustration-side .logbook-entry-illustration {
+    height: auto;
   }
 
   .logbook-controls {
