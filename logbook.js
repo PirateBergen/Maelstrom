@@ -38,6 +38,10 @@ const LOGBOOK_PAGES = [
     text: `It has now been several days since we set out to sea. The weather has been kind to us, and the waters peaceful. I am beginning to realize what I have left behind, and although fear sometimes finds its way into my thoughts, deep down, I believe I do not regret my choice. We sail peacefully with the wind aboard this spectacular ship, The Shard. I would be curious to know where the name comes from, for there is nothing about this vessel that resembles a fragment.
 
 As I write these words, I am sitting on deck. The air is fresh and salty. The ship rocks gently over the waves while the wood creaks endlessly beneath me. When you listen closely, you realize that true silence does not really exist. Yet there is something strangely hypnotic about this symphony. It is a strange life, that of a sailor. No amount of comfort could ever keep us away from the sea and its changing moods. Tonight, I may fall asleep soaked and cold, but even the comfort of a warm bed could never replace the joy that fills me when I look towards the horizon and see nothing but the vastness of the world.`,
+    illustration: {
+      src: "assets/logbook-entry-four-boat.webp",
+      alt: "The Shard ship sketch",
+    },
   },
   {
     date: "May 18, 1717",
