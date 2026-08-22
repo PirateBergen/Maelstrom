@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Journal de bord du Maelstrom." />
     <title>Maelstrom | Journal de bord</title>
-    <link rel="stylesheet" href="style.css?v=20260822-logbook-page-turn" />
+    <link rel="stylesheet" href="style.css?v=20260822-logbook-simple-pages" />
   </head>
   <body class="site-open">
     <main class="full-site logbook-page" id="site" aria-label="Journal de bord du Maelstrom">
@@ -24,18 +24,14 @@
 
       <section class="content-band logbook-band" aria-label="Journal pages">
         <div class="logbook-book" aria-live="polite">
-          <div class="logbook-spread" aria-hidden="true">
-            <div class="logbook-paper logbook-paper-left"></div>
-            <div class="logbook-paper logbook-paper-right"></div>
-            <div class="logbook-turn-page" data-logbook-turn-page></div>
-          </div>
+          <div class="logbook-sheet" data-logbook-sheet aria-hidden="true"></div>
           <button class="logbook-turn-button" type="button" data-logbook-next>
-            Tourner la page
+            Page suivante
           </button>
           <span class="sr-only" data-logbook-status>Page 1</span>
         </div>
       </section>
     </main>
-    <script src="logbook.js?v=20260822-logbook-page-turn"></script>
+    <script src="logbook.js?v=20260822-logbook-simple-pages"></script>
   </body>
 </html>
