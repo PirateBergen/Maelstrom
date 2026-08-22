@@ -10,35 +10,45 @@ const COCKTAILS = [
     id: "up-is-down",
     name: "Up Is Down",
     notes: "Dark rum, lime, ginger, abyss bitters.",
+    notesKey: "cocktailUpNotes",
   },
   {
     id: "black-current",
     name: "The Black Current",
     notes: "Spiced rum, blackcurrant, sea salt.",
+    notesKey: "cocktailBlackNotes",
   },
   {
     id: "dead-mans-compass",
     name: "Dead Man's Compass",
     notes: "Bourbon, maple, orange smoke.",
+    notesKey: "cocktailCompassNotes",
   },
   {
     id: "siren-sour",
     name: "Siren Sour",
     notes: "Aquavit, lemon, vanilla foam.",
+    notesKey: "cocktailSirenNotes",
   },
   {
     id: "harbor-curse",
     name: "Harbor Curse",
     notes: "Mezcal, pineapple, chili, charred citrus.",
+    notesKey: "cocktailHarborNotes",
   },
   {
     id: "north-sea-fog",
     name: "North Sea Fog",
     notes: "Gin, elderflower, bergamot, saline mist.",
+    notesKey: "cocktailFogNotes",
   },
 ];
 
 const state = Object.fromEntries(COCKTAILS.map((cocktail) => [cocktail.id, null]));
+
+function t(key) {
+  return window.MaelstromI18n?.t(key) || key;
+}
 
 function readSubmissions() {
   try {
@@ -91,7 +101,7 @@ function lockForm(form, status) {
   });
 
   if (status) {
-    status.textContent = "Your tier list has already been submitted from this device.";
+    status.textContent = t("alreadySubmitted");
   }
 }
 
@@ -107,7 +117,7 @@ function renderTierSummary() {
     const items = COCKTAILS.filter((cocktail) => state[cocktail.id] === tier);
     const content = items.length
       ? items.map((item) => `<span class="tier-pill">${item.name}</span>`).join("")
-      : "<span>No cocktails yet</span>";
+      : `<span>${t("noCocktailsYet")}</span>`;
 
     return `
       <div class="tier-row">
@@ -126,7 +136,7 @@ function renderCocktails() {
     <article class="cocktail-card">
       <div>
         <h3>${cocktail.name}</h3>
-        <p>${cocktail.notes}</p>
+        <p>${t(cocktail.notesKey) || cocktail.notes}</p>
       </div>
       <div class="tier-buttons" aria-label="Rank ${cocktail.name}">
         ${TIERS.map((tier) => `
@@ -138,19 +148,29 @@ function renderCocktails() {
     </article>
   `).join("");
 
-  list.addEventListener("click", (event) => {
-    const button = event.target.closest("[data-cocktail][data-tier]");
-    if (!button) return;
-
-    const { cocktail, tier } = button.dataset;
-    state[cocktail] = tier;
-
-    document
+  Object.entries(state).forEach(([cocktail, tier]) => {
+    if (!tier) return;
+    list
       .querySelectorAll(`[data-cocktail="${cocktail}"]`)
       .forEach((tierButton) => tierButton.classList.toggle("active", tierButton.dataset.tier === tier));
-
-    renderTierSummary();
   });
+
+  if (!list.dataset.tierHandlerBound) {
+    list.dataset.tierHandlerBound = "true";
+    list.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-cocktail][data-tier]");
+      if (!button) return;
+
+      const { cocktail, tier } = button.dataset;
+      state[cocktail] = tier;
+
+      document
+        .querySelectorAll(`[data-cocktail="${cocktail}"]`)
+        .forEach((tierButton) => tierButton.classList.toggle("active", tierButton.dataset.tier === tier));
+
+      renderTierSummary();
+    });
+  }
 }
 
 async function submitToEndpoint(payload) {
@@ -188,7 +208,7 @@ function setupForm() {
     const missing = COCKTAILS.filter((cocktail) => !state[cocktail.id]);
 
     if (missing.length) {
-      status.textContent = "Rank every cocktail before submitting.";
+      status.textContent = t("rankEveryCocktail");
       return;
     }
 
@@ -211,11 +231,11 @@ function setupForm() {
       markSubmitted();
       lockForm(form, status);
       status.textContent = RESULT_ENDPOINT
-        ? "Saved. Thank you."
-        : "Saved on this device. Backend sync is not connected yet.";
+        ? t("savedThanks")
+        : t("savedLocal");
       showVoteThanks();
     } catch {
-      status.textContent = "Saved on this device, but remote sync failed.";
+      status.textContent = t("savedRemoteFailed");
     }
 
     form.reset();
@@ -225,3 +245,8 @@ function setupForm() {
 renderCocktails();
 renderTierSummary();
 setupForm();
+
+window.addEventListener("maelstrom:languagechange", () => {
+  renderCocktails();
+  renderTierSummary();
+});

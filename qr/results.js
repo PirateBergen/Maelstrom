@@ -22,6 +22,10 @@ function scoreSubmissions(submissions) {
     .sort((a, b) => b.average - a.average || b.votes - a.votes);
 }
 
+function t(key) {
+  return window.MaelstromI18n?.t(key) || key;
+}
+
 function fetchRemoteSubmissions() {
   if (!RESULT_ENDPOINT) {
     return Promise.resolve([]);
@@ -80,7 +84,7 @@ function escapeHtml(value) {
 
 function getSignature(submission) {
   const signature = String(submission?.taster || "").trim();
-  return signature ? escapeHtml(signature) : "Anonymous";
+  return signature ? escapeHtml(signature) : t("anonymous");
 }
 
 function getComment(submission) {
@@ -118,7 +122,7 @@ async function renderResults() {
     <article class="leader-card">
       <span class="leader-rank">${index + 1}</span>
       <span class="leader-name">${item.name}</span>
-      <span class="leader-score">${item.votes ? item.average.toFixed(2) : "No votes"}</span>
+      <span class="leader-score">${item.votes ? item.average.toFixed(2) : t("noVotes")}</span>
     </article>
   `).join("");
 
@@ -135,12 +139,12 @@ async function renderResults() {
         <span>${escapeHtml(getComment(submission))}</span>
       </article>
     `).join("")
-    : `<article class="submission-card"><strong>No comments yet.</strong><span>General tasting comments will appear here after guests leave a note.</span></article>`;
+    : `<article class="submission-card"><strong>${t("noCommentsYet")}</strong><span>${t("commentsLater")}</span></article>`;
 
   if (remoteError) {
     log.insertAdjacentHTML(
       "afterbegin",
-      `<article class="submission-card"><strong>Live results unavailable.</strong><span>Showing local data only.</span></article>`
+      `<article class="submission-card"><strong>${t("liveUnavailable")}</strong><span>${t("localOnly")}</span></article>`
     );
   }
 }
@@ -151,3 +155,5 @@ document.querySelector("#clearLocalResults")?.addEventListener("click", () => {
 });
 
 renderResults();
+
+window.addEventListener("maelstrom:languagechange", renderResults);

@@ -6,26 +6,26 @@
     <meta name="description" content="Maelstrom photo gallery." />
     <title>Maelstrom | Gallery</title>
     <link rel="preload" href="assets/parchment-background.jpg" as="image" />
-    <link rel="stylesheet" href="style.css?v=20260822-logbook-paper-bg" />
+    <link rel="stylesheet" href="style.css?v=20260822-i18n-logbook-preload" />
   </head>
   <body class="site-open">
     <main class="full-site gallery-page" id="site" aria-label="Maelstrom gallery">
       <header class="site-header">
-        <a class="brand-mark" href="index.html?preview=site#top" aria-label="Maelstrom home">
+        <a class="brand-mark" href="index.html?preview=site#top" aria-label="Maelstrom home" data-i18n-aria="homeAria">
           <span class="brand-symbol">M</span>
         </a>
-        <nav class="site-nav" aria-label="Main navigation">
-          <a href="menu.html">Menu</a>
-          <a href="qr/results.html">Tier list</a>
-          <a href="gallery.html">Galerie</a>
-          <a href="logbook.html">Journal de bord</a>
-          <a href="index.html?preview=site#contact">Contact</a>
+        <nav class="site-nav" aria-label="Main navigation" data-i18n-aria="mainNavAria">
+          <a href="menu.html" data-i18n="navMenu">Menu</a>
+          <a href="qr/results.html" data-i18n="navTierList">Tier list</a>
+          <a href="gallery.html" data-i18n="navGallery">Galerie</a>
+          <a href="logbook.html" data-i18n="navLogbook">Journal de bord</a>
+          <a href="index.html?preview=site#contact" data-i18n="navContact">Contact</a>
         </nav>
       </header>
 
       <section class="content-band simple-gallery-band">
         <div class="section-heading">
-          <h2 class="page-title">Gallery</h2>
+          <h2 class="page-title" data-i18n="galleryTitle">Gallery</h2>
         </div>
         <div class="simple-gallery" aria-label="Maelstrom photo gallery">
           <figure class="simple-photo simple-photo-large">
@@ -58,5 +58,6 @@
         </div>
       </section>
     </main>
+    <script src="i18n.js?v=20260822-i18n-logbook-preload"></script>
   </body>
 </html>

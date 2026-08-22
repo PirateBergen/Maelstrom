@@ -12,10 +12,10 @@
     <link rel="preload" href="assets/maelstrom-logo.webp" as="image" />
     <link rel="preload" href="assets/maelstrom-full-section-bg.jpg" as="image" />
     <link rel="preload" href="assets/parchment-background.jpg" as="image" />
-    <link rel="stylesheet" href="style.css?v=20260822-logbook-paper-bg" />
+    <link rel="stylesheet" href="style.css?v=20260822-i18n-logbook-preload" />
   </head>
   <body>
-    <main class="gate" aria-label="Maelstrom site entrance">
+    <main class="gate" aria-label="Maelstrom site entrance" data-i18n-aria="gateAria">
       <div class="sea-haze" aria-hidden="true"></div>
 
       <section class="map-stage" aria-live="polite">
@@ -29,7 +29,7 @@
         </div>
         <div class="abyss-wash" aria-hidden="true"></div>
 
-        <button class="map-disc-button" type="button" aria-expanded="false" aria-label="Turn the map upside down">
+        <button class="map-disc-button" type="button" aria-expanded="false" aria-label="Turn the map upside down" data-i18n-aria="turnMapAria">
           <svg class="disc-lettering" viewBox="0 0 300 300" aria-hidden="true">
             <defs>
               <path id="lettering-top-path" d="M 44 150 A 106 106 0 0 1 256 150" />
@@ -51,43 +51,43 @@
         </button>
 
         <div class="countdown" aria-hidden="true">
-          <p class="kicker">Opening in Bergen</p>
+          <p class="kicker" data-i18n="openingInBergen">Opening in Bergen</p>
           <img class="countdown-logo" src="assets/maelstrom-logo.webp" alt="Maelstrom" draggable="false" />
           <p class="date">September 15, 2026</p>
-          <div class="time-grid" role="timer" aria-label="Countdown before opening night">
+          <div class="time-grid" role="timer" aria-label="Countdown before opening night" data-countdown-label>
             <span>
               <strong data-unit="days">000</strong>
-              <small>days</small>
+              <small data-i18n="days">days</small>
             </span>
             <span>
               <strong data-unit="hours">00</strong>
-              <small>hours</small>
+              <small data-i18n="hours">hours</small>
             </span>
             <span>
               <strong data-unit="minutes">00</strong>
-              <small>minutes</small>
+              <small data-i18n="minutes">minutes</small>
             </span>
             <span>
               <strong data-unit="seconds">00</strong>
-              <small>seconds</small>
+              <small data-i18n="seconds">seconds</small>
             </span>
           </div>
-          <a class="admin-preview-link" href="?preview=site&admin=maelstrom">Admin preview</a>
+          <a class="admin-preview-link" href="?preview=site&admin=maelstrom" data-i18n="adminPreview">Admin preview</a>
         </div>
       </section>
     </main>
 
     <main class="full-site" id="site" aria-label="Maelstrom website" hidden>
       <header class="site-header">
-        <a class="brand-mark" href="#top" aria-label="Maelstrom home">
+        <a class="brand-mark" href="#top" aria-label="Maelstrom home" data-i18n-aria="homeAria">
           <span class="brand-symbol">M</span>
         </a>
-        <nav class="site-nav" aria-label="Main navigation">
-          <a href="menu.html">Menu</a>
-          <a href="qr/results.html">Tier list</a>
-          <a href="gallery.html">Galerie</a>
-          <a href="logbook.html">Journal de bord</a>
-          <a href="#contact">Contact</a>
+        <nav class="site-nav" aria-label="Main navigation" data-i18n-aria="mainNavAria">
+          <a href="menu.html" data-i18n="navMenu">Menu</a>
+          <a href="qr/results.html" data-i18n="navTierList">Tier list</a>
+          <a href="gallery.html" data-i18n="navGallery">Galerie</a>
+          <a href="logbook.html" data-i18n="navLogbook">Journal de bord</a>
+          <a href="#contact" data-i18n="navContact">Contact</a>
         </nav>
       </header>
 
@@ -102,9 +102,9 @@
           <div class="section-heading">
             <h2>Up is down</h2>
           </div>
-          <div class="photo-carousel" aria-label="Maelstrom atmosphere photo carousel">
-            <button class="carousel-cue carousel-cue-left" type="button" aria-label="Previous photos"></button>
-            <button class="carousel-cue carousel-cue-right" type="button" aria-label="Next photos"></button>
+          <div class="photo-carousel" aria-label="Maelstrom atmosphere photo carousel" data-i18n-aria="carouselAria">
+            <button class="carousel-cue carousel-cue-left" type="button" aria-label="Previous photos" data-i18n-aria="previousPhotos"></button>
+            <button class="carousel-cue carousel-cue-right" type="button" aria-label="Next photos" data-i18n-aria="nextPhotos"></button>
             <div class="photo-track">
               <figure class="photo-placeholder frame-green tilt-left">
                 <span>Photo 01</span>
@@ -170,8 +170,8 @@
         </section>
       </div>
 
-      <div class="photo-lightbox" role="dialog" aria-modal="true" aria-label="Expanded photo" hidden>
-        <button class="lightbox-close" type="button" aria-label="Close photo"></button>
+      <div class="photo-lightbox" role="dialog" aria-modal="true" aria-label="Expanded photo" data-i18n-aria="expandedPhoto" hidden>
+        <button class="lightbox-close" type="button" aria-label="Close photo" data-i18n-aria="closePhoto"></button>
         <div class="lightbox-stage">
           <figure class="photo-placeholder lightbox-frame">
             <span>Photo</span>
@@ -180,6 +180,7 @@
       </div>
     </main>
 
-    <script src="script.js?v=20260822-logbook-paper-bg"></script>
+    <script src="i18n.js?v=20260822-i18n-logbook-preload"></script>
+    <script src="script.js?v=20260822-i18n-logbook-preload"></script>
   </body>
 </html>

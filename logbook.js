@@ -22,6 +22,7 @@ const LOGBOOK_PAGES = [
     illustration: {
       src: "assets/logbook-entry-two-coast.webp",
       alt: "Watercolor coast sketch",
+      variant: "coast",
     },
   },
   {
@@ -78,6 +79,18 @@ let logbookPage = 1;
 let touchStartX = 0;
 let touchStartY = 0;
 let ignoreNextSheetClick = false;
+
+function preloadLogbookImages() {
+  LOGBOOK_PAGES.forEach((page) => {
+    if (!page.illustration?.src) {
+      return;
+    }
+
+    const image = new Image();
+    image.decoding = "async";
+    image.src = page.illustration.src;
+  });
+}
 
 function escapeHtml(value) {
   return String(value)
@@ -199,4 +212,5 @@ logbookSheet?.addEventListener(
   { passive: true },
 );
 
+preloadLogbookImages();
 renderLogbookPage();

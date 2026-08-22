@@ -5,56 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Maelstrom cocktail bar menu." />
     <title>Maelstrom | Menu</title>
-    <link rel="stylesheet" href="style.css?v=20260822-logbook-paper-bg" />
+    <link rel="stylesheet" href="style.css?v=20260822-i18n-logbook-preload" />
   </head>
   <body class="site-open">
     <main class="full-site menu-page" id="site" aria-label="Maelstrom menu">
       <header class="site-header">
-        <a class="brand-mark" href="index.html?preview=site#top" aria-label="Maelstrom home">
+        <a class="brand-mark" href="index.html?preview=site#top" aria-label="Maelstrom home" data-i18n-aria="homeAria">
           <span class="brand-symbol">M</span>
         </a>
-        <nav class="site-nav" aria-label="Main navigation">
-          <a href="menu.html">Menu</a>
-          <a href="qr/results.html">Tier list</a>
-          <a href="gallery.html">Galerie</a>
-          <a href="logbook.html">Journal de bord</a>
-          <a href="index.html?preview=site#contact">Contact</a>
+        <nav class="site-nav" aria-label="Main navigation" data-i18n-aria="mainNavAria">
+          <a href="menu.html" data-i18n="navMenu">Menu</a>
+          <a href="qr/results.html" data-i18n="navTierList">Tier list</a>
+          <a href="gallery.html" data-i18n="navGallery">Galerie</a>
+          <a href="logbook.html" data-i18n="navLogbook">Journal de bord</a>
+          <a href="index.html?preview=site#contact" data-i18n="navContact">Contact</a>
         </nav>
       </header>
 
       <section class="content-band menu-band">
         <div class="section-heading">
-          <h2 class="page-title">Menu</h2>
+          <h2 class="page-title" data-i18n="menuTitle">Menu</h2>
         </div>
         <div class="menu-columns">
           <article class="menu-panel">
-            <h3>Coming soon</h3>
+            <h3 data-i18n="comingSoon">Coming soon</h3>
             <ul>
               <li>
-                <span>Signature cocktails</span>
-                <strong>Rum, smoke, spice, storm</strong>
+                <span data-i18n="signatureCocktails">Signature cocktails</span>
+                <strong data-i18n="signatureDetails">Rum, smoke, spice, storm</strong>
               </li>
               <li>
-                <span>Shooter tasting</span>
-                <strong>QR tier list route</strong>
+                <span data-i18n="shooterTasting">Shooter tasting</span>
+                <strong data-i18n="shooterDetails">QR tier list route</strong>
               </li>
             </ul>
           </article>
           <article class="menu-panel">
-            <h3>Opening draft</h3>
+            <h3 data-i18n="openingDraft">Opening draft</h3>
             <ul>
               <li>
-                <span>Local beer</span>
-                <strong>Bergen harbor selection</strong>
+                <span data-i18n="localBeer">Local beer</span>
+                <strong data-i18n="localBeerDetails">Bergen harbor selection</strong>
               </li>
               <li>
-                <span>Alcohol-free serves</span>
-                <strong>Dark, fresh, nautical</strong>
+                <span data-i18n="alcoholFree">Alcohol-free serves</span>
+                <strong data-i18n="alcoholFreeDetails">Dark, fresh, nautical</strong>
               </li>
             </ul>
           </article>
         </div>
       </section>
     </main>
+    <script src="i18n.js?v=20260822-i18n-logbook-preload"></script>
   </body>
 </html>

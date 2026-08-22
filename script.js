@@ -35,6 +35,10 @@ const units = {
 
 document.body.classList.toggle("admin-mode", isAdminMode);
 
+function t(key) {
+  return window.MaelstromI18n?.t(key) || key;
+}
+
 function pad(value, size = 2) {
   return String(value).padStart(size, "0");
 }
@@ -61,7 +65,7 @@ function updateCountdown() {
 
   countdown.setAttribute(
     "aria-label",
-    `Countdown before opening night: ${days} days, ${hours} hours, ${minutes} minutes, and ${seconds} seconds.`
+    `${t("countdownAria")}: ${days} ${t("days")}, ${hours} ${t("hours")}, ${minutes} ${t("minutes")}, ${seconds} ${t("seconds")}.`
   );
 }
 
@@ -217,7 +221,7 @@ if (photoCarousel && photoTrack) {
   photoTrack.querySelectorAll(".photo-placeholder").forEach((frame) => {
     frame.setAttribute("role", "button");
     frame.setAttribute("tabindex", frame.hasAttribute("aria-hidden") ? "-1" : "0");
-    frame.setAttribute("aria-label", `Open ${frame.querySelector("span")?.textContent || "photo"}`);
+    frame.setAttribute("aria-label", `${t("expandedPhoto")}: ${frame.querySelector("span")?.textContent || "photo"}`);
   });
 
   photoTrack.addEventListener("click", (event) => {
@@ -267,3 +271,5 @@ if (isSitePreview || Date.now() >= OPENING_DATE.getTime()) {
   updateCountdown();
   setInterval(updateCountdown, 1000);
 }
+
+window.addEventListener("maelstrom:languagechange", updateCountdown);

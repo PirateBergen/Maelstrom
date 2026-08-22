@@ -4,28 +4,28 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Maelstrom | Tier List QR</title>
-    <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="tasting.css" />
+    <link rel="stylesheet" href="../style.css?v=20260822-i18n-logbook-preload" />
+    <link rel="stylesheet" href="tasting.css?v=20260822-i18n-logbook-preload" />
   </head>
   <body class="tasting-body">
     <header class="site-header">
-      <a class="brand-mark" href="../index.html?preview=site#top" aria-label="Maelstrom home">
+      <a class="brand-mark" href="../index.html?preview=site#top" aria-label="Maelstrom home" data-i18n-aria="homeAria">
         <span class="brand-symbol">M</span>
       </a>
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="../menu.html">Menu</a>
-        <a href="results.html">Tier list</a>
-        <a href="../gallery.html">Galerie</a>
-        <a href="../index.html?preview=site#contact">Contact</a>
+      <nav class="site-nav" aria-label="Main navigation" data-i18n-aria="mainNavAria">
+        <a href="../menu.html" data-i18n="navMenu">Menu</a>
+        <a href="results.html" data-i18n="navTierList">Tier list</a>
+        <a href="../gallery.html" data-i18n="navGallery">Galerie</a>
+        <a href="../index.html?preview=site#contact" data-i18n="navContact">Contact</a>
       </nav>
     </header>
     <main class="tasting-shell">
       <section class="tasting-hero compact">
         <img class="tasting-map" src="../assets/maelstrom-pirate-map.webp" alt="" draggable="false" />
         <div class="tasting-hero-content">
-          <p class="site-kicker">Owner QR route</p>
-          <h1>Tier List QR</h1>
-          <p>This page is for printing the guest QR code. The tasting form is not linked from the public website.</p>
+          <p class="site-kicker" data-i18n="ownerQrRoute">Owner QR route</p>
+          <h1 data-i18n="tierListQr">Tier List QR</h1>
+          <p data-i18n="qrIntro">This page is for printing the guest QR code. The tasting form is not linked from the public website.</p>
         </div>
       </section>
 
@@ -35,21 +35,23 @@
             class="qr-code"
             src="../assets/qr-tier-list.png"
             alt="QR code for the Maelstrom tasting tier list"
+            data-i18n-alt="qrAlt"
           />
           <div>
-            <p class="site-kicker">Guest scan target</p>
-            <h2>Signature shooter tier list</h2>
-            <p>
+            <p class="site-kicker" data-i18n="guestScanTarget">Guest scan target</p>
+            <h2 data-i18n="signatureShooterTierList">Signature shooter tier list</h2>
+            <p data-i18n="qrGuestInfo">
               Guests access the form by scanning this QR code. The public site links only to the results page.
             </p>
             <p class="qr-target">https://piratebergen.github.io/Maelstrom/qr/tasting.html</p>
             <div class="hero-actions left">
-              <a class="primary-link" href="results.html">Open results page</a>
-              <a class="ghost-link" href="https://github.com/PirateBergen/Maelstrom">Owner GitHub</a>
+              <a class="primary-link" href="results.html" data-i18n="openResultsPage">Open results page</a>
+              <a class="ghost-link" href="https://github.com/PirateBergen/Maelstrom" data-i18n="ownerGithub">Owner GitHub</a>
             </div>
           </div>
         </div>
       </section>
     </main>
+    <script src="../i18n.js?v=20260822-i18n-logbook-preload"></script>
   </body>
 </html>

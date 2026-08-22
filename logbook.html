@@ -5,37 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Journal de bord du Maelstrom." />
     <title>Maelstrom | Journal de bord</title>
-    <link rel="stylesheet" href="style.css?v=20260822-logbook-naples-side" />
+    <link rel="preload" href="assets/logbook-entry-one-frank.webp" as="image" />
+    <link rel="preload" href="assets/logbook-entry-two-coast.webp" as="image" />
+    <link rel="preload" href="assets/logbook-entry-three-frank-face.webp" as="image" />
+    <link rel="preload" href="assets/logbook-entry-four-boat.webp" as="image" />
+    <link rel="preload" href="assets/logbook-entry-five-naples.webp" as="image" />
+    <link rel="stylesheet" href="style.css?v=20260822-i18n-logbook-preload" />
   </head>
   <body class="site-open">
     <main class="full-site logbook-page" id="site" aria-label="Journal de bord du Maelstrom">
       <header class="site-header">
-        <a class="brand-mark" href="index.html?preview=site#top" aria-label="Maelstrom home">
+        <a class="brand-mark" href="index.html?preview=site#top" aria-label="Maelstrom home" data-i18n-aria="homeAria">
           <span class="brand-symbol">M</span>
         </a>
-        <nav class="site-nav" aria-label="Main navigation">
-          <a href="menu.html">Menu</a>
-          <a href="qr/results.html">Tier list</a>
-          <a href="gallery.html">Galerie</a>
-          <a href="logbook.html">Journal de bord</a>
-          <a href="index.html?preview=site#contact">Contact</a>
+        <nav class="site-nav" aria-label="Main navigation" data-i18n-aria="mainNavAria">
+          <a href="menu.html" data-i18n="navMenu">Menu</a>
+          <a href="qr/results.html" data-i18n="navTierList">Tier list</a>
+          <a href="gallery.html" data-i18n="navGallery">Galerie</a>
+          <a href="logbook.html" data-i18n="navLogbook">Journal de bord</a>
+          <a href="index.html?preview=site#contact" data-i18n="navContact">Contact</a>
         </nav>
       </header>
 
-      <section class="content-band logbook-band" aria-label="Journal pages">
+      <section class="content-band logbook-band" aria-label="Journal pages" data-i18n-aria="logbookPagesAria">
         <div class="logbook-book" aria-live="polite">
           <div class="logbook-sheet" data-logbook-sheet></div>
-          <button class="logbook-mobile-arrow logbook-mobile-arrow-prev" type="button" data-logbook-prev aria-label="Page precedente">
+          <button class="logbook-mobile-arrow logbook-mobile-arrow-prev" type="button" data-logbook-prev aria-label="Page precedente" data-i18n-aria="pagePrevious">
             &lt;
           </button>
-          <button class="logbook-mobile-arrow logbook-mobile-arrow-next" type="button" data-logbook-next aria-label="Page suivante">
+          <button class="logbook-mobile-arrow logbook-mobile-arrow-next" type="button" data-logbook-next aria-label="Page suivante" data-i18n-aria="pageNext">
             &gt;
           </button>
           <div class="logbook-controls">
-            <button class="logbook-turn-button" type="button" data-logbook-prev>
+            <button class="logbook-turn-button" type="button" data-logbook-prev data-i18n="pagePrevious">
               Page precedente
             </button>
-            <button class="logbook-turn-button" type="button" data-logbook-next>
+            <button class="logbook-turn-button" type="button" data-logbook-next data-i18n="pageNext">
               Page suivante
             </button>
           </div>
@@ -43,6 +48,7 @@
         </div>
       </section>
     </main>
-    <script src="logbook.js?v=20260822-logbook-naples-side"></script>
+    <script src="i18n.js?v=20260822-i18n-logbook-preload"></script>
+    <script src="logbook.js?v=20260822-i18n-logbook-preload"></script>
   </body>
 </html>

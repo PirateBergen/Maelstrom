@@ -536,6 +536,47 @@ body.site-open .full-site {
   width: clamp(118px, 10.4vw, 162px);
 }
 
+.language-switcher {
+  position: fixed;
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 60;
+  display: flex;
+  gap: 0.28rem;
+  padding: 0.26rem;
+  background: rgba(0, 10, 11, 0.62);
+  border: 1px solid rgba(128, 241, 255, 0.22);
+  border-radius: 999px;
+  box-shadow:
+    0 0 18px rgba(0, 221, 255, 0.16),
+    0 12px 24px rgba(0, 0, 0, 0.36);
+  backdrop-filter: blur(8px);
+}
+
+.language-switcher button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid transparent;
+  border-radius: 50%;
+  place-items: center;
+  font-size: 1rem;
+  line-height: 1;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.language-switcher button:hover,
+.language-switcher button:focus-visible,
+.language-switcher button.is-active {
+  outline: none;
+  border-color: rgba(128, 241, 255, 0.72);
+  box-shadow: 0 0 12px rgba(0, 221, 255, 0.34);
+  transform: translateY(-1px);
+}
+
 .site-hero {
   position: relative;
   display: grid;
@@ -1420,6 +1461,20 @@ body.lightbox-open {
   opacity: 0.92;
 }
 
+.logbook-entry-illustration-wrap.logbook-entry-illustration-coast {
+  width: min(96%, 540px);
+  margin-top: clamp(0.75rem, 1.7vw, 1rem);
+}
+
+.logbook-entry-illustration-coast .logbook-entry-illustration {
+  filter:
+    sepia(0.06)
+    saturate(1.2)
+    contrast(1.12)
+    brightness(1.04);
+  opacity: 0.92;
+}
+
 .logbook-entry-with-side-art {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(170px, 34%);
@@ -1976,6 +2031,10 @@ body.lightbox-open {
 
   .logbook-entry-illustration-wrap.logbook-entry-illustration-face {
     width: min(76%, 250px);
+  }
+
+  .logbook-entry-illustration-wrap.logbook-entry-illustration-coast {
+    width: min(96%, 360px);
   }
 
   .logbook-entry-with-side-art {

@@ -8,39 +8,39 @@
       content="Maelstrom signature cocktail tasting tier list."
     />
     <title>Maelstrom | Tasting Tier List</title>
-    <link rel="stylesheet" href="../style.css?v=20260822-logbook-paper-bg" />
-    <link rel="stylesheet" href="tasting.css?v=20260820-black-results-comments" />
+    <link rel="stylesheet" href="../style.css?v=20260822-i18n-logbook-preload" />
+    <link rel="stylesheet" href="tasting.css?v=20260822-i18n-logbook-preload" />
   </head>
   <body class="tasting-body">
     <header class="site-header">
-      <a class="brand-mark" href="../index.html?preview=site#top" aria-label="Maelstrom home">
+      <a class="brand-mark" href="../index.html?preview=site#top" aria-label="Maelstrom home" data-i18n-aria="homeAria">
         <span class="brand-symbol">M</span>
       </a>
-      <nav class="site-nav" aria-label="Main navigation">
-        <a href="../menu.html">Menu</a>
-        <a href="results.html">Tier list</a>
-        <a href="../gallery.html">Galerie</a>
-        <a href="../logbook.html">Journal de bord</a>
-        <a href="../index.html?preview=site#contact">Contact</a>
+      <nav class="site-nav" aria-label="Main navigation" data-i18n-aria="mainNavAria">
+        <a href="../menu.html" data-i18n="navMenu">Menu</a>
+        <a href="results.html" data-i18n="navTierList">Tier list</a>
+        <a href="../gallery.html" data-i18n="navGallery">Galerie</a>
+        <a href="../logbook.html" data-i18n="navLogbook">Journal de bord</a>
+        <a href="../index.html?preview=site#contact" data-i18n="navContact">Contact</a>
       </nav>
     </header>
     <main class="tasting-shell">
       <section class="tasting-hero">
         <img class="tasting-map" src="../assets/maelstrom-pirate-map.webp" alt="" draggable="false" />
         <div class="tasting-hero-content">
-          <p class="site-kicker">QR tasting route</p>
-          <h1>Rank the Storm</h1>
-          <p>
+          <p class="site-kicker" data-i18n="qrTastingRoute">QR tasting route</p>
+          <h1 data-i18n="rankTheStorm">Rank the Storm</h1>
+          <p data-i18n="tastingIntro">
             Taste the Maelstrom signatures as shooters, then place each one in your personal tier list.
           </p>
         </div>
       </section>
 
-      <section class="tasting-board" aria-label="Cocktail ranking">
+      <section class="tasting-board" aria-label="Cocktail ranking" data-i18n-aria="cocktailRankingAria">
         <div class="tasting-instructions">
-          <p class="site-kicker">How it works</p>
-          <h2>Your tiers</h2>
-          <p>
+          <p class="site-kicker" data-i18n="howItWorks">How it works</p>
+          <h2 data-i18n="yourTiers">Your tiers</h2>
+          <p data-i18n="tierInstructions">
             S is your absolute favorite. D is not for you. Submit when every cocktail has a tier.
           </p>
         </div>
@@ -50,31 +50,32 @@
 
         <form class="taster-form" id="tasterForm">
           <label>
-            Taster name or table
-            <input type="text" name="taster" placeholder="Table 7 / Alex / The crew" />
+            <span data-i18n="tasterName">Taster name or table</span>
+            <input type="text" name="taster" placeholder="Table 7 / Alex / The crew" data-i18n-placeholder="tasterPlaceholder" />
           </label>
           <label>
-            General comment
-            <textarea name="note" rows="3" placeholder="Best surprise, too sweet, favorite moment..."></textarea>
+            <span data-i18n="generalComment">General comment</span>
+            <textarea name="note" rows="3" placeholder="Best surprise, too sweet, favorite moment..." data-i18n-placeholder="commentPlaceholder"></textarea>
           </label>
-          <button type="submit">Submit tier list</button>
+          <button type="submit" data-i18n="submitTierList">Submit tier list</button>
           <p class="save-status" id="saveStatus" role="status"></p>
         </form>
       </section>
     </main>
 
-    <section class="vote-thanks" id="voteThanks" aria-live="polite" aria-label="Vote confirmation" hidden>
+    <section class="vote-thanks" id="voteThanks" aria-live="polite" aria-label="Vote confirmation" data-i18n-aria="voteConfirmationAria" hidden>
       <div class="vote-thanks-content">
         <img class="vote-thanks-logo" src="../assets/up-is-down-vote.webp" alt="Up is down" draggable="false" />
         <p class="site-kicker">Up is down</p>
-        <h2>Thank you for your vote</h2>
+        <h2 data-i18n="thankVote">Thank you for your vote</h2>
         <a class="treasure-button vote-home-button" href="../index.html?preview=site#top">
-          <span>Enter the site</span>
+          <span data-i18n="enterSite">Enter the site</span>
         </a>
       </div>
     </section>
 
-    <script src="config.js?v=20260820-results-reset"></script>
-    <script src="tasting.js?v=20260820-results-reset"></script>
+    <script src="../i18n.js?v=20260822-i18n-logbook-preload"></script>
+    <script src="config.js?v=20260822-i18n-logbook-preload"></script>
+    <script src="tasting.js?v=20260822-i18n-logbook-preload"></script>
   </body>
 </html>
