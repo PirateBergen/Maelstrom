@@ -564,9 +564,30 @@ body.site-open .full-site {
 }
 
 .language-toggle {
+  position: relative;
   width: 42px;
   height: 42px;
+  padding-right: 0.32rem;
   font-size: 1.18rem;
+}
+
+.language-toggle::after {
+  content: "";
+  position: absolute;
+  right: 6px;
+  bottom: 7px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid rgba(128, 241, 255, 0.9);
+  border-bottom: 2px solid rgba(128, 241, 255, 0.9);
+  filter: drop-shadow(0 0 5px rgba(0, 221, 255, 0.85));
+  transform: rotate(45deg);
+  transition: transform 160ms ease, bottom 160ms ease;
+}
+
+.language-switcher.is-open .language-toggle::after {
+  bottom: 5px;
+  transform: rotate(225deg);
 }
 
 .language-options {
