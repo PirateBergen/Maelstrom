@@ -144,7 +144,19 @@ const LOGBOOK_PAGE_POSITIONS = [
   ["54%", "49%"],
   ["50%", "56%"],
 ];
-let logbookPage = 1;
+
+function getInitialLogbookPage() {
+  const params = new URLSearchParams(window.location.search);
+  const entry = Number.parseInt(params.get("entry") || "", 10);
+
+  if (Number.isInteger(entry) && entry >= 1 && entry < LOGBOOK_PAGES.length) {
+    return entry + 1;
+  }
+
+  return 1;
+}
+
+let logbookPage = getInitialLogbookPage();
 let touchStartX = 0;
 let touchStartY = 0;
 let ignoreNextSheetClick = false;
