@@ -1798,17 +1798,6 @@ body.lightbox-open {
   mix-blend-mode: screen;
 }
 
-.cocktail-number {
-  position: absolute;
-  right: 0.8rem;
-  bottom: 0.3rem;
-  color: rgba(128, 241, 255, 0.12);
-  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  font-size: clamp(3rem, 7vw, 5.4rem);
-  font-weight: 900;
-  line-height: 1;
-}
-
 .signature-cocktail-card h4,
 .signature-cocktail-card p,
 .signature-cocktail-card a {
