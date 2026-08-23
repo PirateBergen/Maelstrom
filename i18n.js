@@ -353,6 +353,7 @@ function createLanguageSelector() {
   switcher.innerHTML = `
     <button class="language-toggle" type="button" data-language-toggle aria-expanded="false" aria-label="${translate("languageLabel")}">
       <span data-current-language-flag aria-hidden="true">${MAELSTROM_LANGUAGES[0].flag}</span>
+      <span class="language-toggle-flags" aria-hidden="true">${MAELSTROM_LANGUAGES.map((language) => language.flag).join("")}</span>
     </button>
     <div class="language-options" role="group">
       ${MAELSTROM_LANGUAGES.map((language) => `
