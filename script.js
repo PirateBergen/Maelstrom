@@ -7,6 +7,7 @@ const fullSite = document.querySelector(".full-site");
 const previewParams = new URLSearchParams(window.location.search);
 const isSitePreview = previewParams.get("preview") === "site";
 const isAdminMode = previewParams.get("admin") === "maelstrom";
+const GOOGLE_REVIEW_URL = "";
 
 try {
   window.localStorage.removeItem("maelstrom-admin-mode");
@@ -21,6 +22,7 @@ const carouselNext = document.querySelector(".carousel-cue-right");
 const photoLightbox = document.querySelector(".photo-lightbox");
 const lightboxFrame = document.querySelector(".lightbox-frame");
 const lightboxClose = document.querySelector(".lightbox-close");
+const googleReviewLink = document.querySelector("[data-google-review-link]");
 let carouselFrame = 0;
 let carouselOffset = 0;
 let carouselVelocity = 0;
@@ -37,6 +39,28 @@ document.body.classList.toggle("admin-mode", isAdminMode);
 
 function t(key) {
   return window.MaelstromI18n?.t(key) || key;
+}
+
+function setupGoogleReviewLink() {
+  if (!googleReviewLink) {
+    return;
+  }
+
+  if (!GOOGLE_REVIEW_URL) {
+    googleReviewLink.classList.add("is-disabled");
+    googleReviewLink.setAttribute("aria-disabled", "true");
+    googleReviewLink.removeAttribute("target");
+    googleReviewLink.removeAttribute("rel");
+    googleReviewLink.textContent = t("googleReviewSoon");
+    return;
+  }
+
+  googleReviewLink.href = GOOGLE_REVIEW_URL;
+  googleReviewLink.classList.remove("is-disabled");
+  googleReviewLink.setAttribute("aria-disabled", "false");
+  googleReviewLink.setAttribute("target", "_blank");
+  googleReviewLink.setAttribute("rel", "noopener");
+  googleReviewLink.textContent = t("leaveGoogleReview");
 }
 
 function pad(value, size = 2) {
@@ -246,6 +270,12 @@ if (photoCarousel && photoTrack) {
 
 lightboxClose?.addEventListener("click", () => closeLightbox());
 
+googleReviewLink?.addEventListener("click", (event) => {
+  if (googleReviewLink.classList.contains("is-disabled")) {
+    event.preventDefault();
+  }
+});
+
 photoLightbox?.addEventListener("click", (event) => {
   if (event.target === photoLightbox) {
     closeLightbox();
@@ -273,3 +303,5 @@ if (isSitePreview || Date.now() >= OPENING_DATE.getTime()) {
 }
 
 window.addEventListener("maelstrom:languagechange", updateCountdown);
+window.addEventListener("maelstrom:languagechange", setupGoogleReviewLink);
+setupGoogleReviewLink();
