@@ -1836,11 +1836,16 @@ body.lightbox-open {
   justify-self: start;
   min-height: 38px;
   padding: 0.62rem 0.86rem;
-  color: #061113;
-  background: rgba(240, 201, 108, 0.92);
-  border: 1px solid rgba(255, 241, 197, 0.7);
+  color: #9ef8ff;
+  background:
+    linear-gradient(180deg, rgba(9, 44, 50, 0.92), rgba(0, 8, 10, 0.94)),
+    radial-gradient(circle at 50% 0%, rgba(0, 221, 255, 0.24), transparent 70%);
+  border: 1px solid rgba(120, 241, 255, 0.68);
   border-radius: 999px;
-  box-shadow: 0 0 14px rgba(240, 201, 108, 0.2);
+  box-shadow:
+    0 0 8px rgba(0, 221, 255, 0.38),
+    0 0 18px rgba(0, 96, 128, 0.36),
+    inset 0 0 14px rgba(0, 221, 255, 0.08);
   font-family: "Trebuchet MS", Arial, sans-serif;
   font-size: 0.68rem;
   font-weight: 900;
@@ -1853,8 +1858,13 @@ body.lightbox-open {
 .signature-cocktail-card a:hover,
 .signature-cocktail-card a:focus-visible {
   outline: none;
-  filter: brightness(1.08);
-  box-shadow: 0 0 18px rgba(240, 201, 108, 0.34), 0 0 26px rgba(0, 221, 255, 0.16);
+  color: #d9fdff;
+  border-color: rgba(189, 253, 255, 0.94);
+  filter: brightness(1.14);
+  box-shadow:
+    0 0 12px rgba(0, 221, 255, 0.72),
+    0 0 28px rgba(0, 145, 190, 0.58),
+    inset 0 0 18px rgba(128, 241, 255, 0.16);
   transform: translateY(-2px);
 }
 
