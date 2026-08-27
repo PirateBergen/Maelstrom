@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Request a table at Maelstrom in Bergen." />
+    <title>Maelstrom | Reservations</title>
+    <link rel="stylesheet" href="style.css?v=20260827-reservations" />
+  </head>
+  <body class="site-open">
+    <main class="full-site reservations-page" id="site" aria-label="Maelstrom reservations">
+      <header class="site-header">
+        <a class="brand-mark" href="index.html?preview=site#top" aria-label="Maelstrom home" data-i18n-aria="homeAria">
+          <span class="brand-symbol">M</span>
+        </a>
+        <nav class="site-nav" aria-label="Main navigation" data-i18n-aria="mainNavAria">
+          <a href="menu.html" data-i18n="navMenu">Menu</a>
+          <a href="reservations.html" data-i18n="navReservations">Reserve</a>
+          <a href="qr/results.html" data-i18n="navTierList">Tier list</a>
+          <a href="gallery.html" data-i18n="navGallery">Galerie</a>
+          <a href="logbook.html" data-i18n="navLogbook">Journal de bord</a>
+          <a href="index.html?preview=site#contact" data-i18n="navContact">Contact</a>
+        </nav>
+      </header>
+
+      <section class="content-band reservations-band">
+        <div class="section-heading reservation-heading">
+          <h2 class="page-title" data-i18n="reservationsTitle">Reservations</h2>
+          <p data-i18n="reservationsIntro">
+            Table requests will soon be connected to Google. For now, this page shows the booking flow that guests will use.
+          </p>
+        </div>
+
+        <form class="reservation-form" data-reservation-form>
+          <label>
+            <span data-i18n="reservationName">Name</span>
+            <input name="name" type="text" autocomplete="name" required data-i18n-placeholder="reservationNamePlaceholder" placeholder="Your name" />
+          </label>
+          <label>
+            <span data-i18n="reservationEmail">Email</span>
+            <input name="email" type="email" autocomplete="email" required data-i18n-placeholder="reservationEmailPlaceholder" placeholder="you@example.com" />
+          </label>
+          <label>
+            <span data-i18n="reservationPhone">Phone</span>
+            <input name="phone" type="tel" autocomplete="tel" data-i18n-placeholder="reservationPhonePlaceholder" placeholder="+47 ..." />
+          </label>
+          <label>
+            <span data-i18n="reservationDate">Date</span>
+            <input name="date" type="date" required />
+          </label>
+          <label>
+            <span data-i18n="reservationTime">Time</span>
+            <input name="time" type="time" required />
+          </label>
+          <label>
+            <span data-i18n="reservationGuests">Guests</span>
+            <input name="guests" type="number" min="1" max="20" value="2" required />
+          </label>
+          <label class="reservation-wide">
+            <span data-i18n="reservationNotes">Notes</span>
+            <textarea name="notes" rows="4" data-i18n-placeholder="reservationNotesPlaceholder" placeholder="Occasion, accessibility, preferred area..."></textarea>
+          </label>
+          <button class="reservation-submit" type="submit" data-i18n="reservationSubmit">Request a table</button>
+          <p class="reservation-status" data-reservation-status aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="i18n.js?v=20260827-reservations"></script>
+    <script src="reservations.js?v=20260827-reservations"></script>
+  </body>
+</html>
