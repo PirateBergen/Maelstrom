@@ -1245,17 +1245,21 @@ body.lightbox-open {
   align-content: center;
   gap: clamp(1.2rem, 3vw, 2rem);
   background:
-    radial-gradient(circle at 50% 24%, rgba(0, 221, 255, 0.12), transparent 24rem),
-    linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.48)),
-    url("assets/parchment-background.jpg");
+    radial-gradient(circle at 15% 10%, rgba(173, 57, 33, 0.12), transparent 28rem),
+    rgba(0, 0, 0, 0.16);
   background-size: cover;
 }
 
 .reservation-heading {
-  max-width: min(860px, 100%);
+  max-width: none;
   justify-items: center;
+  margin-bottom: 0;
   margin-inline: auto;
   text-align: center;
+}
+
+.reservation-heading h2 {
+  text-transform: uppercase;
 }
 
 .reservation-heading p {
@@ -1271,17 +1275,17 @@ body.lightbox-open {
   width: min(860px, 100%);
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(0.8rem, 1.8vw, 1rem);
-  padding: clamp(1rem, 2.6vw, 1.6rem);
+  padding: clamp(1.2rem, 3vw, 2rem);
   margin-inline: auto;
   background:
-    linear-gradient(145deg, rgba(0, 13, 15, 0.88), rgba(4, 25, 28, 0.74)),
+    linear-gradient(145deg, rgba(1, 14, 15, 0.86), rgba(8, 19, 18, 0.8)),
     url("assets/parchment-background.jpg");
   background-size: cover;
-  border: 1px solid rgba(128, 241, 255, 0.17);
-  border-radius: 8px;
+  border: 1px solid rgba(245, 231, 200, 0.14);
+  border-radius: 6px;
   box-shadow:
-    inset 0 0 42px rgba(0, 0, 0, 0.5),
-    0 20px 34px rgba(0, 0, 0, 0.38);
+    inset 0 0 44px rgba(0, 0, 0, 0.54),
+    0 18px 30px rgba(0, 0, 0, 0.36);
 }
 
 .reservation-form label {
@@ -1300,8 +1304,8 @@ body.lightbox-open {
   min-height: 44px;
   padding: 0.7rem 0.78rem;
   color: #fff4cf;
-  background: rgba(0, 8, 10, 0.74);
-  border: 1px solid rgba(128, 241, 255, 0.18);
+  background: rgba(0, 8, 10, 0.62);
+  border: 1px solid rgba(245, 231, 200, 0.14);
   border-radius: 6px;
   font: 500 0.95rem/1.35 "Trebuchet MS", Arial, sans-serif;
   box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.28);
