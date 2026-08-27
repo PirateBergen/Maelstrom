@@ -1,4 +1,4 @@
-const RESERVATION_ENDPOINT = "";
+const RESERVATION_ENDPOINT = window.MAELSTROM_RESERVATION_ENDPOINT || "";
 
 const reservationForm = document.querySelector("[data-reservation-form]");
 const reservationStatus = document.querySelector("[data-reservation-status]");
