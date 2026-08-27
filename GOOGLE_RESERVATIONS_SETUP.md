@@ -16,6 +16,8 @@ Important: put the email address that should receive new booking requests betwee
 
 ```js
 const RESERVATIONS_SHEET_NAME = "Reservations";
+const ARCHIVE_SHEET_NAME = "Archive";
+const ARCHIVE_AFTER_DAYS = 1;
 const CREATE_CALENDAR_EVENTS = false;
 const CALENDAR_ID = "";
 const OWNER_EMAIL = "";
@@ -92,11 +94,19 @@ function doGet() {
 }
 
 function getReservationsSheet_() {
+  return getSheet_(RESERVATIONS_SHEET_NAME);
+}
+
+function getArchiveSheet_() {
+  return getSheet_(ARCHIVE_SHEET_NAME);
+}
+
+function getSheet_(sheetName) {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = spreadsheet.getSheetByName(RESERVATIONS_SHEET_NAME);
+  let sheet = spreadsheet.getSheetByName(sheetName);
 
   if (!sheet) {
-    sheet = spreadsheet.insertSheet(RESERVATIONS_SHEET_NAME);
+    sheet = spreadsheet.insertSheet(sheetName);
   }
 
   if (sheet.getLastRow() === 0) {
@@ -105,6 +115,83 @@ function getReservationsSheet_() {
   }
 
   return sheet;
+}
+
+function archivePastReservations() {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+
+  try {
+    const reservationsSheet = getReservationsSheet_();
+    const archiveSheet = getArchiveSheet_();
+    const lastRow = reservationsSheet.getLastRow();
+
+    if (lastRow <= 1) {
+      return;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const archiveBefore = new Date(today);
+    archiveBefore.setDate(archiveBefore.getDate() - ARCHIVE_AFTER_DAYS);
+
+    const rows = reservationsSheet.getRange(2, 1, lastRow - 1, RESERVATION_HEADERS.length).getValues();
+    const rowsToArchive = [];
+    const rowNumbersToDelete = [];
+
+    rows.forEach((row, index) => {
+      const reservationDate = normalizeDate_(row[5]);
+
+      if (reservationDate && reservationDate < archiveBefore) {
+        const archivedRow = row.slice();
+        archivedRow[1] = "Archived";
+        rowsToArchive.push(archivedRow);
+        rowNumbersToDelete.push(index + 2);
+      }
+    });
+
+    if (!rowsToArchive.length) {
+      return;
+    }
+
+    archiveSheet
+      .getRange(archiveSheet.getLastRow() + 1, 1, rowsToArchive.length, RESERVATION_HEADERS.length)
+      .setValues(rowsToArchive);
+
+    rowNumbersToDelete.reverse().forEach((rowNumber) => {
+      reservationsSheet.deleteRow(rowNumber);
+    });
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function installDailyArchiveTrigger() {
+  ScriptApp.getProjectTriggers()
+    .filter((trigger) => trigger.getHandlerFunction() === "archivePastReservations")
+    .forEach((trigger) => ScriptApp.deleteTrigger(trigger));
+
+  ScriptApp.newTrigger("archivePastReservations")
+    .timeBased()
+    .everyDays(1)
+    .atHour(4)
+    .create();
+}
+
+function normalizeDate_(value) {
+  if (!value) {
+    return null;
+  }
+
+  const date = value instanceof Date ? new Date(value) : new Date(String(value));
+
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  date.setHours(0, 0, 0, 0);
+  return date;
 }
 
 function sendGuestConfirmation_(reservation) {
@@ -243,7 +330,15 @@ function json_(payload) {
 
 For updates after the first deployment, use `Deploy > Manage deployments`, click the pencil, choose `New version`, then click `Deploy`. This keeps the same `/exec` URL.
 
-## 4. Connect the site
+## 4. Install automatic archiving
+
+In Apps Script, select the function `installDailyArchiveTrigger`, then click `Run` once.
+
+Google may ask for authorization. After that, the script will automatically move old bookings from `Reservations` to `Archive` every day around 04:00.
+
+The setting `ARCHIVE_AFTER_DAYS = 1` means a reservation is archived one full day after its date. For example, a reservation on September 15 can be archived from September 17.
+
+## 5. Connect the site
 
 Paste the `/exec` URL into `reservations-config.js`:
 
