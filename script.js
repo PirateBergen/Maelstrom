@@ -7,7 +7,7 @@ const fullSite = document.querySelector(".full-site");
 const previewParams = new URLSearchParams(window.location.search);
 const isSitePreview = previewParams.get("preview") === "site";
 const isAdminMode = previewParams.get("admin") === "maelstrom";
-const GOOGLE_REVIEW_URL = "";
+const GOOGLE_REVIEW_URL = "https://g.page/r/CeKV2RxcRGJRECE/review";
 
 try {
   window.localStorage.removeItem("maelstrom-admin-mode");
