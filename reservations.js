@@ -41,6 +41,7 @@ reservationForm?.addEventListener("submit", async (event) => {
   try {
     const formData = new FormData(reservationForm);
     formData.set("submittedAt", new Date().toISOString());
+    formData.set("source", "Maelstrom website");
 
     await fetch(RESERVATION_ENDPOINT, {
       method: "POST",

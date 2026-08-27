@@ -1,6 +1,6 @@
 # Maelstrom Google reservations setup
 
-This connects `reservations.html` to one Google Sheet.
+This connects `reservations.html` to one Google Sheet, sends a confirmation email to the guest, and sends a booking alert to you.
 
 ## 1. Create the Google Sheet
 
@@ -10,12 +10,17 @@ The Apps Script will create the sheet tabs and headers automatically.
 
 ## 2. Paste this Apps Script
 
-In the Google Sheet, open `Extensions > Apps Script`, delete the default code, and paste this:
+In the Google Sheet, open `Extensions > Apps Script`, delete the default code, and paste this.
+
+Important: put the email address that should receive new booking requests between the quotes in `OWNER_EMAIL`.
 
 ```js
 const RESERVATIONS_SHEET_NAME = "Reservations";
 const CREATE_CALENDAR_EVENTS = false;
 const CALENDAR_ID = "";
+const OWNER_EMAIL = "";
+const BAR_NAME = "Maelstrom";
+const REPLY_TO_EMAIL = OWNER_EMAIL;
 
 const RESERVATION_HEADERS = [
   "Submitted at",
@@ -37,35 +42,41 @@ function doPost(e) {
   try {
     const sheet = getReservationsSheet_();
     const data = e.parameter || {};
-    const submittedAt = data.submittedAt || new Date().toISOString();
-    const status = "New";
-    const name = clean_(data.name);
-    const email = clean_(data.email);
-    const phone = clean_(data.phone);
-    const date = clean_(data.date);
-    const time = clean_(data.time);
-    const guests = clean_(data.guests);
-    const notes = clean_(data.notes);
+    const reservation = {
+      submittedAt: data.submittedAt || new Date().toISOString(),
+      status: "New",
+      name: clean_(data.name),
+      email: clean_(data.email),
+      phone: clean_(data.phone),
+      date: clean_(data.date),
+      time: clean_(data.time),
+      guests: clean_(data.guests),
+      notes: clean_(data.notes),
+      source: clean_(data.source) || "Maelstrom website",
+    };
 
-    if (!name || !email || !date || !time || !guests) {
+    if (!reservation.name || !reservation.email || !reservation.date || !reservation.time || !reservation.guests) {
       return json_({ ok: false, error: "Missing required reservation fields." });
     }
 
     sheet.appendRow([
-      submittedAt,
-      status,
-      name,
-      email,
-      phone,
-      date,
-      time,
-      guests,
-      notes,
-      "Maelstrom website",
+      reservation.submittedAt,
+      reservation.status,
+      reservation.name,
+      reservation.email,
+      reservation.phone,
+      reservation.date,
+      reservation.time,
+      reservation.guests,
+      reservation.notes,
+      reservation.source,
     ]);
 
+    sendGuestConfirmation_(reservation);
+    sendOwnerNotification_(reservation);
+
     if (CREATE_CALENDAR_EVENTS) {
-      createCalendarEvent_({ name, email, phone, date, time, guests, notes });
+      createCalendarEvent_(reservation);
     }
 
     return json_({ ok: true });
@@ -96,6 +107,82 @@ function getReservationsSheet_() {
   return sheet;
 }
 
+function sendGuestConfirmation_(reservation) {
+  const subject = `${BAR_NAME} - Reservation request received`;
+  const htmlBody = `
+    <div style="font-family: Georgia, 'Times New Roman', serif; color: #15110b; line-height: 1.5;">
+      <h2 style="margin: 0 0 12px;">Thank you, ${escapeHtml_(reservation.name)}</h2>
+      <p>Your reservation request at <strong>${BAR_NAME}</strong> has been received.</p>
+      <p>We will review it and send you a final confirmation as soon as possible.</p>
+      ${reservationTable_(reservation)}
+      <p style="margin-top: 18px;">Up is down,<br>${BAR_NAME}</p>
+    </div>
+  `;
+
+  const emailOptions = {
+    to: reservation.email,
+    subject,
+    htmlBody,
+    name: BAR_NAME,
+  };
+
+  if (REPLY_TO_EMAIL) {
+    emailOptions.replyTo = REPLY_TO_EMAIL;
+  }
+
+  MailApp.sendEmail(emailOptions);
+}
+
+function sendOwnerNotification_(reservation) {
+  if (!OWNER_EMAIL) {
+    return;
+  }
+
+  const subject = `New ${BAR_NAME} reservation request - ${reservation.date} ${reservation.time}`;
+  const htmlBody = `
+    <div style="font-family: Arial, sans-serif; color: #111; line-height: 1.5;">
+      <h2>New reservation request</h2>
+      ${reservationTable_(reservation)}
+      <p><strong>Reply to guest:</strong> ${escapeHtml_(reservation.email)}</p>
+    </div>
+  `;
+
+  MailApp.sendEmail({
+    to: OWNER_EMAIL,
+    subject,
+    htmlBody,
+    name: BAR_NAME,
+    replyTo: reservation.email,
+  });
+}
+
+function reservationTable_(reservation) {
+  return `
+    <table cellpadding="8" cellspacing="0" style="border-collapse: collapse; margin-top: 14px;">
+      ${tableRow_("Name", reservation.name)}
+      ${tableRow_("Email", reservation.email)}
+      ${tableRow_("Phone", reservation.phone)}
+      ${tableRow_("Date", reservation.date)}
+      ${tableRow_("Time", reservation.time)}
+      ${tableRow_("Guests", reservation.guests)}
+      ${tableRow_("Notes", reservation.notes)}
+    </table>
+  `;
+}
+
+function tableRow_(label, value) {
+  if (!value) {
+    return "";
+  }
+
+  return `
+    <tr>
+      <th align="left" style="border: 1px solid #d8c398; background: #f4ead2;">${escapeHtml_(label)}</th>
+      <td style="border: 1px solid #d8c398;">${escapeHtml_(value)}</td>
+    </tr>
+  `;
+}
+
 function createCalendarEvent_(reservation) {
   const calendar = CALENDAR_ID
     ? CalendarApp.getCalendarById(CALENDAR_ID)
@@ -109,7 +196,7 @@ function createCalendarEvent_(reservation) {
   const end = new Date(start.getTime() + 2 * 60 * 60 * 1000);
 
   calendar.createEvent(
-    `Maelstrom reservation - ${reservation.name} (${reservation.guests})`,
+    `${BAR_NAME} reservation - ${reservation.name} (${reservation.guests})`,
     start,
     end,
     {
@@ -128,6 +215,15 @@ function clean_(value) {
   return String(value || "").trim().slice(0, 1000);
 }
 
+function escapeHtml_(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function json_(payload) {
   return ContentService
     .createTextOutput(JSON.stringify(payload))
@@ -144,6 +240,8 @@ function json_(payload) {
 5. Click `Deploy`.
 6. Authorize the app.
 7. Copy the `/exec` URL.
+
+For updates after the first deployment, use `Deploy > Manage deployments`, click the pencil, choose `New version`, then click `Deploy`. This keeps the same `/exec` URL.
 
 ## 4. Connect the site
 
