@@ -2,9 +2,21 @@ const RESERVATION_ENDPOINT = window.MAELSTROM_RESERVATION_ENDPOINT || "";
 
 const reservationForm = document.querySelector("[data-reservation-form]");
 const reservationStatus = document.querySelector("[data-reservation-status]");
+const reservationThanks = document.querySelector("#reservationThanks");
 
 function reservationText(key) {
   return window.MaelstromI18n?.t(key) || key;
+}
+
+function showReservationThanks() {
+  if (!reservationThanks) {
+    setReservationStatus("reservationSaved");
+    return;
+  }
+
+  document.body.classList.add("reservation-confirmed");
+  reservationThanks.hidden = false;
+  reservationThanks.focus?.();
 }
 
 function setReservationStatus(key) {
@@ -37,7 +49,7 @@ reservationForm?.addEventListener("submit", async (event) => {
     });
 
     reservationForm.reset();
-    setReservationStatus("reservationSaved");
+    showReservationThanks();
   } catch {
     setReservationStatus("reservationError");
   } finally {
