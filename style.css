@@ -1239,6 +1239,17 @@ body.lightbox-open {
     rgba(0, 0, 0, 0.16);
 }
 
+.reservations-page {
+  background:
+    linear-gradient(90deg, #000 0%, #000 12%, rgba(0, 0, 0, 0.94) 20%, rgba(0, 0, 0, 0.64) 30%, transparent 45%, transparent 55%, rgba(0, 0, 0, 0.64) 70%, rgba(0, 0, 0, 0.94) 80%, #000 88%, #000 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0.22) 58%, rgba(0, 0, 0, 0.68) 100%),
+    url("assets/maelstrom-full-section-bg.jpg");
+  background-color: #000;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: clamp(760px, 54vw, 1040px) auto;
+}
+
 .reservations-band {
   display: grid;
   min-height: calc(100svh - 104px);
