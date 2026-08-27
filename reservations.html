@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Request a table at Maelstrom in Bergen." />
     <title>Maelstrom | Reservations</title>
-    <link rel="stylesheet" href="style.css?v=20260827-reservation-black-sides" />
+    <link rel="stylesheet" href="style.css?v=20260827-group-booking" />
   </head>
   <body class="site-open">
     <main class="full-site reservations-page" id="site" aria-label="Maelstrom reservations">
@@ -51,8 +51,25 @@
           </label>
           <label>
             <span data-i18n="reservationGuests">Guests</span>
-            <input name="guests" type="number" min="1" max="20" value="2" required />
+            <select name="guests" required data-guests-select>
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="group" data-i18n="reservationGuestsGroup">More than 10</option>
+            </select>
           </label>
+          <div class="reservation-group-notice reservation-wide" data-group-booking-notice hidden>
+            <h3 data-i18n="groupBookingTitle">Group booking request</h3>
+            <p data-i18n="groupBookingMessage">For more than 10 guests, please send us an email with the date, time, group size, and any special request. A deposit may be required.</p>
+            <a href="index.html?preview=site#group-booking" data-i18n="groupBookingContact">Contact us by email</a>
+          </div>
           <label class="reservation-wide">
             <span data-i18n="reservationNotes">Notes</span>
             <textarea name="notes" rows="4" data-i18n-placeholder="reservationNotesPlaceholder" placeholder="Occasion, accessibility, preferred area..."></textarea>
@@ -75,8 +92,8 @@
       </div>
     </section>
 
-    <script src="i18n.js?v=20260827-reservation-email"></script>
+    <script src="i18n.js?v=20260827-group-booking"></script>
     <script src="reservations-config.js?v=20260827-reservations-live"></script>
-    <script src="reservations.js?v=20260827-reservation-email"></script>
+    <script src="reservations.js?v=20260827-group-booking"></script>
   </body>
 </html>
