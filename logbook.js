@@ -161,6 +161,49 @@ let touchStartX = 0;
 let touchStartY = 0;
 let ignoreNextSheetClick = false;
 let logbookZoom = 1;
+const logbookImageCache = new Map();
+
+function preloadLogbookImage(src) {
+  if (!src || logbookImageCache.has(src)) {
+    return;
+  }
+
+  const image = new Image();
+  image.decoding = "async";
+  image.src = src;
+  logbookImageCache.set(src, image);
+}
+
+function preloadAdjacentLogbookImages() {
+  const currentIndex = logbookPage - 1;
+  [currentIndex - 1, currentIndex + 1].forEach((index) => {
+    preloadLogbookImage(LOGBOOK_PAGES[index]?.illustration?.src);
+  });
+}
+
+function warmLogbookImageCache() {
+  const sources = LOGBOOK_PAGES.map((page) => page.illustration?.src).filter(Boolean);
+
+  // The first turn of the cover is the most likely action, so warm it immediately.
+  preloadLogbookImage(LOGBOOK_PAGES[1]?.illustration?.src);
+
+  const preloadRemaining = () => {
+    sources.forEach(preloadLogbookImage);
+  };
+  const scheduleRemaining = () => {
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(preloadRemaining, { timeout: 1500 });
+    } else {
+      window.setTimeout(preloadRemaining, 300);
+    }
+  };
+
+  if (document.readyState === "complete") {
+    scheduleRemaining();
+  } else {
+    window.addEventListener("load", scheduleRemaining, { once: true });
+  }
+}
 
 function escapeHtml(value) {
   return String(value)
@@ -251,6 +294,8 @@ function renderLogbookPage() {
       ${illustration}
     </article>
   `;
+
+  preloadAdjacentLogbookImages();
 }
 
 logbookButtons.forEach((button) => {
@@ -345,3 +390,4 @@ window.addEventListener("maelstrom:languagechange", renderLogbookPage);
 
 applyLogbookZoom();
 renderLogbookPage();
+warmLogbookImageCache();
