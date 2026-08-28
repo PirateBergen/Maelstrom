@@ -187,7 +187,8 @@ divinationForm?.addEventListener("submit", async (event) => {
     formData.set("guests", "1");
     formData.set("duration", "20–30 minutes");
     formData.set("price", "250 NOK");
-    formData.set("notes", `[Oracle session — 20–30 min — 250 NOK]${guestNote ? `\n${guestNote}` : ""}`);
+    formData.set("tableReservationConfirmed", "yes");
+    formData.set("notes", `[Oracle session — linked table reservation confirmed — 20–30 min — 250 NOK]${guestNote ? `\n${guestNote}` : ""}`);
     formData.set("submittedAt", new Date().toISOString());
     formData.set("source", "Maelstrom website — oracle session");
 

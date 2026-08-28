@@ -1401,6 +1401,35 @@ body.lightbox-open {
   line-height: 1.45;
 }
 
+.divination-table-requirement {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.7rem !important;
+  padding: 0.75rem 0.85rem;
+  color: #c9fbff !important;
+  background: rgba(0, 24, 28, 0.62);
+  border: 1px solid rgba(128, 241, 255, 0.2);
+  border-radius: 6px;
+}
+
+.divination-table-requirement input {
+  width: 19px;
+  min-width: 19px;
+  height: 19px;
+  min-height: 19px;
+  padding: 0;
+  accent-color: #38e8ff;
+  cursor: pointer;
+}
+
+.divination-link-guidance {
+  margin: -0.25rem 0 0;
+  color: rgba(164, 244, 255, 0.68);
+  font-size: 0.82rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
 .reservation-form {
   display: grid;
   width: min(860px, 100%);
