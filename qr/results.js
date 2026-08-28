@@ -139,7 +139,7 @@ async function renderResults() {
         <span>${escapeHtml(getComment(submission))}</span>
       </article>
     `).join("")
-    : `<article class="submission-card"><strong>${t("noCommentsYet")}</strong><span>${t("commentsLater")}</span></article>`;
+    : `<article class="submission-card"><strong>${t("noCommentsYet")}</strong></article>`;
 
   if (remoteError) {
     log.insertAdjacentHTML(
