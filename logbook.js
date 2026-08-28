@@ -162,18 +162,6 @@ let touchStartY = 0;
 let ignoreNextSheetClick = false;
 let logbookZoom = 1;
 
-function preloadLogbookImages() {
-  LOGBOOK_PAGES.forEach((page) => {
-    if (!page.illustration?.src) {
-      return;
-    }
-
-    const image = new Image();
-    image.decoding = "async";
-    image.src = page.illustration.src;
-  });
-}
-
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -234,7 +222,7 @@ function renderLogbookPage() {
   if (page.cover) {
     logbookSheet.innerHTML = `
       <article class="logbook-cover-content" aria-label="Long live the King">
-        <img src="assets/logbook-chapter-one-emblem.webp" alt="Long live the King" draggable="false" />
+        <img src="assets/logbook-chapter-one-emblem.webp" alt="Long live the King" decoding="async" draggable="false" />
       </article>
     `;
     return;
@@ -253,7 +241,7 @@ function renderLogbookPage() {
     : "";
   const entryClass = page.illustration?.variant === "side" ? " logbook-entry-with-side-art" : "";
   const illustration = page.illustration
-    ? `<span class="logbook-entry-illustration-wrap${illustrationClass}" style="--illustration-mask: url('${escapeHtml(page.illustration.src)}');"><img class="logbook-entry-illustration" src="${escapeHtml(page.illustration.src)}" alt="${escapeHtml(page.illustration.alt)}" draggable="false" /></span>`
+    ? `<span class="logbook-entry-illustration-wrap${illustrationClass}" style="--illustration-mask: url('${escapeHtml(page.illustration.src)}');"><img class="logbook-entry-illustration" src="${escapeHtml(page.illustration.src)}" alt="${escapeHtml(page.illustration.alt)}" decoding="async" draggable="false" /></span>`
     : "";
 
   logbookSheet.innerHTML = `
@@ -355,6 +343,5 @@ logbookSheet?.addEventListener(
 
 window.addEventListener("maelstrom:languagechange", renderLogbookPage);
 
-preloadLogbookImages();
 applyLogbookZoom();
 renderLogbookPage();
