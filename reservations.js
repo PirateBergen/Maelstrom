@@ -5,10 +5,28 @@ const reservationStatus = document.querySelector("[data-reservation-status]");
 const reservationThanks = document.querySelector("#reservationThanks");
 const guestsSelect = document.querySelector("[data-guests-select]");
 const groupBookingNotice = document.querySelector("[data-group-booking-notice]");
+const divinationToggle = document.querySelector("[data-divination-toggle]");
+const divinationInfo = document.querySelector("[data-divination-info]");
 
 function reservationText(key) {
   return window.MaelstromI18n?.t(key) || key;
 }
+
+function toggleDivinationInfo() {
+  if (!divinationToggle || !divinationInfo) {
+    return;
+  }
+
+  const willOpen = divinationInfo.hidden;
+  divinationInfo.hidden = !willOpen;
+  divinationToggle.setAttribute("aria-expanded", String(willOpen));
+
+  if (willOpen) {
+    divinationInfo.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+
+divinationToggle?.addEventListener("click", toggleDivinationInfo);
 
 function showReservationThanks() {
   if (!reservationThanks) {
