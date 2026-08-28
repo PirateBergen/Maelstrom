@@ -5,36 +5,14 @@ const reservationStatus = document.querySelector("[data-reservation-status]");
 const reservationThanks = document.querySelector("#reservationThanks");
 const guestsSelect = document.querySelector("[data-guests-select]");
 const groupBookingNotice = document.querySelector("[data-group-booking-notice]");
-const divinationToggle = document.querySelector("[data-divination-toggle]");
-const divinationInfo = document.querySelector("[data-divination-info]");
-const divinationForm = document.querySelector("[data-divination-form]");
-const divinationDate = document.querySelector("[data-divination-date]");
-const divinationStatus = document.querySelector("[data-divination-status]");
+const reservationDate = document.querySelector("[data-reservation-date]");
+const divinationOffer = document.querySelector("[data-divination-offer]");
+const divinationAddonToggle = document.querySelector("[data-divination-addon-toggle]");
+const divinationAddonFields = document.querySelector("[data-divination-addon-fields]");
+const divinationTime = document.querySelector("[data-divination-time]");
 
 function reservationText(key) {
   return window.MaelstromI18n?.t(key) || key;
-}
-
-function toggleDivinationInfo() {
-  if (!divinationToggle || !divinationInfo) {
-    return;
-  }
-
-  const willOpen = divinationInfo.hidden;
-  divinationInfo.hidden = !willOpen;
-  divinationToggle.setAttribute("aria-expanded", String(willOpen));
-
-  if (willOpen) {
-    divinationInfo.scrollIntoView({ behavior: "smooth", block: "nearest" });
-  }
-}
-
-divinationToggle?.addEventListener("click", toggleDivinationInfo);
-
-function setDivinationStatus(key) {
-  if (divinationStatus) {
-    divinationStatus.textContent = key ? reservationText(key) : "";
-  }
 }
 
 function isWednesday(dateValue) {
@@ -46,34 +24,31 @@ function isWednesday(dateValue) {
   return !Number.isNaN(date.getTime()) && date.getDay() === 3;
 }
 
-function validateDivinationDate(report = false) {
-  if (!divinationDate) {
-    return true;
+function updateDivinationAddon() {
+  const isAvailable = isWednesday(reservationDate?.value);
+
+  if (divinationOffer) {
+    divinationOffer.hidden = !isAvailable;
   }
 
-  const isValid = !divinationDate.value || isWednesday(divinationDate.value);
-  divinationDate.setCustomValidity(isValid ? "" : reservationText("divinationWednesdayOnly"));
+  if (!isAvailable && divinationAddonToggle) {
+    divinationAddonToggle.checked = false;
+  }
 
-  if (!isValid) {
-    setDivinationStatus("divinationWednesdayOnly");
-    if (report) {
-      divinationDate.reportValidity();
+  const isRequested = isAvailable && Boolean(divinationAddonToggle?.checked);
+  if (divinationAddonFields) {
+    divinationAddonFields.hidden = !isRequested;
+  }
+  if (divinationTime) {
+    divinationTime.required = isRequested;
+    if (!isRequested) {
+      divinationTime.value = "";
     }
-  } else {
-    setDivinationStatus("");
   }
-
-  return isValid;
 }
 
-if (divinationDate) {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDate()).padStart(2, "0");
-  divinationDate.min = `${year}-${month}-${day}`;
-  divinationDate.addEventListener("change", () => validateDivinationDate(true));
-}
+reservationDate?.addEventListener("change", updateDivinationAddon);
+divinationAddonToggle?.addEventListener("change", updateDivinationAddon);
 
 function showReservationThanks() {
   if (!reservationThanks) {
@@ -118,9 +93,9 @@ window.addEventListener("maelstrom:languagechange", () => {
   if (guestsSelect?.value === "group") {
     setReservationStatus("groupBookingStatus");
   }
-  validateDivinationDate(false);
 });
 updateGroupBookingNotice();
+updateDivinationAddon();
 
 reservationForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -141,7 +116,20 @@ reservationForm?.addEventListener("submit", async (event) => {
 
   try {
     const formData = new FormData(reservationForm);
+    const oracleRequested = Boolean(divinationAddonToggle?.checked) && isWednesday(reservationDate?.value);
+    const tableNotes = String(formData.get("notes") || "").trim();
+    const oracleNotes = String(formData.get("oracleNotes") || "").trim();
     formData.set("type", "reservation");
+    formData.set("oracleRequested", oracleRequested ? "yes" : "no");
+    if (oracleRequested) {
+      formData.set("oracleDuration", "20–30 minutes");
+      formData.set("oraclePrice", "250 NOK");
+      formData.set(
+        "notes",
+        `${tableNotes}${tableNotes ? "\n\n" : ""}[Oracle session requested — ${formData.get("oracleTime")} — 20–30 min — 250 NOK]${oracleNotes ? `\nOracle note: ${oracleNotes}` : ""}`
+      );
+    }
+    formData.delete("oracleNotes");
     formData.set(
       "newsletterOptIn",
       reservationForm.querySelector('input[name="newsletterOptIn"]')?.checked ? "yes" : "no"
@@ -157,52 +145,10 @@ reservationForm?.addEventListener("submit", async (event) => {
 
     reservationForm.reset();
     updateGroupBookingNotice();
+    updateDivinationAddon();
     showReservationThanks();
   } catch {
     setReservationStatus("reservationError");
-  } finally {
-    submitButton?.removeAttribute("disabled");
-  }
-});
-
-divinationForm?.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  if (!validateDivinationDate(true) || !divinationForm.reportValidity()) {
-    return;
-  }
-
-  if (!RESERVATION_ENDPOINT) {
-    setDivinationStatus("divinationPending");
-    return;
-  }
-
-  const submitButton = divinationForm.querySelector("button[type='submit']");
-  submitButton?.setAttribute("disabled", "true");
-
-  try {
-    const formData = new FormData(divinationForm);
-    const guestNote = String(formData.get("notes") || "").trim();
-    formData.set("type", "divination");
-    formData.set("guests", "1");
-    formData.set("duration", "20–30 minutes");
-    formData.set("price", "250 NOK");
-    formData.set("tableReservationConfirmed", "yes");
-    formData.set("notes", `[Oracle session — linked table reservation confirmed — 20–30 min — 250 NOK]${guestNote ? `\n${guestNote}` : ""}`);
-    formData.set("submittedAt", new Date().toISOString());
-    formData.set("source", "Maelstrom website — oracle session");
-
-    await fetch(RESERVATION_ENDPOINT, {
-      method: "POST",
-      mode: "no-cors",
-      body: formData,
-    });
-
-    divinationForm.reset();
-    setDivinationStatus("");
-    showReservationThanks();
-  } catch {
-    setDivinationStatus("reservationError");
   } finally {
     submitButton?.removeAttribute("disabled");
   }

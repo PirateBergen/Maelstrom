@@ -1281,117 +1281,6 @@ body.lightbox-open {
   line-height: 1.55;
 }
 
-.reservation-divination-button {
-  justify-self: center;
-  min-height: 48px;
-  padding: 0.72rem 1.15rem;
-  color: #c9fbff;
-  cursor: pointer;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(0, 221, 255, 0.1), transparent 80%),
-    rgba(0, 7, 9, 0.88);
-  border: 1px solid rgba(128, 241, 255, 0.42);
-  border-radius: 7px;
-  box-shadow:
-    inset 0 0 26px rgba(0, 44, 52, 0.4),
-    0 0 12px rgba(0, 221, 255, 0.22),
-    0 12px 22px rgba(0, 0, 0, 0.36);
-  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  font-size: clamp(0.76rem, 1.25vw, 0.9rem);
-  font-weight: 900;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-shadow: 0 0 10px rgba(0, 221, 255, 0.42);
-  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
-}
-
-.reservation-divination-button:hover,
-.reservation-divination-button:focus-visible,
-.reservation-divination-button[aria-expanded="true"] {
-  border-color: rgba(128, 241, 255, 0.72);
-  outline: none;
-  box-shadow:
-    inset 0 0 28px rgba(0, 55, 65, 0.48),
-    0 0 16px rgba(0, 221, 255, 0.36),
-    0 0 32px rgba(0, 139, 188, 0.24),
-    0 14px 24px rgba(0, 0, 0, 0.42);
-  transform: translateY(-2px);
-}
-
-.divination-info {
-  display: grid;
-  width: min(860px, 100%);
-  justify-items: center;
-  gap: 0.9rem;
-  padding: clamp(1.2rem, 3vw, 2rem);
-  margin-inline: auto;
-  text-align: center;
-  background:
-    radial-gradient(circle at 50% 18%, rgba(0, 221, 255, 0.1), transparent 14rem),
-    linear-gradient(145deg, rgba(0, 6, 8, 0.97), rgba(0, 4, 5, 0.95)),
-    url("assets/parchment-background.webp");
-  background-blend-mode: normal, normal, multiply;
-  background-size: cover;
-  border: 1px solid rgba(128, 241, 255, 0.2);
-  border-radius: 6px;
-  box-shadow: inset 0 0 52px rgba(0, 0, 0, 0.76), 0 18px 30px rgba(0, 0, 0, 0.4);
-}
-
-.divination-info[hidden] {
-  display: none;
-}
-
-.divination-info h3 {
-  margin: 0;
-  color: #030707;
-  font-size: clamp(1.65rem, 3.4vw, 2.8rem);
-  line-height: 0.96;
-  text-shadow:
-    0 1px 0 rgba(218, 255, 255, 0.56),
-    0 0 4px rgba(222, 255, 255, 0.95),
-    0 0 13px rgba(69, 228, 255, 0.7),
-    0 0 28px rgba(8, 139, 188, 0.58);
-}
-
-.divination-info > p {
-  max-width: 650px;
-  margin: 0;
-  color: rgba(164, 244, 255, 0.78);
-  line-height: 1.55;
-}
-
-.divination-info .divination-facts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.55rem;
-  padding: 0;
-  margin: 0.2rem 0 0;
-  list-style: none;
-}
-
-.divination-facts li {
-  padding: 0.48rem 0.75rem;
-  color: #c9fbff;
-  background: rgba(0, 20, 24, 0.72);
-  border: 1px solid rgba(128, 241, 255, 0.22);
-  border-radius: 999px;
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-shadow: 0 0 9px rgba(0, 221, 255, 0.34);
-}
-
-.divination-info .divination-form {
-  width: 100%;
-  padding: 0.5rem 0 0;
-  background: transparent;
-  border: 0;
-  box-shadow: none;
-}
-
 .divination-notes small {
   color: rgba(164, 244, 255, 0.66);
   font-family: "Trebuchet MS", Arial, sans-serif;
@@ -1401,18 +1290,22 @@ body.lightbox-open {
   line-height: 1.45;
 }
 
-.divination-table-requirement {
-  grid-template-columns: auto 1fr;
-  align-items: center;
-  gap: 0.7rem !important;
-  padding: 0.75rem 0.85rem;
-  color: #c9fbff !important;
-  background: rgba(0, 24, 28, 0.62);
-  border: 1px solid rgba(128, 241, 255, 0.2);
-  border-radius: 6px;
+.divination-addon {
+  padding: 0.9rem;
+  background: radial-gradient(circle at 50% 0%, rgba(0, 221, 255, 0.1), transparent 75%), rgba(0, 14, 17, 0.7);
+  border: 1px solid rgba(128, 241, 255, 0.3);
+  border-radius: 7px;
+  box-shadow: inset 0 0 28px rgba(0, 44, 52, 0.3), 0 0 16px rgba(0, 221, 255, 0.12);
 }
 
-.divination-table-requirement input {
+.divination-addon-choice {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.8rem !important;
+  cursor: pointer;
+}
+
+.divination-addon-choice input {
   width: 19px;
   min-width: 19px;
   height: 19px;
@@ -1422,12 +1315,39 @@ body.lightbox-open {
   cursor: pointer;
 }
 
-.divination-link-guidance {
-  margin: -0.25rem 0 0;
-  color: rgba(164, 244, 255, 0.68);
-  font-size: 0.82rem;
+.divination-addon-choice strong,
+.divination-addon-choice small {
+  display: block;
+}
+
+.divination-addon-choice strong {
+  color: #c9fbff;
+  font-size: 1rem;
+  text-shadow: 0 0 10px rgba(0, 221, 255, 0.42);
+}
+
+.divination-addon-choice small {
+  margin-top: 0.3rem;
+  color: rgba(164, 244, 255, 0.72);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0;
   line-height: 1.45;
-  text-align: center;
+}
+
+.divination-addon-fields {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+  gap: 0.9rem;
+  padding-top: 1rem;
+  margin-top: 0.9rem;
+  border-top: 1px solid rgba(128, 241, 255, 0.16);
+}
+
+.divination-addon-fields[hidden],
+.divination-addon[hidden] {
+  display: none;
 }
 
 .reservation-form {
@@ -3097,7 +3017,8 @@ body.reservation-confirmed .reservations-page {
 
   .menu-columns,
   .booking-band,
-  .reservation-form {
+  .reservation-form,
+  .divination-addon-fields {
     grid-template-columns: 1fr;
   }
 
