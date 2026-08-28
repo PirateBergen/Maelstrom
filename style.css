@@ -2323,6 +2323,16 @@ body.reservation-confirmed .reservations-page {
   filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.68));
 }
 
+.contact-language-note {
+  max-width: min(420px, 86vw);
+  margin: 0;
+  color: rgba(164, 244, 255, 0.78) !important;
+  font-size: clamp(0.78rem, 1.15vw, 0.94rem);
+  line-height: 1.35 !important;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(0, 199, 235, 0.28), 0 2px 8px rgba(0, 0, 0, 0.82);
+}
+
 .review-kicker {
   margin: 0 0 0.36rem;
   color: #101717;
