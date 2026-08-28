@@ -80,7 +80,6 @@ function buildNewsletterPanel() {
   newsletterPanel.innerHTML = `
     <button class="newsletter-close" type="button" data-newsletter-close aria-label="${newsletterT("newsletterClose")}"></button>
     <form class="newsletter-form" data-newsletter-form>
-      <p class="newsletter-kicker">Maelstrom</p>
       <h2 data-newsletter-title>${newsletterT("newsletterTitle")}</h2>
       <p data-newsletter-copy>${newsletterT("newsletterCopy")}</p>
       <label>
