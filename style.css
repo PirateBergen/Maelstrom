@@ -1299,6 +1299,15 @@ body.lightbox-open {
   line-height: 1.45;
 }
 
+.reservation-time-guidance {
+  color: rgba(164, 244, 255, 0.66);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+}
+
 .divination-addon {
   padding: 0.9rem;
   background: radial-gradient(circle at 50% 0%, rgba(0, 221, 255, 0.1), transparent 75%), rgba(0, 14, 17, 0.7);

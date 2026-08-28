@@ -6,6 +6,7 @@ const reservationThanks = document.querySelector("#reservationThanks");
 const guestsSelect = document.querySelector("[data-guests-select]");
 const groupBookingNotice = document.querySelector("[data-group-booking-notice]");
 const reservationDate = document.querySelector("[data-reservation-date]");
+const bookingTime = document.querySelector("[data-booking-time]");
 const divinationOffer = document.querySelector("[data-divination-offer]");
 const divinationAddonToggle = document.querySelector("[data-divination-addon-toggle]");
 const divinationAddonFields = document.querySelector("[data-divination-addon-fields]");
@@ -14,6 +15,36 @@ const divinationTimeSlots = document.querySelector("[data-divination-time-slots]
 
 function reservationText(key) {
   return window.MaelstromI18n?.t(key) || key;
+}
+
+function getBookableTimes() {
+  const times = [];
+  for (let minutes = 18 * 60; minutes < 24 * 60; minutes += 15) {
+    const hour = String(Math.floor(minutes / 60)).padStart(2, "0");
+    const minute = String(minutes % 60).padStart(2, "0");
+    times.push(`${hour}:${minute}`);
+  }
+  times.push("00:00");
+  return times;
+}
+
+function populateTimeSelect(select, selectedValue = "") {
+  const fragment = document.createDocumentFragment();
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.textContent = reservationText("reservationChooseTime");
+  placeholder.disabled = true;
+  fragment.append(placeholder);
+
+  getBookableTimes().forEach((time) => {
+    const option = document.createElement("option");
+    option.value = time;
+    option.textContent = time;
+    fragment.append(option);
+  });
+
+  select.replaceChildren(fragment);
+  select.value = selectedValue && getBookableTimes().includes(selectedValue) ? selectedValue : "";
 }
 
 function isWednesday(dateValue) {
@@ -79,7 +110,8 @@ function renderDivinationTimeSlots() {
     const lastNameInput = document.createElement("input");
     const timeLabel = document.createElement("label");
     const timeText = document.createElement("span");
-    const timeInput = document.createElement("input");
+    const timeGuidance = document.createElement("small");
+    const timeInput = document.createElement("select");
     const noteLabel = document.createElement("label");
     const noteText = document.createElement("span");
     const guidance = document.createElement("small");
@@ -101,10 +133,11 @@ function renderDivinationTimeSlots() {
     lastNameInput.value = person.lastName;
     lastNameInput.dataset.oracleLastName = "";
     timeText.textContent = reservationText("oraclePersonSlot");
-    timeInput.type = "time";
+    timeGuidance.className = "reservation-time-guidance";
+    timeGuidance.textContent = reservationText("reservationTimeGuidance");
     timeInput.name = `oracleTime${index + 1}`;
-    timeInput.value = person.time;
     timeInput.dataset.oracleTime = "";
+    populateTimeSelect(timeInput, person.time);
     noteLabel.className = "divination-notes";
     noteText.textContent = reservationText("divinationNotes");
     guidance.textContent = reservationText("divinationNotesGuidance");
@@ -116,7 +149,7 @@ function renderDivinationTimeSlots() {
 
     firstNameLabel.append(firstNameText, firstNameInput);
     lastNameLabel.append(lastNameText, lastNameInput);
-    timeLabel.append(timeText, timeInput);
+    timeLabel.append(timeText, timeGuidance, timeInput);
     noteLabel.append(noteText, guidance, noteInput);
     card.append(heading, firstNameLabel, lastNameLabel, timeLabel, noteLabel);
     fragment.append(card);
@@ -227,10 +260,12 @@ window.addEventListener("maelstrom:languagechange", () => {
   if (guestsSelect?.value === "group") {
     setReservationStatus("groupBookingStatus");
   }
+  if (bookingTime) populateTimeSelect(bookingTime, bookingTime.value);
   renderDivinationTimeSlots();
   updateDivinationAddon();
 });
 updateGroupBookingNotice();
+if (bookingTime) populateTimeSelect(bookingTime);
 updateDivinationParticipantOptions();
 renderDivinationTimeSlots();
 updateDivinationAddon();

@@ -49,7 +49,8 @@
           </label>
           <label>
             <span data-i18n="reservationTime">Time</span>
-            <input name="time" type="time" required />
+            <small class="reservation-time-guidance" data-i18n="reservationTimeGuidance">From 18:00 to midnight, in 15-minute intervals</small>
+            <select name="time" required data-booking-time></select>
           </label>
           <label>
             <span data-i18n="reservationGuests">Guests</span>
@@ -114,9 +115,9 @@
       </div>
     </section>
 
-    <script src="i18n.js?v=20260828-oracle-person-fields"></script>
+    <script src="i18n.js?v=20260828-booking-times"></script>
     <script src="reservations-config.js?v=20260828-newsletter"></script>
     <script src="newsletter.js?v=20260828-newsletter-copy"></script>
-    <script src="reservations.js?v=20260828-oracle-person-fields"></script>
+    <script src="reservations.js?v=20260828-booking-times"></script>
   </body>
 </html>
