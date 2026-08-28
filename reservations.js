@@ -26,7 +26,35 @@ function isWednesday(dateValue) {
 }
 
 function getDivinationTimeInputs() {
-  return [...(divinationTimeSlots?.querySelectorAll("input[type='time']") || [])];
+  return [...(divinationTimeSlots?.querySelectorAll("[data-oracle-time]") || [])];
+}
+
+function getDivinationPeople() {
+  return [...(divinationTimeSlots?.querySelectorAll("[data-oracle-person]") || [])].map((card) => ({
+    name: card.querySelector("[data-oracle-name]")?.value.trim() || "",
+    time: card.querySelector("[data-oracle-time]")?.value || "",
+    note: card.querySelector("[data-oracle-note]")?.value.trim() || "",
+  }));
+}
+
+function updateDivinationParticipantOptions() {
+  if (!divinationParticipants) {
+    return;
+  }
+
+  const previousCount = Number(divinationParticipants.value) || 1;
+  const tableGuestCount = guestsSelect?.value === "group" ? 1 : Math.max(1, Number(guestsSelect?.value) || 1);
+  const fragment = document.createDocumentFragment();
+
+  for (let count = 1; count <= tableGuestCount; count += 1) {
+    const option = document.createElement("option");
+    option.value = String(count);
+    option.textContent = String(count);
+    fragment.append(option);
+  }
+
+  divinationParticipants.replaceChildren(fragment);
+  divinationParticipants.value = String(Math.min(previousCount, tableGuestCount));
 }
 
 function renderDivinationTimeSlots() {
@@ -34,20 +62,53 @@ function renderDivinationTimeSlots() {
     return;
   }
 
-  const previousValues = getDivinationTimeInputs().map((input) => input.value);
-  const count = Math.min(6, Math.max(1, Number(divinationParticipants?.value) || 1));
+  const previousPeople = getDivinationPeople();
+  const count = Math.max(1, Number(divinationParticipants?.value) || 1);
   const fragment = document.createDocumentFragment();
 
   for (let index = 0; index < count; index += 1) {
-    const label = document.createElement("label");
-    const text = document.createElement("span");
-    const input = document.createElement("input");
-    text.textContent = `${reservationText("oraclePersonSlot")} ${index + 1}`;
-    input.type = "time";
-    input.name = `oracleTime${index + 1}`;
-    input.value = previousValues[index] || "";
-    label.append(text, input);
-    fragment.append(label);
+    const person = previousPeople[index] || { name: "", time: "", note: "" };
+    const card = document.createElement("div");
+    const heading = document.createElement("h3");
+    const nameLabel = document.createElement("label");
+    const nameText = document.createElement("span");
+    const nameInput = document.createElement("input");
+    const timeLabel = document.createElement("label");
+    const timeText = document.createElement("span");
+    const timeInput = document.createElement("input");
+    const noteLabel = document.createElement("label");
+    const noteText = document.createElement("span");
+    const guidance = document.createElement("small");
+    const noteInput = document.createElement("textarea");
+
+    card.className = "divination-person-card";
+    card.dataset.oraclePerson = "";
+    heading.textContent = `${reservationText("oraclePerson")} ${index + 1}`;
+    nameText.textContent = reservationText("oracleFullName");
+    nameInput.type = "text";
+    nameInput.name = `oracleName${index + 1}`;
+    nameInput.autocomplete = "name";
+    nameInput.value = person.name;
+    nameInput.dataset.oracleName = "";
+    timeText.textContent = reservationText("oraclePersonSlot");
+    timeInput.type = "time";
+    timeInput.name = `oracleTime${index + 1}`;
+    timeInput.value = person.time;
+    timeInput.dataset.oracleTime = "";
+    noteLabel.className = "divination-notes";
+    noteText.textContent = reservationText("divinationNotes");
+    guidance.textContent = reservationText("divinationNotesGuidance");
+    noteInput.name = `oracleNote${index + 1}`;
+    noteInput.rows = 2;
+    noteInput.placeholder = reservationText("divinationNotesPlaceholder");
+    noteInput.value = person.note;
+    noteInput.dataset.oracleNote = "";
+
+    nameLabel.append(nameText, nameInput);
+    timeLabel.append(timeText, timeInput);
+    noteLabel.append(noteText, guidance, noteInput);
+    card.append(heading, nameLabel, timeLabel, noteLabel);
+    fragment.append(card);
   }
 
   divinationTimeSlots.replaceChildren(fragment);
@@ -95,9 +156,8 @@ function updateDivinationAddon() {
   if (divinationAddonFields) {
     divinationAddonFields.hidden = !isRequested;
   }
-  getDivinationTimeInputs().forEach((input) => {
+  divinationTimeSlots?.querySelectorAll("[data-oracle-name], [data-oracle-time]").forEach((input) => {
     input.required = isRequested;
-    if (!isRequested) input.value = "";
   });
 }
 
@@ -146,7 +206,12 @@ function updateGroupBookingNotice() {
   }
 }
 
-guestsSelect?.addEventListener("change", updateGroupBookingNotice);
+guestsSelect?.addEventListener("change", () => {
+  updateGroupBookingNotice();
+  updateDivinationParticipantOptions();
+  renderDivinationTimeSlots();
+  updateDivinationAddon();
+});
 window.addEventListener("maelstrom:languagechange", () => {
   if (guestsSelect?.value === "group") {
     setReservationStatus("groupBookingStatus");
@@ -155,6 +220,7 @@ window.addEventListener("maelstrom:languagechange", () => {
   updateDivinationAddon();
 });
 updateGroupBookingNotice();
+updateDivinationParticipantOptions();
 renderDivinationTimeSlots();
 updateDivinationAddon();
 
@@ -183,8 +249,8 @@ reservationForm?.addEventListener("submit", async (event) => {
     const formData = new FormData(reservationForm);
     const oracleRequested = Boolean(divinationAddonToggle?.checked) && isWednesday(reservationDate?.value);
     const tableNotes = String(formData.get("notes") || "").trim();
-    const oracleNotes = String(formData.get("oracleNotes") || "").trim();
-    const oracleTimes = getDivinationTimeInputs().map((input) => input.value);
+    const oraclePeople = getDivinationPeople();
+    const oracleTimes = oraclePeople.map((person) => person.time);
     formData.set("type", "reservation");
     formData.set("oracleRequested", oracleRequested ? "yes" : "no");
     if (oracleRequested) {
@@ -192,12 +258,15 @@ reservationForm?.addEventListener("submit", async (event) => {
       formData.set("oraclePrice", "250 NOK");
       formData.set("oracleParticipants", String(oracleTimes.length));
       formData.set("oracleTimes", oracleTimes.join(", "));
+      formData.set("oracleNames", oraclePeople.map((person) => person.name).join(", "));
+      const oracleDetails = oraclePeople
+        .map((person, index) => `Person ${index + 1}: ${person.name} — ${person.time}${person.note ? ` — short note: ${person.note}` : ""}`)
+        .join("\n");
       formData.set(
         "notes",
-        `${tableNotes}${tableNotes ? "\n\n" : ""}[Oracle session requested — ${oracleTimes.length} person(s) — slots: ${oracleTimes.join(", ")} — 20–30 min each — 250 NOK per slot]${oracleNotes ? `\nOracle note: ${oracleNotes}` : ""}`
+        `${tableNotes}${tableNotes ? "\n\n" : ""}[Oracle session requested — ${oracleTimes.length} person(s) — 20–30 min each — 250 NOK per slot]\n${oracleDetails}`
       );
     }
-    formData.delete("oracleNotes");
     formData.set(
       "newsletterOptIn",
       reservationForm.querySelector('input[name="newsletterOptIn"]')?.checked ? "yes" : "no"
@@ -213,6 +282,7 @@ reservationForm?.addEventListener("submit", async (event) => {
 
     reservationForm.reset();
     updateGroupBookingNotice();
+    updateDivinationParticipantOptions();
     renderDivinationTimeSlots();
     updateDivinationAddon();
     showReservationThanks();
