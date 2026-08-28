@@ -1339,6 +1339,27 @@ body.lightbox-open {
   resize: vertical;
 }
 
+.reservation-newsletter-opt-in {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.65rem;
+  color: rgba(255, 244, 207, 0.82);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.reservation-newsletter-opt-in input {
+  width: 18px;
+  min-width: 18px;
+  height: 18px;
+  min-height: 18px;
+  padding: 0;
+  accent-color: #38e8ff;
+  cursor: pointer;
+}
+
 .reservation-form input:focus,
 .reservation-form select:focus,
 .reservation-form textarea:focus {
@@ -3096,6 +3117,172 @@ body.reservation-confirmed .reservations-page {
   .site-logo-title {
     width: min(88vw, 420px);
   }
+}
+
+.newsletter-popover {
+  position: fixed;
+  right: clamp(14px, 3vw, 34px);
+  bottom: clamp(14px, 3vw, 34px);
+  z-index: 90;
+  width: min(360px, calc(100vw - 28px));
+  padding: 1rem;
+  color: #fff4cf;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 84% 0%, rgba(0, 221, 255, 0.13), transparent 8rem),
+    linear-gradient(145deg, rgba(0, 8, 10, 0.96), rgba(0, 3, 5, 0.95)),
+    url("assets/parchment-background.jpg");
+  background-blend-mode: normal, normal, multiply;
+  background-size: cover;
+  border: 1px solid rgba(128, 241, 255, 0.24);
+  border-radius: 8px;
+  opacity: 0;
+  box-shadow:
+    0 0 28px rgba(0, 221, 255, 0.12),
+    0 22px 48px rgba(0, 0, 0, 0.62),
+    inset 0 0 40px rgba(0, 0, 0, 0.62);
+  transform: translateY(18px);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.newsletter-popover.is-visible {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.newsletter-close {
+  position: absolute;
+  top: 0.56rem;
+  right: 0.56rem;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  cursor: pointer;
+  background: rgba(0, 5, 7, 0.7);
+  border: 1px solid rgba(128, 241, 255, 0.2);
+  border-radius: 999px;
+}
+
+.newsletter-close::before,
+.newsletter-close::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 2px;
+  content: "";
+  background: rgba(255, 244, 207, 0.86);
+  border-radius: 999px;
+}
+
+.newsletter-close::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.newsletter-close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.newsletter-form {
+  display: grid;
+  gap: 0.72rem;
+  padding-right: 1.75rem;
+}
+
+.newsletter-kicker {
+  margin: 0;
+  color: #9ef8ff;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px rgba(0, 221, 255, 0.5);
+}
+
+.newsletter-form h2,
+.newsletter-form p {
+  margin: 0;
+}
+
+.newsletter-form h2 {
+  color: #fff1c5;
+  font-size: clamp(1.45rem, 3vw, 1.95rem);
+  line-height: 1;
+  text-shadow: 0 0 12px rgba(0, 221, 255, 0.18);
+}
+
+.newsletter-form p:not(.newsletter-kicker):not(.newsletter-status) {
+  color: rgba(245, 231, 200, 0.76);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.newsletter-form input {
+  width: 100%;
+  min-height: 42px;
+  padding: 0.66rem 0.76rem;
+  color: #fff4cf;
+  background: rgba(0, 4, 6, 0.86);
+  border: 1px solid rgba(128, 241, 255, 0.18);
+  border-radius: 6px;
+  font: 600 0.9rem/1.35 "Trebuchet MS", Arial, sans-serif;
+  box-shadow: inset 0 0 18px rgba(0, 0, 0, 0.48);
+}
+
+.newsletter-form input::placeholder {
+  color: rgba(255, 244, 207, 0.48);
+}
+
+.newsletter-form input:focus {
+  border-color: rgba(128, 241, 255, 0.64);
+  outline: none;
+  box-shadow:
+    0 0 18px rgba(0, 221, 255, 0.14),
+    inset 0 0 18px rgba(0, 0, 0, 0.32);
+}
+
+.newsletter-form button[type="submit"] {
+  justify-self: start;
+  min-height: 40px;
+  padding: 0.62rem 0.92rem;
+  color: #9ef8ff;
+  background:
+    linear-gradient(180deg, rgba(9, 44, 50, 0.94), rgba(0, 8, 10, 0.95)),
+    radial-gradient(circle at 50% 0%, rgba(0, 221, 255, 0.18), transparent 76%);
+  border: 1px solid rgba(128, 241, 255, 0.42);
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(0, 221, 255, 0.62);
+  box-shadow:
+    0 0 22px rgba(0, 221, 255, 0.12),
+    inset 0 0 16px rgba(0, 221, 255, 0.08);
+}
+
+.newsletter-form button[type="submit"]:hover,
+.newsletter-form button[type="submit"]:focus-visible,
+.newsletter-close:hover,
+.newsletter-close:focus-visible {
+  outline: none;
+  filter: brightness(1.12);
+}
+
+.newsletter-form button[type="submit"]:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.newsletter-status {
+  min-height: 1.25em;
+  color: rgba(158, 248, 255, 0.84);
+  font-size: 0.8rem;
+  line-height: 1.35;
 }
 
 @media (prefers-reduced-motion: reduce) {

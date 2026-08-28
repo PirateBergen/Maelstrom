@@ -75,6 +75,11 @@ reservationForm?.addEventListener("submit", async (event) => {
 
   try {
     const formData = new FormData(reservationForm);
+    formData.set("type", "reservation");
+    formData.set(
+      "newsletterOptIn",
+      reservationForm.querySelector('input[name="newsletterOptIn"]')?.checked ? "yes" : "no"
+    );
     formData.set("submittedAt", new Date().toISOString());
     formData.set("source", "Maelstrom website");
 
