@@ -1384,6 +1384,23 @@ body.lightbox-open {
   text-shadow: 0 0 9px rgba(0, 221, 255, 0.34);
 }
 
+.divination-info .divination-form {
+  width: 100%;
+  padding: 0.5rem 0 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.divination-notes small {
+  color: rgba(164, 244, 255, 0.66);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.45;
+}
+
 .reservation-form {
   display: grid;
   width: min(860px, 100%);
