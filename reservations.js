@@ -31,7 +31,8 @@ function getDivinationTimeInputs() {
 
 function getDivinationPeople() {
   return [...(divinationTimeSlots?.querySelectorAll("[data-oracle-person]") || [])].map((card) => ({
-    name: card.querySelector("[data-oracle-name]")?.value.trim() || "",
+    firstName: card.querySelector("[data-oracle-first-name]")?.value.trim() || "",
+    lastName: card.querySelector("[data-oracle-last-name]")?.value.trim() || "",
     time: card.querySelector("[data-oracle-time]")?.value || "",
     note: card.querySelector("[data-oracle-note]")?.value.trim() || "",
   }));
@@ -67,12 +68,15 @@ function renderDivinationTimeSlots() {
   const fragment = document.createDocumentFragment();
 
   for (let index = 0; index < count; index += 1) {
-    const person = previousPeople[index] || { name: "", time: "", note: "" };
+    const person = previousPeople[index] || { firstName: "", lastName: "", time: "", note: "" };
     const card = document.createElement("div");
     const heading = document.createElement("h3");
-    const nameLabel = document.createElement("label");
-    const nameText = document.createElement("span");
-    const nameInput = document.createElement("input");
+    const firstNameLabel = document.createElement("label");
+    const firstNameText = document.createElement("span");
+    const firstNameInput = document.createElement("input");
+    const lastNameLabel = document.createElement("label");
+    const lastNameText = document.createElement("span");
+    const lastNameInput = document.createElement("input");
     const timeLabel = document.createElement("label");
     const timeText = document.createElement("span");
     const timeInput = document.createElement("input");
@@ -84,12 +88,18 @@ function renderDivinationTimeSlots() {
     card.className = "divination-person-card";
     card.dataset.oraclePerson = "";
     heading.textContent = `${reservationText("oraclePerson")} ${index + 1}`;
-    nameText.textContent = reservationText("oracleFullName");
-    nameInput.type = "text";
-    nameInput.name = `oracleName${index + 1}`;
-    nameInput.autocomplete = "name";
-    nameInput.value = person.name;
-    nameInput.dataset.oracleName = "";
+    firstNameText.textContent = reservationText("oracleFirstName");
+    firstNameInput.type = "text";
+    firstNameInput.name = `oracleFirstName${index + 1}`;
+    firstNameInput.autocomplete = "given-name";
+    firstNameInput.value = person.firstName;
+    firstNameInput.dataset.oracleFirstName = "";
+    lastNameText.textContent = reservationText("oracleLastName");
+    lastNameInput.type = "text";
+    lastNameInput.name = `oracleLastName${index + 1}`;
+    lastNameInput.autocomplete = "family-name";
+    lastNameInput.value = person.lastName;
+    lastNameInput.dataset.oracleLastName = "";
     timeText.textContent = reservationText("oraclePersonSlot");
     timeInput.type = "time";
     timeInput.name = `oracleTime${index + 1}`;
@@ -104,10 +114,11 @@ function renderDivinationTimeSlots() {
     noteInput.value = person.note;
     noteInput.dataset.oracleNote = "";
 
-    nameLabel.append(nameText, nameInput);
+    firstNameLabel.append(firstNameText, firstNameInput);
+    lastNameLabel.append(lastNameText, lastNameInput);
     timeLabel.append(timeText, timeInput);
     noteLabel.append(noteText, guidance, noteInput);
-    card.append(heading, nameLabel, timeLabel, noteLabel);
+    card.append(heading, firstNameLabel, lastNameLabel, timeLabel, noteLabel);
     fragment.append(card);
   }
 
@@ -156,7 +167,7 @@ function updateDivinationAddon() {
   if (divinationAddonFields) {
     divinationAddonFields.hidden = !isRequested;
   }
-  divinationTimeSlots?.querySelectorAll("[data-oracle-name], [data-oracle-time]").forEach((input) => {
+  divinationTimeSlots?.querySelectorAll("[data-oracle-first-name], [data-oracle-last-name], [data-oracle-time]").forEach((input) => {
     input.required = isRequested;
   });
 }
@@ -258,9 +269,9 @@ reservationForm?.addEventListener("submit", async (event) => {
       formData.set("oraclePrice", "250 NOK");
       formData.set("oracleParticipants", String(oracleTimes.length));
       formData.set("oracleTimes", oracleTimes.join(", "));
-      formData.set("oracleNames", oraclePeople.map((person) => person.name).join(", "));
+      formData.set("oracleNames", oraclePeople.map((person) => `${person.firstName} ${person.lastName}`).join(", "));
       const oracleDetails = oraclePeople
-        .map((person, index) => `Person ${index + 1}: ${person.name} — ${person.time}${person.note ? ` — short note: ${person.note}` : ""}`)
+        .map((person, index) => `Person ${index + 1}: ${person.firstName} ${person.lastName} — ${person.time}${person.note ? ` — short note: ${person.note}` : ""}`)
         .join("\n");
       formData.set(
         "notes",
