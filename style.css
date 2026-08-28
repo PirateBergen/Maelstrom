@@ -2305,7 +2305,7 @@ body.reservation-confirmed .reservations-page {
   grid-template-columns: 1fr;
   align-items: center;
   justify-items: center;
-  gap: clamp(0.6rem, 2vw, 1.1rem);
+  gap: clamp(0.18rem, 0.7vw, 0.42rem);
 }
 
 .social-links {
@@ -2420,6 +2420,14 @@ body.reservation-confirmed .reservations-page {
   font-weight: 900;
   line-height: 1;
   text-shadow: 0 0 8px rgba(201, 253, 255, 0.58);
+}
+
+.social-contact {
+  overflow: hidden;
+  color: transparent;
+  background: transparent;
+  border: 0;
+  text-shadow: none;
 }
 
 .social-icon:hover,
@@ -3011,7 +3019,7 @@ body.reservation-confirmed .reservations-page {
   .contact-actions {
     width: min(92vw, 520px);
     grid-template-columns: 1fr;
-    gap: 0.35rem;
+    gap: 0.12rem;
     justify-items: center;
   }
 

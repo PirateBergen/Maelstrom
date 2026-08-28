@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Maelstrom cocktail tasting results." />
     <title>Maelstrom | Tasting Results</title>
-    <link rel="stylesheet" href="../style.css?v=20260827-reservation-confirmation" />
-    <link rel="stylesheet" href="tasting.css?v=20260822-i18n-logbook-preload" />
+    <link rel="stylesheet" href="../style.css?v=20260828-contact-actions" />
+    <link rel="stylesheet" href="tasting.css?v=20260828-tier-results-heading" />
   </head>
   <body class="tasting-body">
     <header class="site-header">
@@ -26,27 +26,25 @@
       <section class="tasting-hero compact">
         <img class="tasting-map" src="../assets/maelstrom-pirate-map.webp" alt="" draggable="false" />
         <div class="tasting-hero-content">
-          <p class="site-kicker" data-i18n="currentLeaderboard">Current leaderboard</p>
-          <h1 class="page-title" data-i18n="tastingResults">Tasting Results</h1>
+          <h1 class="page-title tier-results-title">
+            <span data-i18n="tierResultsTitleLineOne">Tier List</span>
+            <span data-i18n="tierResultsTitleLineTwo">Results</span>
+          </h1>
           <p data-i18n="resultsIntro">
-            The signature cocktail ranking will appear here when the tasting votes are connected.
+            Order our signature tasting tray, vote for your favorite cocktails, and play your part in shaping the Maelstrom ranking.
           </p>
         </div>
       </section>
 
       <section class="tasting-board">
         <div class="results-toolbar">
-          <div>
-            <p class="site-kicker" data-i18n="currentLeaderboard">Current leaderboard</p>
-            <h2 data-i18n="signatureRanking">Signature ranking</h2>
-          </div>
         </div>
         <div class="leaderboard" id="leaderboard"></div>
         <div class="submission-log" id="submissionLog"></div>
       </section>
     </main>
 
-    <script src="../i18n.js?v=20260827-reservation-confirmation"></script>
+    <script src="../i18n.js?v=20260828-tier-results-heading"></script>
     <script src="config.js?v=20260822-i18n-logbook-preload"></script>
     <script src="tasting.js?v=20260822-i18n-logbook-preload"></script>
     <script src="results.js?v=20260822-i18n-logbook-preload"></script>

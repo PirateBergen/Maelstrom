@@ -154,6 +154,18 @@ body.vote-confirmed .site-header {
   color: #030707;
 }
 
+.tier-results-title {
+  display: grid;
+  max-width: min(760px, calc(100vw - 32px));
+  gap: 0.02em;
+  text-align: center;
+  white-space: normal;
+}
+
+.tier-results-title span {
+  display: block;
+}
+
 .tasting-hero p:last-child {
   width: min(640px, 100%);
   margin: 0;
@@ -174,6 +186,10 @@ body.vote-confirmed .site-header {
   align-items: end;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.results-toolbar:empty {
+  display: none;
 }
 
 .tasting-instructions {
@@ -515,6 +531,19 @@ body.vote-confirmed .site-header {
 
   .tasting-hero h1 {
     font-size: clamp(2.2rem, 12vw, 4rem);
+  }
+
+  .tasting-hero h1.tier-results-title {
+    width: calc(100vw - 28px);
+    max-width: 12ch;
+    font-size: clamp(2.25rem, 11.5vw, 3.75rem);
+    line-height: 0.9;
+  }
+
+  .tasting-hero p:last-child {
+    width: min(31rem, calc(100vw - 34px));
+    font-size: 0.92rem;
+    line-height: 1.45;
   }
 
   .tasting-board {
