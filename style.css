@@ -1345,6 +1345,18 @@ body.lightbox-open {
   border-top: 1px solid rgba(128, 241, 255, 0.16);
 }
 
+.divination-addon-fields > label:first-child,
+.divination-time-slots,
+.divination-addon-notes {
+  grid-column: 1 / -1;
+}
+
+.divination-time-slots {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
 .divination-addon-fields[hidden],
 .divination-addon[hidden] {
   display: none;
@@ -3018,7 +3030,8 @@ body.reservation-confirmed .reservations-page {
   .menu-columns,
   .booking-band,
   .reservation-form,
-  .divination-addon-fields {
+  .divination-addon-fields,
+  .divination-time-slots {
     grid-template-columns: 1fr;
   }
 

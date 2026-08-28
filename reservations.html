@@ -76,15 +76,23 @@
               <input name="oracleRequested" type="checkbox" value="yes" data-divination-addon-toggle />
               <span>
                 <strong data-i18n="reservationDivinationButton">Reserve a divination session</strong>
-                <small data-i18n="oracleSessionsCopy">Every Wednesday, Maelstrom hosts oracle sessions. Reserve a 20 to 30-minute slot for 250 NOK (Norwegian kroner).</small>
+                <small data-i18n="oracleSessionsCopy">Every Wednesday, Maelstrom hosts oracle sessions. Reserve a 20 to 30-minute slot for 250 NOK (Norwegian kroner). Sessions are for one person at a time, except in special cases (couples, friends, etc.). Each person must have a separate time slot.</small>
               </span>
             </label>
             <div class="divination-addon-fields" data-divination-addon-fields hidden>
               <label>
-                <span data-i18n="oracleSessionTime">Oracle session time</span>
-                <input name="oracleTime" type="time" data-divination-time />
+                <span data-i18n="oracleParticipants">Number of people</span>
+                <select name="oracleParticipants" data-divination-participants>
+                  <option value="1" selected>1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                </select>
               </label>
-              <label class="divination-notes">
+              <div class="divination-time-slots" data-divination-time-slots></div>
+              <label class="divination-notes divination-addon-notes">
                 <span data-i18n="divinationNotes">Notes (optional)</span>
                 <small data-i18n="divinationNotesGuidance">You do not need a specific question or request. If you add a note, please share as few details as possible so the reading remains open.</small>
                 <textarea name="oracleNotes" rows="3" data-i18n-placeholder="divinationNotesPlaceholder" placeholder="Optional — keep details to a minimum..."></textarea>
@@ -117,9 +125,9 @@
       </div>
     </section>
 
-    <script src="i18n.js?v=20260828-oracle-addon"></script>
+    <script src="i18n.js?v=20260828-oracle-multiple"></script>
     <script src="reservations-config.js?v=20260828-newsletter"></script>
     <script src="newsletter.js?v=20260828-newsletter-copy"></script>
-    <script src="reservations.js?v=20260828-oracle-addon"></script>
+    <script src="reservations.js?v=20260828-oracle-multiple"></script>
   </body>
 </html>
