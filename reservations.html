@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Request a table at Maelstrom in Bergen." />
     <title>Maelstrom | Reservations</title>
-    <link rel="stylesheet" href="style.css?v=20260828-reservation-tabs" />
+    <link rel="stylesheet" href="style.css?v=20260828-divination-button" />
   </head>
   <body class="site-open">
     <main class="full-site reservations-page" id="site" aria-label="Maelstrom reservations">
@@ -28,42 +28,17 @@
           <h2 class="page-title" data-i18n="reservationsTitle">Reservations</h2>
         </div>
 
-        <div class="reservation-tabs" role="tablist" aria-label="Reservation type" data-i18n-aria="reservationTabsAria">
-          <button
-            class="reservation-tab is-active"
-            id="reservationTableTab"
-            type="button"
-            role="tab"
-            aria-selected="true"
-            aria-controls="reservationTablePanel"
-            data-reservation-tab="table"
-            data-i18n="reservationTableTab"
-          >
-            Reserve a table
-          </button>
-          <button
-            class="reservation-tab"
-            id="reservationDivinationTab"
-            type="button"
-            role="tab"
-            aria-selected="false"
-            aria-controls="reservationDivinationPanel"
-            tabindex="-1"
-            data-reservation-tab="divination"
-            data-i18n="reservationDivinationTab"
-          >
-            Reserve a divination session
-          </button>
-        </div>
-
-        <form
-          class="reservation-form reservation-tab-panel menu-panel"
-          id="reservationTablePanel"
-          role="tabpanel"
-          aria-labelledby="reservationTableTab"
-          data-reservation-panel="table"
-          data-reservation-form
+        <button
+          class="reservation-divination-button"
+          type="button"
+          disabled
+          aria-disabled="true"
+          data-i18n="reservationDivinationButton"
         >
+          Reserve a divination session
+        </button>
+
+        <form class="reservation-form menu-panel" data-reservation-form>
           <input name="type" type="hidden" value="reservation" />
           <label>
             <span data-i18n="reservationName">Name</span>
@@ -117,18 +92,6 @@
           <button class="reservation-submit" type="submit" data-i18n="reservationSubmit">Request a table</button>
           <p class="reservation-status" data-reservation-status aria-live="polite"></p>
         </form>
-
-        <section
-          class="reservation-divination-panel reservation-tab-panel menu-panel"
-          id="reservationDivinationPanel"
-          role="tabpanel"
-          aria-labelledby="reservationDivinationTab"
-          data-reservation-panel="divination"
-          hidden
-        >
-          <h3 data-i18n="reservationDivinationTab">Reserve a divination session</h3>
-          <p data-i18n="divinationComingSoon">Details coming soon.</p>
-        </section>
       </section>
     </main>
 
@@ -144,9 +107,9 @@
       </div>
     </section>
 
-    <script src="i18n.js?v=20260828-reservation-tabs"></script>
+    <script src="i18n.js?v=20260828-divination-button"></script>
     <script src="reservations-config.js?v=20260828-newsletter"></script>
     <script src="newsletter.js?v=20260828-newsletter-copy"></script>
-    <script src="reservations.js?v=20260828-reservation-tabs"></script>
+    <script src="reservations.js?v=20260828-newsletter"></script>
   </body>
 </html>

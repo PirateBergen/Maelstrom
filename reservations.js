@@ -5,51 +5,10 @@ const reservationStatus = document.querySelector("[data-reservation-status]");
 const reservationThanks = document.querySelector("#reservationThanks");
 const guestsSelect = document.querySelector("[data-guests-select]");
 const groupBookingNotice = document.querySelector("[data-group-booking-notice]");
-const reservationTabs = [...document.querySelectorAll("[data-reservation-tab]")];
-const reservationPanels = [...document.querySelectorAll("[data-reservation-panel]")];
 
 function reservationText(key) {
   return window.MaelstromI18n?.t(key) || key;
 }
-
-function selectReservationTab(tabName, focusTab = false) {
-  reservationTabs.forEach((tab) => {
-    const isActive = tab.dataset.reservationTab === tabName;
-    tab.classList.toggle("is-active", isActive);
-    tab.setAttribute("aria-selected", String(isActive));
-    tab.tabIndex = isActive ? 0 : -1;
-
-    if (isActive && focusTab) {
-      tab.focus();
-    }
-  });
-
-  reservationPanels.forEach((panel) => {
-    panel.hidden = panel.dataset.reservationPanel !== tabName;
-  });
-}
-
-reservationTabs.forEach((tab, index) => {
-  tab.addEventListener("click", () => selectReservationTab(tab.dataset.reservationTab));
-  tab.addEventListener("keydown", (event) => {
-    let nextIndex = index;
-
-    if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-      nextIndex = (index + 1) % reservationTabs.length;
-    } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-      nextIndex = (index - 1 + reservationTabs.length) % reservationTabs.length;
-    } else if (event.key === "Home") {
-      nextIndex = 0;
-    } else if (event.key === "End") {
-      nextIndex = reservationTabs.length - 1;
-    } else {
-      return;
-    }
-
-    event.preventDefault();
-    selectReservationTab(reservationTabs[nextIndex].dataset.reservationTab, true);
-  });
-});
 
 function showReservationThanks() {
   if (!reservationThanks) {
