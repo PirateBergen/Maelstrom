@@ -2417,7 +2417,7 @@ body.reservation-confirmed .reservations-page {
   position: relative;
   z-index: 1;
   display: grid;
-  width: min(560px, calc(100vw - 80px));
+  width: min(760px, calc(100vw - 80px));
   grid-template-columns: 1fr;
   align-items: center;
   justify-items: center;
@@ -2426,10 +2426,11 @@ body.reservation-confirmed .reservations-page {
 
 .social-links {
   display: flex;
+  flex-wrap: wrap;
   min-height: clamp(116px, 15vw, 160px);
   align-items: center;
   justify-content: center;
-  gap: clamp(1rem, 4vw, 2.4rem);
+  gap: clamp(0.75rem, 2.2vw, 1.4rem);
 }
 
 .google-review-panel {
