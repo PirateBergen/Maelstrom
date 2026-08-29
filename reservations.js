@@ -110,7 +110,6 @@ function renderDivinationTimeSlots() {
     const lastNameInput = document.createElement("input");
     const timeLabel = document.createElement("label");
     const timeText = document.createElement("span");
-    const timeGuidance = document.createElement("small");
     const timeInput = document.createElement("select");
     const noteLabel = document.createElement("label");
     const noteText = document.createElement("span");
@@ -133,8 +132,6 @@ function renderDivinationTimeSlots() {
     lastNameInput.value = person.lastName;
     lastNameInput.dataset.oracleLastName = "";
     timeText.textContent = reservationText("oraclePersonSlot");
-    timeGuidance.className = "reservation-time-guidance";
-    timeGuidance.textContent = reservationText("reservationTimeGuidance");
     timeInput.name = `oracleTime${index + 1}`;
     timeInput.dataset.oracleTime = "";
     populateTimeSelect(timeInput, person.time);
@@ -149,7 +146,7 @@ function renderDivinationTimeSlots() {
 
     firstNameLabel.append(firstNameText, firstNameInput);
     lastNameLabel.append(lastNameText, lastNameInput);
-    timeLabel.append(timeText, timeGuidance, timeInput);
+    timeLabel.append(timeText, timeInput);
     noteLabel.append(noteText, guidance, noteInput);
     card.append(heading, firstNameLabel, lastNameLabel, timeLabel, noteLabel);
     fragment.append(card);
