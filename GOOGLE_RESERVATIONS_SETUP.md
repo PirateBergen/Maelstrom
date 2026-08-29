@@ -66,6 +66,10 @@ function doPost(e) {
       return json_({ ok: false, error: "Missing required reservation fields." });
     }
 
+    if (!isReservationDateAllowed_(reservation.date)) {
+      return json_({ ok: false, error: "Reservations are unavailable for past dates, Mondays, and Tuesdays." });
+    }
+
     const oracleRequested = clean_(data.oracleRequested) === "yes";
     const oracleTimes = parseOracleTimes_(data.oracleTimes);
     if (oracleRequested) {
@@ -174,6 +178,21 @@ function parseOracleTimes_(value) {
     .split(",")
     .map((time) => time.trim())
     .filter((time) => /^(?:[01]\d|2[0-3]):(?:00|30)$|^00:00$/.test(time));
+}
+
+function isReservationDateAllowed_(dateValue) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(dateValue || ""))) {
+    return false;
+  }
+
+  const selectedDate = new Date(`${dateValue}T12:00:00`);
+  if (Number.isNaN(selectedDate.getTime())) {
+    return false;
+  }
+
+  const today = Utilities.formatDate(new Date(), Session.getScriptTimeZone(), "yyyy-MM-dd");
+  const weekday = selectedDate.getDay();
+  return dateValue >= today && weekday !== 1 && weekday !== 2;
 }
 
 function getBookedOracleTimes_(date, sheet) {

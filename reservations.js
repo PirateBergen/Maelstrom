@@ -101,6 +101,41 @@ function isWednesday(dateValue) {
   return !Number.isNaN(date.getTime()) && date.getDay() === 3;
 }
 
+function getTodayDateValue() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function validateReservationDate(report = false) {
+  if (!reservationDate) return true;
+
+  reservationDate.min = getTodayDateValue();
+  reservationDate.setCustomValidity("");
+  const value = reservationDate.value;
+  if (!value) return true;
+
+  let errorKey = "";
+  if (value < reservationDate.min) {
+    errorKey = "reservationPastDate";
+  } else {
+    const selectedDate = new Date(`${value}T12:00:00`);
+    const weekday = selectedDate.getDay();
+    if (weekday === 1 || weekday === 2) errorKey = "reservationClosedDays";
+  }
+
+  if (!errorKey) {
+    setReservationStatus("");
+    return true;
+  }
+  reservationDate.setCustomValidity(reservationText(errorKey));
+  setReservationStatus(errorKey);
+  if (report) reservationDate.reportValidity();
+  return false;
+}
+
 function getDivinationTimeInputs() {
   return [...(divinationTimeSlots?.querySelectorAll("[data-oracle-time]") || [])];
 }
@@ -275,6 +310,7 @@ function updateDivinationAddon() {
 
 reservationDate?.addEventListener("change", () => {
   unavailableOracleTimes = new Set();
+  validateReservationDate(true);
   updateDivinationAddon();
   fetchOracleAvailability(reservationDate.value);
 });
@@ -341,8 +377,10 @@ window.addEventListener("maelstrom:languagechange", () => {
   if (bookingTime) populateTimeSelect(bookingTime, bookingTime.value);
   renderDivinationTimeSlots();
   updateDivinationAddon();
+  validateReservationDate(false);
 });
 updateGroupBookingNotice();
+if (reservationDate) reservationDate.min = getTodayDateValue();
 if (bookingTime) populateTimeSelect(bookingTime);
 updateDivinationParticipantOptions();
 renderDivinationTimeSlots();
@@ -350,6 +388,8 @@ updateDivinationAddon();
 
 reservationForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
+
+  if (!validateReservationDate(true)) return;
 
   if (guestsSelect?.value === "group") {
     updateGroupBookingNotice();

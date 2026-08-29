@@ -1523,6 +1523,11 @@ body.lightbox-open {
   opacity: 0.72;
 }
 
+.reservation-privatize {
+  margin-top: 0.35rem;
+  opacity: 0.58;
+}
+
 .reservation-status {
   min-height: 1.4em;
   margin: 0;
