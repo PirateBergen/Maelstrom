@@ -2,6 +2,7 @@ const NEWSLETTER_ENDPOINT =
   window.MAELSTROM_NEWSLETTER_ENDPOINT || window.MAELSTROM_RESERVATION_ENDPOINT || "";
 const NEWSLETTER_DISMISSED_KEY = "maelstrom-newsletter-dismissed-v1";
 const NEWSLETTER_SUBSCRIBED_KEY = "maelstrom-newsletter-subscribed-v1";
+const NEWSLETTER_FORCE_PREVIEW = new URLSearchParams(window.location.search).get("newsletter") === "test";
 
 let newsletterPanel = null;
 let newsletterShown = false;
@@ -55,8 +56,10 @@ function closeNewsletterPanel(remember = true) {
 function showNewsletterPanel() {
   if (
     newsletterShown ||
-    newsletterStorageGet(NEWSLETTER_DISMISSED_KEY) ||
-    newsletterStorageGet(NEWSLETTER_SUBSCRIBED_KEY)
+    (!NEWSLETTER_FORCE_PREVIEW && (
+      newsletterStorageGet(NEWSLETTER_DISMISSED_KEY) ||
+      newsletterStorageGet(NEWSLETTER_SUBSCRIBED_KEY)
+    ))
   ) {
     return;
   }
