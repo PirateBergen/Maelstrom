@@ -44,6 +44,11 @@ function doPost(e) {
   try {
     const sheet = getReservationsSheet_();
     const data = e.parameter || {};
+
+    if (clean_(data.type) === "contact") {
+      return handleContactMessage_(data);
+    }
+
     const reservation = {
       submittedAt: data.submittedAt || new Date().toISOString(),
       status: "New",
@@ -102,6 +107,51 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+function handleContactMessage_(data) {
+  if (clean_(data.website)) {
+    return json_({ ok: true });
+  }
+
+  const message = {
+    name: clean_(data.name),
+    email: clean_(data.email),
+    subject: clean_(data.subject),
+    body: clean_(data.message).slice(0, 3000),
+    submittedAt: clean_(data.submittedAt) || new Date().toISOString(),
+  };
+
+  if (!message.name || !message.email || !message.subject || !message.body || !/^\S+@\S+\.\S+$/.test(message.email)) {
+    return json_({ ok: false, error: "Missing or invalid contact fields." });
+  }
+
+  const cache = CacheService.getScriptCache();
+  const digest = Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, message.email.toLowerCase()));
+  const cacheKey = `contact-${digest.slice(0, 40)}`;
+  const attempts = Number(cache.get(cacheKey) || 0);
+  if (attempts >= 5) {
+    return json_({ ok: false, error: "Too many contact requests. Please try again later." });
+  }
+  cache.put(cacheKey, String(attempts + 1), 3600);
+
+  MailApp.sendEmail({
+    to: OWNER_EMAIL,
+    subject: `[${BAR_NAME}] ${message.subject}`,
+    name: `${BAR_NAME} website`,
+    replyTo: message.email,
+    htmlBody: `
+      <div style="font-family: Arial, sans-serif; color: #111; line-height: 1.5;">
+        <h2>New website message</h2>
+        <p><strong>From:</strong> ${escapeHtml_(message.name)} (${escapeHtml_(message.email)})</p>
+        <p><strong>Subject:</strong> ${escapeHtml_(message.subject)}</p>
+        <p style="white-space: pre-wrap;">${escapeHtml_(message.body)}</p>
+        <p><small>Received ${escapeHtml_(message.submittedAt)}</small></p>
+      </div>
+    `,
+  });
+
+  return json_({ ok: true, service: "Maelstrom contact form" });
 }
 
 function doGet(e) {

@@ -2541,6 +2541,110 @@ body.reservation-confirmed .reservations-page {
   text-shadow: none;
 }
 
+button.social-contact {
+  padding: 0;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.contact-dialog {
+  width: min(92vw, 620px);
+  max-height: 90vh;
+  padding: 0;
+  border: 1px solid rgba(68, 229, 255, 0.55);
+  border-radius: 18px;
+  color: #f6f1e6;
+  background: linear-gradient(145deg, rgba(7, 22, 25, 0.98), rgba(4, 9, 11, 0.99));
+  box-shadow: 0 0 34px rgba(0, 209, 255, 0.24), inset 0 0 30px rgba(0, 209, 255, 0.05);
+}
+
+.contact-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(4px);
+}
+
+.contact-dialog-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(68, 229, 255, 0.45);
+  border-radius: 50%;
+  background: rgba(2, 14, 17, 0.9);
+  cursor: pointer;
+}
+
+.contact-dialog-close::before,
+.contact-dialog-close::after {
+  content: "";
+  position: absolute;
+  top: 17px;
+  left: 9px;
+  width: 18px;
+  height: 2px;
+  background: #6eeaff;
+}
+
+.contact-dialog-close::before { transform: rotate(45deg); }
+.contact-dialog-close::after { transform: rotate(-45deg); }
+
+.contact-form {
+  display: grid;
+  gap: 16px;
+  padding: 34px;
+}
+
+.contact-form h2 {
+  margin: 0;
+  padding-right: 42px;
+  color: #ebfbff;
+  text-shadow: 0 0 14px rgba(50, 220, 255, 0.75);
+}
+
+.contact-form > p { margin: 0; }
+.contact-form label { display: grid; gap: 7px; }
+.contact-form label span { color: #9eeeff; }
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(80, 221, 246, 0.34);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: #fff;
+  background: rgba(0, 8, 10, 0.72);
+  font: inherit;
+}
+
+.contact-form textarea { resize: vertical; }
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: 2px solid rgba(48, 224, 255, 0.65);
+  outline-offset: 2px;
+}
+
+.contact-form button[type="submit"] {
+  min-height: 48px;
+  border: 1px solid #4ee7ff;
+  border-radius: 999px;
+  color: #eaffff;
+  background: linear-gradient(180deg, rgba(0, 116, 138, 0.78), rgba(0, 45, 55, 0.94));
+  box-shadow: 0 0 18px rgba(0, 213, 255, 0.22);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.contact-form button[type="submit"]:disabled { opacity: 0.55; cursor: wait; }
+.contact-form-status { min-height: 1.4em; color: #8deeff; }
+.contact-form-trap { position: absolute !important; left: -10000px !important; }
+
+@media (max-width: 600px) {
+  .contact-form { padding: 28px 20px 22px; }
+}
+
 .social-icon:hover,
 .social-icon:focus-visible {
   outline: none;
