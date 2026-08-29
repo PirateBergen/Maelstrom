@@ -9,9 +9,9 @@
     />
     <title>Maelstrom | Tasting Tier List</title>
     <link rel="stylesheet" href="../style.css?v=20260828-performance-audit" />
-    <link rel="stylesheet" href="tasting.css?v=20260828-performance-audit" />
+    <link rel="stylesheet" href="tasting.css?v=20260829-neon-vote-page" />
   </head>
-  <body class="tasting-body">
+  <body class="tasting-body tasting-vote-page">
     <header class="site-header">
       <a class="brand-mark" href="../index.html?preview=site#top" aria-label="Maelstrom home" data-i18n-aria="homeAria">
         <span class="brand-symbol">M</span>
@@ -28,23 +28,14 @@
     <main class="tasting-shell">
       <section class="tasting-hero">
         <div class="tasting-hero-content">
-          <p class="site-kicker" data-i18n="qrTastingRoute">QR tasting route</p>
           <h1 data-i18n="rankTheStorm">Rank the Storm</h1>
           <p data-i18n="tastingIntro">
-            Taste the Maelstrom signatures as shooters, then place each one in your personal tier list.
+            Rank the cocktails according to your preferences.
           </p>
         </div>
       </section>
 
       <section class="tasting-board" aria-label="Cocktail ranking" data-i18n-aria="cocktailRankingAria">
-        <div class="tasting-instructions">
-          <p class="site-kicker" data-i18n="howItWorks">How it works</p>
-          <h2 data-i18n="yourTiers">Your tiers</h2>
-          <p data-i18n="tierInstructions">
-            S is your absolute favorite. D is not for you. Submit when every cocktail has a tier.
-          </p>
-        </div>
-
         <div class="tier-summary" id="tierSummary" aria-live="polite"></div>
         <div class="cocktail-list" id="cocktailList"></div>
 
@@ -74,7 +65,7 @@
       </div>
     </section>
 
-    <script src="../i18n.js?v=20260827-reservation-confirmation"></script>
+    <script src="../i18n.js?v=20260829-neon-vote-page"></script>
     <script src="config.js?v=20260822-i18n-logbook-preload"></script>
     <script src="tasting.js?v=20260822-i18n-logbook-preload"></script>
   </body>

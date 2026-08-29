@@ -7,6 +7,124 @@
   background-color: #000;
 }
 
+.tasting-vote-page {
+  min-height: 100svh;
+  color: #a4f4ff;
+  background:
+    linear-gradient(90deg, #020808 0%, rgba(0, 0, 0, 0.92) 7%, rgba(0, 0, 0, 0.5) 18%, transparent 34%, transparent 66%, rgba(0, 0, 0, 0.5) 82%, rgba(0, 0, 0, 0.92) 93%, #020808 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.12) 38%, rgba(0, 0, 0, 0.62) 84%, #000 100%),
+    url("../assets/maelstrom-full-section-bg.webp");
+  background-color: #020808;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: clamp(760px, 54vw, 1040px) auto;
+  background-attachment: fixed;
+}
+
+.tasting-vote-page .tasting-shell,
+.tasting-vote-page .tasting-hero,
+.tasting-vote-page .tasting-board {
+  background: transparent;
+}
+
+.tasting-vote-page .tasting-hero {
+  min-height: clamp(410px, 52svh, 590px);
+}
+
+.tasting-vote-page .tasting-hero::after {
+  background:
+    radial-gradient(circle at 50% 46%, rgba(0, 221, 255, 0.13), transparent 23rem),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.66));
+}
+
+.tasting-vote-page .tasting-hero h1 {
+  color: #e9fdff;
+  text-shadow:
+    0 0 6px rgba(147, 244, 255, 0.92),
+    0 0 18px rgba(0, 221, 255, 0.68),
+    0 0 42px rgba(0, 120, 160, 0.62),
+    0 16px 32px rgba(0, 0, 0, 0.85);
+}
+
+.tasting-vote-page .tasting-hero p:last-child {
+  color: rgba(164, 244, 255, 0.88);
+  text-shadow: 0 0 12px rgba(0, 199, 235, 0.4), 0 2px 10px rgba(0, 0, 0, 0.88);
+}
+
+.tasting-vote-page .tasting-board {
+  width: min(1180px, 100%);
+  margin-inline: auto;
+}
+
+.tasting-vote-page .tier-row,
+.tasting-vote-page .cocktail-card,
+.tasting-vote-page .taster-form {
+  color: #a4f4ff;
+  background:
+    radial-gradient(circle at 86% 0%, rgba(0, 221, 255, 0.11), transparent 9rem),
+    linear-gradient(145deg, rgba(0, 13, 15, 0.94), rgba(4, 19, 21, 0.86)),
+    url("../assets/parchment-background.webp");
+  background-size: cover;
+  border-color: rgba(128, 241, 255, 0.22);
+  box-shadow:
+    inset 0 0 34px rgba(0, 0, 0, 0.5),
+    0 0 18px rgba(0, 184, 220, 0.09),
+    0 18px 28px rgba(0, 0, 0, 0.38);
+}
+
+.tasting-vote-page .tier-label,
+.tasting-vote-page .tier-buttons button.active,
+.tasting-vote-page .taster-form button {
+  color: #031214;
+  background: linear-gradient(145deg, #c9fbff, #55dceb);
+  border-color: rgba(201, 253, 255, 0.72);
+  box-shadow: 0 0 16px rgba(0, 221, 255, 0.3);
+}
+
+.tasting-vote-page .tier-items,
+.tasting-vote-page .cocktail-card p,
+.tasting-vote-page .save-status {
+  color: rgba(164, 244, 255, 0.7);
+}
+
+.tasting-vote-page .tier-pill,
+.tasting-vote-page .tier-buttons button {
+  color: #a4f4ff;
+  background: rgba(0, 221, 255, 0.06);
+  border-color: rgba(128, 241, 255, 0.22);
+}
+
+.tasting-vote-page .cocktail-card h3,
+.tasting-vote-page .taster-form label {
+  color: #bffaff;
+  text-shadow: 0 0 10px rgba(0, 199, 235, 0.32);
+}
+
+.tasting-vote-page .taster-form input,
+.tasting-vote-page .taster-form textarea {
+  color: #e9fdff;
+  background: rgba(0, 8, 10, 0.84);
+  border-color: rgba(128, 241, 255, 0.22);
+}
+
+.tasting-vote-page .taster-form input:focus,
+.tasting-vote-page .taster-form textarea:focus {
+  border-color: rgba(128, 241, 255, 0.66);
+  outline: 2px solid rgba(0, 221, 255, 0.22);
+  box-shadow: 0 0 18px rgba(0, 221, 255, 0.14);
+}
+
+.tasting-vote-page .vote-thanks {
+  background:
+    radial-gradient(circle at 50% 38%, rgba(0, 221, 255, 0.11), transparent 24rem),
+    linear-gradient(180deg, rgba(1, 8, 10, 0.9), rgba(0, 0, 0, 0.99));
+}
+
+.tasting-vote-page .vote-thanks h2 {
+  color: #d9fbff;
+  text-shadow: 0 0 12px rgba(0, 221, 255, 0.58), 0 18px 38px rgba(0, 0, 0, 0.72);
+}
+
 .tier-results-page {
   min-height: 100svh;
   color: #a4f4ff;
@@ -562,6 +680,14 @@ body.vote-confirmed .site-header {
 @media (max-width: 720px) {
   .tasting-shell {
     padding-top: max(142px, calc(env(safe-area-inset-top) + 132px));
+  }
+
+  .tasting-vote-page {
+    background-attachment: scroll;
+  }
+
+  .tasting-vote-page .tasting-hero {
+    min-height: clamp(280px, 34svh, 380px);
   }
 
   .vote-thanks-content {
