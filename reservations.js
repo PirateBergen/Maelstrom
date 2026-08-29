@@ -30,7 +30,7 @@ function getBookableTimes(intervalMinutes = 15) {
   return times;
 }
 
-function populateTimeSelect(select, selectedValue = "", unavailableTimes = new Set(), intervalMinutes = 15) {
+function populateTimeSelect(select, selectedValue = "", unavailableTimes = new Set(), intervalMinutes = 15, hideUnavailable = false) {
   const fragment = document.createDocumentFragment();
   const placeholder = document.createElement("option");
   placeholder.value = "";
@@ -40,9 +40,12 @@ function populateTimeSelect(select, selectedValue = "", unavailableTimes = new S
 
   const availableTimes = getBookableTimes(intervalMinutes);
   availableTimes.forEach((time) => {
+    if (hideUnavailable && unavailableTimes.has(time) && time !== selectedValue) {
+      return;
+    }
     const option = document.createElement("option");
     option.value = time;
-    option.disabled = unavailableTimes.has(time);
+    option.disabled = unavailableTimes.has(time) && time !== selectedValue;
     option.textContent = option.disabled ? `${time} — ${reservationText("oracleTimeUnavailable")}` : time;
     fragment.append(option);
   });
@@ -100,6 +103,31 @@ function isWednesday(dateValue) {
 
 function getDivinationTimeInputs() {
   return [...(divinationTimeSlots?.querySelectorAll("[data-oracle-time]") || [])];
+}
+
+function refreshDivinationTimeOptions() {
+  const inputs = getDivinationTimeInputs();
+  const selectedTimes = [];
+  const usedTimes = new Set();
+
+  inputs.forEach((input) => {
+    input.setCustomValidity("");
+    const time = input.value;
+    if (time && !usedTimes.has(time) && !unavailableOracleTimes.has(time)) {
+      selectedTimes.push(time);
+      usedTimes.add(time);
+    } else {
+      selectedTimes.push("");
+    }
+  });
+
+  inputs.forEach((input, index) => {
+    const blockedTimes = new Set(unavailableOracleTimes);
+    selectedTimes.forEach((time, otherIndex) => {
+      if (time && otherIndex !== index) blockedTimes.add(time);
+    });
+    populateTimeSelect(input, selectedTimes[index], blockedTimes, 30, true);
+  });
 }
 
 function getDivinationPeople() {
@@ -176,7 +204,7 @@ function renderDivinationTimeSlots() {
     timeText.textContent = reservationText("oraclePersonSlot");
     timeInput.name = `oracleTime${index + 1}`;
     timeInput.dataset.oracleTime = "";
-    populateTimeSelect(timeInput, person.time, unavailableOracleTimes, 30);
+    populateTimeSelect(timeInput, person.time, unavailableOracleTimes, 30, true);
     noteLabel.className = "divination-notes";
     noteText.textContent = reservationText("divinationNotes");
     guidance.textContent = reservationText("divinationNotesGuidance");
@@ -195,6 +223,7 @@ function renderDivinationTimeSlots() {
   }
 
   divinationTimeSlots.replaceChildren(fragment);
+  refreshDivinationTimeOptions();
 }
 
 function validateDistinctDivinationTimes(report = false) {
@@ -253,6 +282,12 @@ divinationAddonToggle?.addEventListener("change", updateDivinationAddon);
 divinationParticipants?.addEventListener("change", () => {
   renderDivinationTimeSlots();
   updateDivinationAddon();
+});
+divinationTimeSlots?.addEventListener("change", (event) => {
+  if (event.target.matches("[data-oracle-time]")) {
+    refreshDivinationTimeOptions();
+    validateDistinctDivinationTimes(false);
+  }
 });
 
 function showReservationThanks() {
