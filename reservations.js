@@ -12,6 +12,8 @@ const divinationAddonToggle = document.querySelector("[data-divination-addon-tog
 const divinationAddonFields = document.querySelector("[data-divination-addon-fields]");
 const divinationParticipants = document.querySelector("[data-divination-participants]");
 const divinationTimeSlots = document.querySelector("[data-divination-time-slots]");
+let unavailableOracleTimes = new Set();
+let oracleAvailabilityRequest = 0;
 
 function reservationText(key) {
   return window.MaelstromI18n?.t(key) || key;
@@ -28,7 +30,7 @@ function getBookableTimes() {
   return times;
 }
 
-function populateTimeSelect(select, selectedValue = "") {
+function populateTimeSelect(select, selectedValue = "", unavailableTimes = new Set()) {
   const fragment = document.createDocumentFragment();
   const placeholder = document.createElement("option");
   placeholder.value = "";
@@ -39,12 +41,51 @@ function populateTimeSelect(select, selectedValue = "") {
   getBookableTimes().forEach((time) => {
     const option = document.createElement("option");
     option.value = time;
-    option.textContent = time;
+    option.disabled = unavailableTimes.has(time);
+    option.textContent = option.disabled ? `${time} — ${reservationText("oracleTimeUnavailable")}` : time;
     fragment.append(option);
   });
 
   select.replaceChildren(fragment);
-  select.value = selectedValue && getBookableTimes().includes(selectedValue) ? selectedValue : "";
+  select.value = selectedValue && getBookableTimes().includes(selectedValue) && !unavailableTimes.has(selectedValue) ? selectedValue : "";
+}
+
+function fetchOracleAvailability(dateValue) {
+  if (!RESERVATION_ENDPOINT || !isWednesday(dateValue)) {
+    unavailableOracleTimes = new Set();
+    return Promise.resolve(true);
+  }
+
+  const requestId = ++oracleAvailabilityRequest;
+  const callbackName = `maelstromOracleAvailability${Date.now()}${requestId}`;
+
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    const timeout = window.setTimeout(() => finish(false), 10000);
+
+    function finish(success, payload = {}) {
+      window.clearTimeout(timeout);
+      script.remove();
+      delete window[callbackName];
+
+      if (requestId !== oracleAvailabilityRequest) {
+        resolve(false);
+        return;
+      }
+
+      if (success) {
+        unavailableOracleTimes = new Set(Array.isArray(payload.bookedTimes) ? payload.bookedTimes : []);
+      }
+      renderDivinationTimeSlots();
+      updateDivinationAddon();
+      resolve(success);
+    }
+
+    window[callbackName] = (payload) => finish(Boolean(payload?.ok), payload);
+    script.onerror = () => finish(false);
+    script.src = `${RESERVATION_ENDPOINT}?action=oracleAvailability&date=${encodeURIComponent(dateValue)}&callback=${encodeURIComponent(callbackName)}&_=${Date.now()}`;
+    document.head.append(script);
+  });
 }
 
 function isWednesday(dateValue) {
@@ -134,7 +175,7 @@ function renderDivinationTimeSlots() {
     timeText.textContent = reservationText("oraclePersonSlot");
     timeInput.name = `oracleTime${index + 1}`;
     timeInput.dataset.oracleTime = "";
-    populateTimeSelect(timeInput, person.time);
+    populateTimeSelect(timeInput, person.time, unavailableOracleTimes);
     noteLabel.className = "divination-notes";
     noteText.textContent = reservationText("divinationNotes");
     guidance.textContent = reservationText("divinationNotesGuidance");
@@ -202,7 +243,11 @@ function updateDivinationAddon() {
   });
 }
 
-reservationDate?.addEventListener("change", updateDivinationAddon);
+reservationDate?.addEventListener("change", () => {
+  unavailableOracleTimes = new Set();
+  updateDivinationAddon();
+  fetchOracleAvailability(reservationDate.value);
+});
 divinationAddonToggle?.addEventListener("change", updateDivinationAddon);
 divinationParticipants?.addEventListener("change", () => {
   renderDivinationTimeSlots();
@@ -278,6 +323,22 @@ reservationForm?.addEventListener("submit", async (event) => {
 
   if (divinationAddonToggle?.checked && !validateDistinctDivinationTimes(true)) {
     return;
+  }
+
+  if (divinationAddonToggle?.checked) {
+    const requestedTimes = getDivinationPeople().map((person) => person.time);
+    const availabilityLoaded = await fetchOracleAvailability(reservationDate?.value);
+    const unavailableTime = requestedTimes.find((time) => unavailableOracleTimes.has(time));
+    if (!availabilityLoaded) {
+      setReservationStatus("oracleAvailabilityError");
+    }
+    if (unavailableTime) {
+      const firstTimeInput = getDivinationTimeInputs()[0];
+      firstTimeInput?.setCustomValidity(reservationText("oracleSlotTaken"));
+      firstTimeInput?.reportValidity();
+      setReservationStatus("oracleSlotTaken");
+      return;
+    }
   }
 
   if (!RESERVATION_ENDPOINT) {

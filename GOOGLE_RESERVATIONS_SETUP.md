@@ -61,6 +61,21 @@ function doPost(e) {
       return json_({ ok: false, error: "Missing required reservation fields." });
     }
 
+    const oracleRequested = clean_(data.oracleRequested) === "yes";
+    const oracleTimes = parseOracleTimes_(data.oracleTimes);
+    if (oracleRequested) {
+      const alreadyBooked = getBookedOracleTimes_(reservation.date, sheet);
+      const conflictingTimes = oracleTimes.filter((time) => alreadyBooked.includes(time));
+
+      if (!oracleTimes.length || new Set(oracleTimes).size !== oracleTimes.length) {
+        return json_({ ok: false, error: "Invalid divination time slots." });
+      }
+
+      if (conflictingTimes.length) {
+        return json_({ ok: false, error: "Divination time slot already booked.", bookedTimes: conflictingTimes });
+      }
+    }
+
     sheet.appendRow([
       reservation.submittedAt,
       reservation.status,
@@ -89,8 +104,57 @@ function doPost(e) {
   }
 }
 
-function doGet() {
+function doGet(e) {
+  const data = (e && e.parameter) || {};
+
+  if (data.action === "oracleAvailability") {
+    const date = clean_(data.date);
+    return jsonp_({
+      ok: true,
+      date,
+      bookedTimes: getBookedOracleTimes_(date),
+    }, data.callback);
+  }
+
   return json_({ ok: true, service: "Maelstrom reservations" });
+}
+
+function parseOracleTimes_(value) {
+  return String(value || "")
+    .split(",")
+    .map((time) => time.trim())
+    .filter((time) => /^(?:[01]\d|2[0-3]):(?:00|15|30|45)$|^00:00$/.test(time));
+}
+
+function getBookedOracleTimes_(date, sheet) {
+  if (!date) {
+    return [];
+  }
+
+  const reservationsSheet = sheet || getReservationsSheet_();
+  const lastRow = reservationsSheet.getLastRow();
+  if (lastRow <= 1) {
+    return [];
+  }
+
+  const rows = reservationsSheet.getRange(2, 1, lastRow - 1, RESERVATION_HEADERS.length).getValues();
+  const bookedTimes = new Set();
+
+  rows.forEach((row) => {
+    const status = String(row[1] || "").toLowerCase();
+    const notes = String(row[8] || "");
+    const rowDate = row[5] instanceof Date
+      ? Utilities.formatDate(row[5], Session.getScriptTimeZone(), "yyyy-MM-dd")
+      : String(row[5] || "");
+    if (rowDate !== date || /cancel|reject|declin|archiv/.test(status) || !notes.includes("[Oracle session requested")) {
+      return;
+    }
+
+    const oracleSection = notes.slice(notes.indexOf("[Oracle session requested"));
+    (oracleSection.match(/\b(?:[01]\d|2[0-3]):[0-5]\d\b/g) || []).forEach((time) => bookedTimes.add(time));
+  });
+
+  return [...bookedTimes].sort();
 }
 
 function getReservationsSheet_() {
@@ -315,6 +379,17 @@ function json_(payload) {
   return ContentService
     .createTextOutput(JSON.stringify(payload))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+function jsonp_(payload, callback) {
+  const safeCallback = String(callback || "").replace(/[^a-zA-Z0-9_$]/g, "");
+  if (!safeCallback) {
+    return json_(payload);
+  }
+
+  return ContentService
+    .createTextOutput(`${safeCallback}(${JSON.stringify(payload)});`)
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
 }
 ```
 
