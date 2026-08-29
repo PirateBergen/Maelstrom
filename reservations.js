@@ -19,9 +19,9 @@ function reservationText(key) {
   return window.MaelstromI18n?.t(key) || key;
 }
 
-function getBookableTimes() {
+function getBookableTimes(intervalMinutes = 15) {
   const times = [];
-  for (let minutes = 18 * 60; minutes < 24 * 60; minutes += 15) {
+  for (let minutes = 18 * 60; minutes < 24 * 60; minutes += intervalMinutes) {
     const hour = String(Math.floor(minutes / 60)).padStart(2, "0");
     const minute = String(minutes % 60).padStart(2, "0");
     times.push(`${hour}:${minute}`);
@@ -30,7 +30,7 @@ function getBookableTimes() {
   return times;
 }
 
-function populateTimeSelect(select, selectedValue = "", unavailableTimes = new Set()) {
+function populateTimeSelect(select, selectedValue = "", unavailableTimes = new Set(), intervalMinutes = 15) {
   const fragment = document.createDocumentFragment();
   const placeholder = document.createElement("option");
   placeholder.value = "";
@@ -38,7 +38,8 @@ function populateTimeSelect(select, selectedValue = "", unavailableTimes = new S
   placeholder.disabled = true;
   fragment.append(placeholder);
 
-  getBookableTimes().forEach((time) => {
+  const availableTimes = getBookableTimes(intervalMinutes);
+  availableTimes.forEach((time) => {
     const option = document.createElement("option");
     option.value = time;
     option.disabled = unavailableTimes.has(time);
@@ -47,7 +48,7 @@ function populateTimeSelect(select, selectedValue = "", unavailableTimes = new S
   });
 
   select.replaceChildren(fragment);
-  select.value = selectedValue && getBookableTimes().includes(selectedValue) && !unavailableTimes.has(selectedValue) ? selectedValue : "";
+  select.value = selectedValue && availableTimes.includes(selectedValue) && !unavailableTimes.has(selectedValue) ? selectedValue : "";
 }
 
 function fetchOracleAvailability(dateValue) {
@@ -175,7 +176,7 @@ function renderDivinationTimeSlots() {
     timeText.textContent = reservationText("oraclePersonSlot");
     timeInput.name = `oracleTime${index + 1}`;
     timeInput.dataset.oracleTime = "";
-    populateTimeSelect(timeInput, person.time, unavailableOracleTimes);
+    populateTimeSelect(timeInput, person.time, unavailableOracleTimes, 30);
     noteLabel.className = "divination-notes";
     noteText.textContent = reservationText("divinationNotes");
     guidance.textContent = reservationText("divinationNotesGuidance");

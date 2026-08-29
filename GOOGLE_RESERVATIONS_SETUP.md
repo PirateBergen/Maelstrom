@@ -123,7 +123,7 @@ function parseOracleTimes_(value) {
   return String(value || "")
     .split(",")
     .map((time) => time.trim())
-    .filter((time) => /^(?:[01]\d|2[0-3]):(?:00|15|30|45)$|^00:00$/.test(time));
+    .filter((time) => /^(?:[01]\d|2[0-3]):(?:00|30)$|^00:00$/.test(time));
 }
 
 function getBookedOracleTimes_(date, sheet) {
