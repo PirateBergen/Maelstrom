@@ -20,7 +20,7 @@ const ARCHIVE_SHEET_NAME = "Archive";
 const ARCHIVE_AFTER_DAYS = 1;
 const CREATE_CALENDAR_EVENTS = false;
 const CALENDAR_ID = "";
-const OWNER_EMAIL = "";
+const OWNER_EMAIL = "contact@maelstrombergen.com";
 const BAR_NAME = "Maelstrom";
 const REPLY_TO_EMAIL = OWNER_EMAIL;
 
