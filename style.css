@@ -2717,6 +2717,10 @@ html:has(.gallery-upload-page) { overflow-x: hidden; }
 .gallery-upload-card h1 { width: 100%; margin: 0; overflow-wrap: anywhere; white-space: normal; color: #e9fdff; font-size: clamp(1.8rem, 8vw, 3.5rem); line-height: 0.95; text-shadow: 0 0 16px rgba(0, 221, 255, 0.5); }
 .gallery-upload-card > p { margin: 0.8rem 0 1.2rem; color: rgba(164, 244, 255, 0.74); line-height: 1.5; }
 .gallery-upload-form { display: grid; width: 100%; min-width: 0; gap: 0.9rem; }
+.gallery-photo-sources { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem; }
+.gallery-photo-source { position: relative; display: grid; min-height: 48px; padding: 0.75rem; overflow: hidden; color: #bffaff; cursor: pointer; background: rgba(0, 221, 255, 0.07); border: 1px solid rgba(128, 241, 255, 0.44); border-radius: 999px; font: 900 0.72rem "Trebuchet MS", Arial, sans-serif; letter-spacing: 0.05em; text-transform: uppercase; place-items: center; box-shadow: 0 0 14px rgba(0, 221, 255, 0.12); }
+.gallery-photo-source:hover, .gallery-photo-source:focus-within { color: #e9fdff; border-color: rgba(189, 253, 255, 0.86); box-shadow: 0 0 20px rgba(0, 221, 255, 0.28); }
+.gallery-photo-source input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .gallery-file-picker { display: grid; min-width: 0; gap: 0.55rem; color: #bffaff; font-weight: 800; }
 .gallery-file-picker input { width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box; padding: 0.7rem; color: #d9fbff; background: rgba(0, 8, 10, 0.84); border: 1px solid rgba(128, 241, 255, 0.24); border-radius: 6px; }
 .gallery-upload-preview { width: min(300px, 100%); aspect-ratio: 4 / 3; overflow: hidden; margin-inline: auto; border: 1px solid rgba(128, 241, 255, 0.22); border-radius: 6px; }
@@ -2732,6 +2736,7 @@ html:has(.gallery-upload-page) { overflow-x: hidden; }
   .gallery-contribution { grid-template-columns: 1fr; justify-items: center; text-align: center; }
   .gallery-upload-card { padding-inline: 1rem; }
   .gallery-upload-card h1 { white-space: normal; }
+  .gallery-photo-sources { grid-template-columns: 1fr; }
   .gallery-file-picker input { box-sizing: border-box; min-width: 0; }
 }
 
