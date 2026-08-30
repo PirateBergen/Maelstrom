@@ -27,6 +27,10 @@
   background: transparent;
 }
 
+.tasting-vote-page .tasting-shell {
+  padding-top: 0;
+}
+
 .tasting-vote-page .tasting-hero {
   min-height: clamp(410px, 52svh, 590px);
 }
@@ -38,6 +42,8 @@
 }
 
 .tasting-vote-page .tasting-hero h1 {
+  width: min(100%, 12ch);
+  overflow-wrap: anywhere;
   color: #e9fdff;
   text-shadow:
     0 0 6px rgba(147, 244, 255, 0.92),
@@ -686,8 +692,19 @@ body.vote-confirmed .site-header {
     background-attachment: scroll;
   }
 
+  .tasting-vote-page .tasting-shell {
+    padding-top: 0;
+  }
+
   .tasting-vote-page .tasting-hero {
-    min-height: clamp(280px, 34svh, 380px);
+    min-height: clamp(230px, 30svh, 330px);
+  }
+
+  .tasting-vote-page .tasting-hero h1 {
+    width: calc(100vw - 32px);
+    max-width: 10ch;
+    font-size: clamp(2.35rem, 12vw, 3.65rem);
+    line-height: 0.94;
   }
 
   .vote-thanks-content {
