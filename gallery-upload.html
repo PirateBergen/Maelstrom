@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Share a photo with the Maelstrom gallery." />
+    <title>Maelstrom | Share a photo</title>
+    <link rel="stylesheet" href="style.css?v=20260830-cloudinary-gallery" />
+  </head>
+  <body class="gallery-upload-page site-open">
+    <header class="site-header gallery-upload-language-header" aria-label="Language"></header>
+    <main class="gallery-upload-shell">
+      <section class="gallery-upload-card">
+        <span class="brand-symbol gallery-upload-symbol" aria-hidden="true">M</span>
+        <h1 data-i18n="shareGalleryPhoto">Share your Maelstrom photo</h1>
+        <p data-i18n="galleryUploadIntro">Choose one photo from your visit. It will appear in the gallery after approval.</p>
+        <form id="galleryUploadForm" class="gallery-upload-form">
+          <label class="gallery-file-picker">
+            <span data-i18n="choosePhoto">Choose a photo</span>
+            <input id="galleryPhoto" name="photo" type="file" accept="image/jpeg,image/png,image/webp" required />
+          </label>
+          <div class="gallery-upload-preview" id="galleryUploadPreview" hidden>
+            <img id="galleryPreviewImage" alt="Selected photo preview" data-i18n-alt="selectedPhotoPreviewAlt" />
+          </div>
+          <p class="gallery-upload-rules" data-i18n="galleryUploadRules">JPG, PNG or WEBP, maximum 10 MB. Please only send photos you are allowed to share.</p>
+          <button type="submit" id="galleryUploadButton" data-i18n="sendPhoto">Send the photo</button>
+          <p class="gallery-upload-status" id="galleryUploadStatus" role="status" aria-live="polite"></p>
+        </form>
+        <a class="gallery-upload-return" href="gallery.html" data-i18n="backToGallery">Back to the gallery</a>
+      </section>
+    </main>
+    <script src="i18n.js?v=20260830-cloudinary-gallery"></script>
+    <script src="gallery-upload.js?v=20260830-cloudinary-gallery"></script>
+  </body>
+</html>

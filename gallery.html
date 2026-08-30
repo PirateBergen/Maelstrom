@@ -6,7 +6,7 @@
     <meta name="description" content="Maelstrom photo gallery." />
     <title>Maelstrom | Gallery</title>
     <link rel="preload" href="assets/parchment-background.webp" as="image" />
-    <link rel="stylesheet" href="style.css?v=20260828-performance-audit" />
+    <link rel="stylesheet" href="style.css?v=20260830-cloudinary-gallery" />
   </head>
   <body class="site-open">
     <main class="full-site gallery-page" id="site" aria-label="Maelstrom gallery">
@@ -28,7 +28,16 @@
         <div class="section-heading">
           <h2 class="page-title" data-i18n="galleryTitle">Gallery</h2>
         </div>
-        <div class="simple-gallery" aria-label="Maelstrom photo gallery">
+        <aside class="gallery-contribution">
+          <img class="gallery-upload-qr" src="assets/qr-gallery-upload.png" alt="QR code to share a photo" data-i18n-alt="galleryUploadQrAlt" width="168" height="168" />
+          <div>
+            <h3 data-i18n="shareGalleryPhoto">Share your Maelstrom photo</h3>
+            <p data-i18n="shareGalleryPhotoIntro">Scan the QR code or open the upload page. Photos appear after approval.</p>
+            <a class="gallery-upload-link" href="gallery-upload.html" data-i18n="shareAPhoto">Share a photo</a>
+          </div>
+        </aside>
+        <p class="gallery-load-status" id="galleryLoadStatus" role="status"></p>
+        <div class="simple-gallery" id="cloudinaryGallery" aria-label="Maelstrom photo gallery" data-i18n-aria="galleryAria">
           <figure class="simple-photo simple-photo-large">
           </figure>
           <figure class="simple-photo">
@@ -50,7 +59,8 @@
         </div>
       </section>
     </main>
-    <script src="i18n.js?v=20260828-newsletter-copy"></script>
+    <script src="i18n.js?v=20260830-cloudinary-gallery"></script>
+    <script src="gallery-cloudinary.js?v=20260830-cloudinary-gallery"></script>
     <script src="reservations-config.js?v=20260828-newsletter"></script>
     <script src="newsletter.js?v=20260829-force-preview"></script>
   </body>
