@@ -11,6 +11,7 @@
   const previewImage = document.querySelector("#galleryPreviewImage");
   const button = document.querySelector("#galleryUploadButton");
   const status = document.querySelector("#galleryUploadStatus");
+  const thanks = document.querySelector("#galleryUploadThanks");
   let previewUrl = "";
   let selectedFile = null;
 
@@ -74,7 +75,12 @@
       form.reset();
       selectedFile = null;
       preview.hidden = true;
-      setStatus("galleryUploadSuccess", "is-success");
+      if (thanks) {
+        thanks.hidden = false;
+        document.body.classList.add("gallery-upload-confirmed");
+      } else {
+        setStatus("galleryUploadSuccess", "is-success");
+      }
     } catch {
       setStatus("galleryUploadError", "is-error");
       button.disabled = false;

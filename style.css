@@ -2732,6 +2732,20 @@ html:has(.gallery-upload-page) { overflow-x: hidden; }
 .gallery-upload-status.is-success { color: #b9ffd8; }
 .gallery-upload-return { margin-top: 1.2rem; }
 
+body.gallery-upload-confirmed {
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+body.gallery-upload-confirmed .gallery-upload-shell,
+body.gallery-upload-confirmed .gallery-upload-language-header {
+  display: none;
+}
+
+.gallery-upload-thanks {
+  color: var(--foam);
+}
+
 @media (max-width: 720px) {
   .gallery-contribution { grid-template-columns: 1fr; justify-items: center; text-align: center; }
   .gallery-upload-card { padding-inline: 1rem; }
