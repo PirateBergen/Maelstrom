@@ -2730,6 +2730,8 @@ html:has(.gallery-upload-page) { overflow-x: hidden; }
 .gallery-upload-form button:disabled { cursor: wait; opacity: 0.55; }
 .gallery-upload-status.is-error { color: #ffb9ae; }
 .gallery-upload-status.is-success { color: #b9ffd8; }
+.gallery-upload-form.is-daily-locked .gallery-photo-sources,
+.gallery-upload-form.is-daily-locked > button { opacity: 0.38; pointer-events: none; }
 .gallery-upload-return { margin-top: 1.2rem; }
 
 body.gallery-upload-confirmed {

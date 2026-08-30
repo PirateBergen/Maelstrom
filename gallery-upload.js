@@ -2,6 +2,7 @@
   const CLOUD_NAME = "yfquewjr";
   const UPLOAD_PRESET = "maelstrom_gallery_upload";
   const MAX_FILE_SIZE = 10 * 1024 * 1024;
+  const DAILY_UPLOAD_KEY = "maelstrom-gallery-upload-date-v1";
   const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
   const endpoint = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
   const form = document.querySelector("#galleryUploadForm");
@@ -21,6 +22,41 @@
   const setStatus = (key, type = "") => {
     status.textContent = t(key);
     status.className = `gallery-upload-status ${type}`.trim();
+  };
+
+  const bergenDateKey = () => {
+    const parts = new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Oslo",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).formatToParts(new Date());
+    const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+    return `${values.year}-${values.month}-${values.day}`;
+  };
+
+  const hasUploadedToday = () => {
+    try {
+      return localStorage.getItem(DAILY_UPLOAD_KEY) === bergenDateKey();
+    } catch {
+      return false;
+    }
+  };
+
+  const markUploadedToday = () => {
+    try {
+      localStorage.setItem(DAILY_UPLOAD_KEY, bergenDateKey());
+    } catch {
+      // The upload remains valid if storage is unavailable.
+    }
+  };
+
+  const lockDailyUpload = () => {
+    cameraInput.disabled = true;
+    libraryInput.disabled = true;
+    button.disabled = true;
+    form.classList.add("is-daily-locked");
+    setStatus("galleryDailyLimit", "is-success");
   };
 
   const validate = (file) => {
@@ -54,6 +90,10 @@
   cameraInput.addEventListener("change", () => selectFile(cameraInput, libraryInput));
   libraryInput.addEventListener("change", () => selectFile(libraryInput, cameraInput));
 
+  if (hasUploadedToday()) {
+    lockDailyUpload();
+  }
+
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const file = selectedFile;
@@ -72,6 +112,7 @@
     try {
       const response = await fetch(endpoint, { method: "POST", body: payload });
       if (!response.ok) throw new Error(`Cloudinary upload ${response.status}`);
+      markUploadedToday();
       form.reset();
       selectedFile = null;
       preview.hidden = true;
