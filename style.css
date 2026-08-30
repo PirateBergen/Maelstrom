@@ -2278,9 +2278,15 @@ body.reservation-confirmed .reservations-page {
 
 .signature-cocktail-card h4,
 .signature-cocktail-card p,
-.signature-cocktail-card a {
+.signature-cocktail-heading {
   position: relative;
   z-index: 1;
+}
+
+.signature-cocktail-heading {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
 }
 
 .signature-cocktail-card h4 {
@@ -2299,40 +2305,76 @@ body.reservation-confirmed .reservations-page {
   line-height: 1.45;
 }
 
-.signature-cocktail-card a {
-  justify-self: start;
-  min-height: 38px;
-  padding: 0.62rem 0.86rem;
-  color: #9ef8ff;
-  background:
-    linear-gradient(180deg, rgba(9, 44, 50, 0.92), rgba(0, 8, 10, 0.94)),
-    radial-gradient(circle at 50% 0%, rgba(0, 221, 255, 0.24), transparent 70%);
-  border: 1px solid rgba(120, 241, 255, 0.68);
-  border-radius: 999px;
+.logbook-entry-icon {
+  position: relative;
+  z-index: 2;
+  display: block;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 62px;
+  overflow: visible;
+  border-radius: 4px;
   box-shadow:
-    0 0 8px rgba(0, 221, 255, 0.38),
-    0 0 18px rgba(0, 96, 128, 0.36),
-    inset 0 0 14px rgba(0, 221, 255, 0.08);
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  font-size: 0.68rem;
-  font-weight: 900;
-  letter-spacing: 0.08em;
+    0 0 10px rgba(0, 221, 255, 0.32),
+    0 8px 16px rgba(0, 0, 0, 0.42);
   text-decoration: none;
-  text-transform: uppercase;
-  transition: filter 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  perspective: 280px;
+  transition: filter 180ms ease, transform 180ms ease, box-shadow 180ms ease;
 }
 
-.signature-cocktail-card a:hover,
-.signature-cocktail-card a:focus-visible {
+.logbook-entry-icon img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  transition: opacity 240ms ease, transform 520ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.logbook-icon-closed {
+  opacity: 1;
+  transform: rotateY(0deg) scale(1);
+}
+
+.logbook-icon-open {
+  opacity: 0;
+  transform: rotateY(-88deg) scale(0.55);
+}
+
+.logbook-entry-icon:hover,
+.logbook-entry-icon:focus-visible {
   outline: none;
-  color: #d9fdff;
-  border-color: rgba(189, 253, 255, 0.94);
   filter: brightness(1.14);
   box-shadow:
-    0 0 12px rgba(0, 221, 255, 0.72),
-    0 0 28px rgba(0, 145, 190, 0.58),
-    inset 0 0 18px rgba(128, 241, 255, 0.16);
-  transform: translateY(-2px);
+    0 0 14px rgba(0, 221, 255, 0.68),
+    0 10px 20px rgba(0, 0, 0, 0.5);
+  transform: translateY(-1px) scale(1.04);
+}
+
+.logbook-entry-icon.is-opening {
+  width: 86px;
+  flex-basis: 86px;
+  box-shadow: 0 0 20px rgba(0, 221, 255, 0.58);
+  transition: width 420ms ease, flex-basis 420ms ease, box-shadow 180ms ease;
+}
+
+.logbook-entry-icon.is-opening .logbook-icon-closed {
+  opacity: 0;
+  transform: rotateY(90deg) scale(0.62);
+}
+
+.logbook-entry-icon.is-opening .logbook-icon-open {
+  opacity: 1;
+  transform: rotateY(0deg) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logbook-entry-icon,
+  .logbook-entry-icon img {
+    transition-duration: 0.01ms;
+  }
 }
 
 .booking-band {
@@ -3184,9 +3226,14 @@ button.social-contact {
     min-height: 172px;
   }
 
-  .signature-cocktail-card a {
-    justify-self: stretch;
-    text-align: center;
+  .signature-cocktail-heading {
+    gap: 0.7rem;
+  }
+
+  .logbook-entry-icon {
+    flex-basis: 42px;
+    width: 42px;
+    height: 56px;
   }
 
   .simple-gallery {
