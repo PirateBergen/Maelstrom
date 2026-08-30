@@ -1843,6 +1843,7 @@ body.reservation-confirmed .reservations-page {
   background:
     linear-gradient(135deg, rgba(255, 245, 207, 0.16), transparent 36%),
     url("assets/logbook-parchment.webp");
+  background-color: #c9a56b;
   background-position: center, var(--logbook-page-x) var(--logbook-page-y);
   background-size: cover;
   border: 1px solid rgba(68, 34, 13, 0.15);
