@@ -1290,6 +1290,13 @@ body.lightbox-open {
   text-transform: uppercase;
 }
 
+.reservation-policy-note {
+  max-width: 720px;
+  margin: 0.35rem 0 0;
+  color: rgba(217, 251, 255, 0.68);
+  font: 600 0.82rem/1.55 "Trebuchet MS", Arial, sans-serif;
+}
+
 .reservation-heading .reservation-oracle-kicker {
   color: #9df6ff;
   font-size: clamp(0.82rem, 1.2vw, 0.98rem);

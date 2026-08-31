@@ -14,6 +14,8 @@ const divinationParticipants = document.querySelector("[data-divination-particip
 const divinationTimeSlots = document.querySelector("[data-divination-time-slots]");
 let unavailableOracleTimes = new Set();
 let oracleAvailabilityRequest = 0;
+const MINIMUM_BOOKING_NOTICE_MINUTES = 15;
+const MAXIMUM_BOOKING_MONTHS = 6;
 
 function reservationText(key) {
   return window.MaelstromI18n?.t(key) || key;
@@ -28,6 +30,46 @@ function getBookableTimes(intervalMinutes = 15) {
   }
   times.push("00:00");
   return times;
+}
+
+function getBergenNowParts() {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Oslo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date());
+  const values = Object.fromEntries(parts.map(({ type, value }) => [type, value]));
+  return {
+    date: `${values.year}-${values.month}-${values.day}`,
+    minutes: Number(values.hour) * 60 + Number(values.minute),
+  };
+}
+
+function getMaximumDateValue() {
+  const { date } = getBergenNowParts();
+  const [year, month, day] = date.split("-").map(Number);
+  const targetMonth = month - 1 + MAXIMUM_BOOKING_MONTHS;
+  const targetYear = year + Math.floor(targetMonth / 12);
+  const normalizedMonth = targetMonth % 12;
+  const lastDay = new Date(Date.UTC(targetYear, normalizedMonth + 1, 0)).getUTCDate();
+  return `${targetYear}-${String(normalizedMonth + 1).padStart(2, "0")}-${String(Math.min(day, lastDay)).padStart(2, "0")}`;
+}
+
+function getLeadTimeUnavailableTimes(dateValue, intervalMinutes = 15) {
+  const blocked = new Set();
+  const now = getBergenNowParts();
+  if (!dateValue || dateValue !== now.date) return blocked;
+  const earliest = now.minutes + MINIMUM_BOOKING_NOTICE_MINUTES;
+  getBookableTimes(intervalMinutes).forEach((time) => {
+    const [hour, minute] = time.split(":").map(Number);
+    const slotMinutes = time === "00:00" ? 24 * 60 : hour * 60 + minute;
+    if (slotMinutes < earliest) blocked.add(time);
+  });
+  return blocked;
 }
 
 function populateTimeSelect(select, selectedValue = "", unavailableTimes = new Set(), intervalMinutes = 15, hideUnavailable = false) {
@@ -102,17 +144,14 @@ function isWednesday(dateValue) {
 }
 
 function getTodayDateValue() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0");
-  const day = String(today.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  return getBergenNowParts().date;
 }
 
 function validateReservationDate(report = false) {
   if (!reservationDate) return true;
 
   reservationDate.min = getTodayDateValue();
+  reservationDate.max = getMaximumDateValue();
   reservationDate.setCustomValidity("");
   const value = reservationDate.value;
   if (!value) return true;
@@ -120,6 +159,8 @@ function validateReservationDate(report = false) {
   let errorKey = "";
   if (value < reservationDate.min) {
     errorKey = "reservationPastDate";
+  } else if (value > reservationDate.max) {
+    errorKey = "reservationTooFarDate";
   } else {
     const selectedDate = new Date(`${value}T12:00:00`);
     const weekday = selectedDate.getDay();
@@ -134,6 +175,18 @@ function validateReservationDate(report = false) {
   setReservationStatus(errorKey);
   if (report) reservationDate.reportValidity();
   return false;
+}
+
+function refreshBookingTimeOptions() {
+  if (!bookingTime) return;
+  const selectedValue = bookingTime.value;
+  populateTimeSelect(
+    bookingTime,
+    selectedValue,
+    getLeadTimeUnavailableTimes(reservationDate?.value, 15),
+    15,
+    true
+  );
 }
 
 function getDivinationTimeInputs() {
@@ -157,7 +210,10 @@ function refreshDivinationTimeOptions() {
   });
 
   inputs.forEach((input, index) => {
-    const blockedTimes = new Set(unavailableOracleTimes);
+    const blockedTimes = new Set([
+      ...unavailableOracleTimes,
+      ...getLeadTimeUnavailableTimes(reservationDate?.value, 30),
+    ]);
     selectedTimes.forEach((time, otherIndex) => {
       if (time && otherIndex !== index) blockedTimes.add(time);
     });
@@ -311,6 +367,7 @@ function updateDivinationAddon() {
 reservationDate?.addEventListener("change", () => {
   unavailableOracleTimes = new Set();
   validateReservationDate(true);
+  refreshBookingTimeOptions();
   updateDivinationAddon();
   fetchOracleAvailability(reservationDate.value);
 });
@@ -374,14 +431,17 @@ window.addEventListener("maelstrom:languagechange", () => {
   if (guestsSelect?.value === "group") {
     setReservationStatus("groupBookingStatus");
   }
-  if (bookingTime) populateTimeSelect(bookingTime, bookingTime.value);
+  refreshBookingTimeOptions();
   renderDivinationTimeSlots();
   updateDivinationAddon();
   validateReservationDate(false);
 });
 updateGroupBookingNotice();
-if (reservationDate) reservationDate.min = getTodayDateValue();
-if (bookingTime) populateTimeSelect(bookingTime);
+if (reservationDate) {
+  reservationDate.min = getTodayDateValue();
+  reservationDate.max = getMaximumDateValue();
+}
+refreshBookingTimeOptions();
 updateDivinationParticipantOptions();
 renderDivinationTimeSlots();
 updateDivinationAddon();
@@ -390,6 +450,16 @@ reservationForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   if (!validateReservationDate(true)) return;
+
+  const noticeBlockedTimes = getLeadTimeUnavailableTimes(reservationDate?.value, 15);
+  if (bookingTime?.value && noticeBlockedTimes.has(bookingTime.value)) {
+    bookingTime.setCustomValidity(reservationText("reservationTooSoon"));
+    bookingTime.reportValidity();
+    setReservationStatus("reservationTooSoon");
+    refreshBookingTimeOptions();
+    return;
+  }
+  bookingTime?.setCustomValidity("");
 
   if (guestsSelect?.value === "group") {
     updateGroupBookingNotice();
