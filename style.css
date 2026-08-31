@@ -1540,8 +1540,12 @@ body.lightbox-open {
 }
 
 .reservation-privatize {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 0.35rem;
-  opacity: 0.58;
+  text-align: center;
+  text-decoration: none;
 }
 
 .reservation-status {

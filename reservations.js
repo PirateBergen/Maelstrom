@@ -164,7 +164,7 @@ function validateReservationDate(report = false) {
   } else {
     const selectedDate = new Date(`${value}T12:00:00`);
     const weekday = selectedDate.getDay();
-    if (weekday === 1 || weekday === 2) errorKey = "reservationClosedDays";
+    if (weekday === 0 || weekday === 1 || weekday === 2) errorKey = "reservationClosedDays";
   }
 
   if (!errorKey) {

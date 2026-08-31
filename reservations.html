@@ -11,7 +11,7 @@
     <meta property="og:description" content="Request a table or a Wednesday divination session at Maelstrom in Bergen." />
     <meta property="og:url" content="https://maelstrombergen.com/reservations.html" />
     <meta property="og:image" content="https://maelstrombergen.com/assets/maelstrom-logo.webp" />
-    <link rel="stylesheet" href="style.css?v=20260831-booking-policy" />
+    <link rel="stylesheet" href="style.css?v=20260831-closed-days" />
   </head>
   <body class="site-open">
     <main class="full-site reservations-page" id="site" aria-label="Maelstrom reservations">
@@ -33,7 +33,7 @@
         <div class="section-heading reservation-heading">
           <h1 class="page-title" data-i18n="reservationsTitle">Reservations</h1>
           <p class="reservation-oracle-kicker" data-i18n="reservationOracleKicker">Divination sessions every Wednesday</p>
-          <p class="reservation-closed-note" data-i18n="reservationClosedNote">Closed on Mondays and Tuesdays.</p>
+          <p class="reservation-closed-note" data-i18n="reservationClosedNote">Closed on Sundays, Mondays and Tuesdays. Private events are available on Mondays and Tuesdays.</p>
           <p class="reservation-policy-note" data-i18n="reservationPolicyNote">Book from 15 minutes before your visit and up to 6 months ahead. Tables are no longer guaranteed after 15 minutes of delay.</p>
         </div>
 
@@ -106,7 +106,7 @@
           </label>
           <button class="reservation-submit" type="submit" data-i18n="reservationSubmit">Request a table</button>
           <p class="reservation-status" data-reservation-status aria-live="polite"></p>
-          <button class="reservation-submit reservation-privatize" type="button" disabled data-i18n="reservationPrivatize">Privatize the Maelstrom</button>
+          <a class="reservation-submit reservation-privatize" href="index.html?preview=site&amp;contact=group#contact" data-i18n="reservationPrivatize">Privatize the Maelstrom — Mondays and Tuesdays</a>
         </form>
       </section>
     </main>
@@ -123,9 +123,9 @@
       </div>
     </section>
 
-    <script src="i18n.js?v=20260831-booking-policy"></script>
+    <script src="i18n.js?v=20260831-closed-days"></script>
     <script src="reservations-config.js?v=20260828-newsletter"></script>
     <script src="newsletter.js?v=20260829-force-preview"></script>
-    <script src="reservations.js?v=20260831-booking-policy"></script>
+    <script src="reservations.js?v=20260831-closed-days"></script>
   </body>
 </html>
