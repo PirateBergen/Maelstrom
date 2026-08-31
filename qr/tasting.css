@@ -448,7 +448,7 @@ body.vote-confirmed .site-header {
 .tier-buttons button,
 .taster-form button,
 .results-toolbar button {
-  min-height: 42px;
+  min-height: 44px;
   color: #f5e7c8;
   cursor: pointer;
   background: rgba(245, 231, 200, 0.07);
@@ -490,6 +490,7 @@ body.vote-confirmed .site-header {
   background: rgba(1, 7, 8, 0.82);
   border: 1px solid rgba(245, 231, 200, 0.2);
   border-radius: 6px;
+  font-size: 16px;
 }
 
 .taster-form.is-locked {
@@ -772,7 +773,7 @@ body.vote-confirmed .site-header {
 
   .tier-buttons button,
   .remove-rank {
-    min-height: 38px;
+    min-height: 44px;
     padding-inline: 0.45rem;
   }
 

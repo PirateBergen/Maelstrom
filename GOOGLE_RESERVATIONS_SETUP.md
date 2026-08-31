@@ -23,6 +23,8 @@ const CALENDAR_ID = "";
 const OWNER_EMAIL = "contact@maelstrombergen.com";
 const BAR_NAME = "Maelstrom";
 const REPLY_TO_EMAIL = OWNER_EMAIL;
+const BREVO_API_KEY_PROPERTY = "BREVO_API_KEY";
+const BREVO_LIST_ID_PROPERTY = "BREVO_NEWSLETTER_LIST_ID";
 
 const RESERVATION_HEADERS = [
   "Submitted at",
@@ -47,6 +49,10 @@ function doPost(e) {
 
     if (clean_(data.type) === "contact") {
       return handleContactMessage_(data);
+    }
+
+    if (clean_(data.type) === "newsletter") {
+      return handleNewsletterSignup_(data);
     }
 
     const reservation = {
@@ -97,6 +103,14 @@ function doPost(e) {
       reservation.notes,
       reservation.source,
     ]);
+
+    if (clean_(data.newsletterOptIn) === "yes") {
+      try {
+        subscribeToNewsletter_(reservation.email);
+      } catch (newsletterError) {
+        console.error("Newsletter subscription failed", newsletterError);
+      }
+    }
 
     sendGuestConfirmation_(reservation);
     sendOwnerNotification_(reservation);
@@ -156,6 +170,45 @@ function handleContactMessage_(data) {
   });
 
   return json_({ ok: true, service: "Maelstrom contact form" });
+}
+
+function handleNewsletterSignup_(data) {
+  const email = clean_(data.email).toLowerCase();
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
+    return json_({ ok: false, error: "Invalid email address." });
+  }
+
+  const cache = CacheService.getScriptCache();
+  const digest = Utilities.base64EncodeWebSafe(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, email));
+  const cacheKey = `newsletter-${digest.slice(0, 40)}`;
+  if (cache.get(cacheKey)) {
+    return json_({ ok: true, duplicate: true });
+  }
+
+  subscribeToNewsletter_(email);
+  cache.put(cacheKey, "1", 86400);
+  return json_({ ok: true, service: "Maelstrom newsletter" });
+}
+
+function subscribeToNewsletter_(email) {
+  const properties = PropertiesService.getScriptProperties();
+  const apiKey = properties.getProperty(BREVO_API_KEY_PROPERTY);
+  const listId = Number(properties.getProperty(BREVO_LIST_ID_PROPERTY));
+  if (!apiKey || !Number.isInteger(listId) || listId <= 0) {
+    throw new Error("Brevo API key or newsletter list ID is missing.");
+  }
+
+  const response = UrlFetchApp.fetch("https://api.brevo.com/v3/contacts", {
+    method: "post",
+    contentType: "application/json",
+    headers: { "api-key": apiKey, accept: "application/json" },
+    payload: JSON.stringify({ email, listIds: [listId], updateEnabled: true }),
+    muteHttpExceptions: true,
+  });
+  const status = response.getResponseCode();
+  if (status < 200 || status >= 300) {
+    throw new Error(`Brevo returned ${status}: ${response.getContentText()}`);
+  }
 }
 
 function doGet(e) {
@@ -462,7 +515,18 @@ function jsonp_(payload, callback) {
 }
 ```
 
-## 3. Deploy
+## 3. Connect Brevo to the newsletter
+
+In Apps Script, open **Project settings** (the cog in the left sidebar), then find **Script properties** and add these two properties:
+
+- `BREVO_API_KEY`: a Brevo API key created in Brevo under SMTP & API > API keys.
+- `BREVO_NEWSLETTER_LIST_ID`: the numeric ID of the Brevo list used by the welcome automation.
+
+Do not paste the API key into the website or into `reservations-config.js`. It must remain in Apps Script properties.
+
+The script now adds both newsletter-popup subscribers and reservation guests who tick the newsletter box to that Brevo list.
+
+## 4. Deploy
 
 1. Click `Deploy > New deployment`.
 2. Choose `Web app`.
@@ -474,7 +538,7 @@ function jsonp_(payload, callback) {
 
 For updates after the first deployment, use `Deploy > Manage deployments`, click the pencil, choose `New version`, then click `Deploy`. This keeps the same `/exec` URL.
 
-## 4. Install automatic archiving
+## 5. Install automatic archiving
 
 In Apps Script, select the function `installDailyArchiveTrigger`, then click `Run` once.
 
@@ -482,7 +546,7 @@ Google may ask for authorization. After that, the script will automatically move
 
 The setting `ARCHIVE_AFTER_DAYS = 1` means a reservation is archived one full day after its date. For example, a reservation on September 15 can be archived from September 17.
 
-## 5. Connect the site
+## 6. Connect the site
 
 Paste the `/exec` URL into `reservations-config.js`:
 

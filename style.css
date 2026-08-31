@@ -3140,9 +3140,9 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   }
 
   .language-toggle {
-    width: 32px;
-    min-width: 32px;
-    height: 32px;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
     padding: 0 0.28rem 0 0;
     font-size: 0.94rem;
     border-radius: 50%;
@@ -3174,7 +3174,7 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
 
   .language-options button {
     min-width: 66px;
-    height: 32px;
+    height: 44px;
     font-size: 0.62rem;
   }
 
@@ -3194,8 +3194,14 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   .site-nav a {
     grid-column: span 2;
     width: min(100%, 126px);
-    min-height: 36px;
+    min-height: 44px;
     padding: 0.78rem 0.2rem 0.28rem;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
   }
 
   .site-nav a[href$="logbook.html"] {
@@ -3628,8 +3634,8 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   position: absolute;
   top: 0.56rem;
   right: 0.56rem;
-  width: 30px;
-  height: 30px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   cursor: pointer;
   background: rgba(0, 5, 7, 0.7);
@@ -3744,6 +3750,27 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
 .newsletter-close:focus-visible {
   outline: none;
   filter: brightness(1.12);
+}
+
+@media (max-width: 760px) {
+  .language-toggle,
+  .language-options button,
+  .newsletter-form button,
+  .gallery-upload-return,
+  .logbook-mobile-arrow,
+  .logbook-zoom-button,
+  .logbook-zoom-value {
+    min-height: 44px;
+  }
+
+  .reservation-form input,
+  .reservation-form select,
+  .reservation-form textarea,
+  .newsletter-form input,
+  .gallery-upload-form input,
+  .gallery-upload-form textarea {
+    font-size: 16px;
+  }
 }
 
 .newsletter-form button[type="submit"]:disabled {
