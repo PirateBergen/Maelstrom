@@ -2,6 +2,8 @@
   const CLOUD_NAME = "yfquewjr";
   const UPLOAD_PRESET = "maelstrom_gallery_upload";
   const MAX_FILE_SIZE = 10 * 1024 * 1024;
+  const MAX_SOURCE_SIZE = 25 * 1024 * 1024;
+  const MAX_IMAGE_EDGE = 2560;
   const DAILY_UPLOAD_KEY = "maelstrom-gallery-upload-date-v1";
   const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
   const endpoint = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
@@ -59,15 +61,30 @@
     setStatus("galleryDailyLimit", "is-success");
   };
 
-  const validate = (file) => {
+  const validate = (file, maximumSize = MAX_FILE_SIZE) => {
     if (!file || !ALLOWED_TYPES.has(file.type)) return "galleryUploadInvalidType";
-    if (file.size > MAX_FILE_SIZE) return "galleryUploadTooLarge";
+    if (file.size > maximumSize) return "galleryUploadTooLarge";
     return "";
   };
 
-  const selectFile = (input, otherInput) => {
+  const compressPhoto = async (file) => {
+    const bitmap = await createImageBitmap(file, { imageOrientation: "from-image" });
+    const scale = Math.min(1, MAX_IMAGE_EDGE / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+    canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+    const context = canvas.getContext("2d", { alpha: false });
+    context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close?.();
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob((result) => result ? resolve(result) : reject(new Error("Image compression failed")), "image/jpeg", 0.86);
+    });
+    return new File([blob], "maelstrom-photo.jpg", { type: "image/jpeg", lastModified: Date.now() });
+  };
+
+  const selectFile = async (input, otherInput) => {
     const file = input.files?.[0];
-    const error = validate(file);
+    const error = validate(file, MAX_SOURCE_SIZE);
     if (previewUrl) URL.revokeObjectURL(previewUrl);
     previewUrl = "";
     preview.hidden = true;
@@ -80,15 +97,30 @@
     }
 
     otherInput.value = "";
-    selectedFile = file;
-    previewUrl = URL.createObjectURL(file);
+    button.disabled = true;
+    setStatus("galleryUploadOptimizing");
+    try {
+      selectedFile = await compressPhoto(file);
+    } catch {
+      selectedFile = file;
+    }
+    const compressedError = validate(selectedFile);
+    if (compressedError) {
+      setStatus(compressedError, "is-error");
+      input.value = "";
+      selectedFile = null;
+      button.disabled = false;
+      return;
+    }
+    previewUrl = URL.createObjectURL(selectedFile);
     previewImage.src = previewUrl;
     preview.hidden = false;
     status.textContent = "";
+    button.disabled = false;
   };
 
-  cameraInput.addEventListener("change", () => selectFile(cameraInput, libraryInput));
-  libraryInput.addEventListener("change", () => selectFile(libraryInput, cameraInput));
+  cameraInput.addEventListener("change", () => void selectFile(cameraInput, libraryInput));
+  libraryInput.addEventListener("change", () => void selectFile(libraryInput, cameraInput));
 
   if (hasUploadedToday()) {
     lockDailyUpload();
