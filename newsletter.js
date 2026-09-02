@@ -34,6 +34,8 @@ function updateNewsletterText() {
 
   newsletterPanel.querySelector("[data-newsletter-title]").textContent = newsletterT("newsletterTitle");
   newsletterPanel.querySelector("[data-newsletter-copy]").textContent = newsletterT("newsletterCopy");
+  newsletterPanel.querySelector("[data-newsletter-privacy-text]").textContent = newsletterT("newsletterPrivacyNote");
+  newsletterPanel.querySelector("[data-newsletter-privacy-link]").textContent = newsletterT("privacyLink");
   newsletterPanel.querySelector("[data-newsletter-email]").setAttribute("placeholder", newsletterT("newsletterPlaceholder"));
   newsletterPanel.querySelector("[data-newsletter-submit]").textContent = newsletterT("newsletterSubmit");
   newsletterPanel.querySelector("[data-newsletter-close]").setAttribute("aria-label", newsletterT("newsletterClose"));
@@ -89,6 +91,7 @@ function buildNewsletterPanel() {
         <span class="sr-only">${newsletterT("newsletterEmailLabel")}</span>
         <input data-newsletter-email name="email" type="email" autocomplete="email" required placeholder="${newsletterT("newsletterPlaceholder")}" />
       </label>
+      <p class="form-privacy-note newsletter-privacy"><span data-newsletter-privacy-text>${newsletterT("newsletterPrivacyNote")}</span> <a href="privacy.html" target="_blank" rel="noopener" data-newsletter-privacy-link>${newsletterT("privacyLink")}</a></p>
       <button type="submit" data-newsletter-submit>${newsletterT("newsletterSubmit")}</button>
       <p class="newsletter-status" data-newsletter-status aria-live="polite"></p>
     </form>

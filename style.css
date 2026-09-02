@@ -3903,6 +3903,65 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   line-height: 1.35;
 }
 
+.form-privacy-note,
+.newsletter-form .form-privacy-note {
+  margin: 0;
+  color: rgba(245, 231, 200, 0.64);
+  font: 500 0.78rem/1.5 "Trebuchet MS", Arial, sans-serif;
+}
+
+.form-privacy-note a,
+.privacy-consent a,
+.privacy-actions a:not(.reservation-submit) {
+  color: #9ef8ff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.privacy-consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 0.7rem;
+  color: rgba(245, 231, 200, 0.82);
+  font: 500 0.82rem/1.5 "Trebuchet MS", Arial, sans-serif;
+  text-align: left;
+}
+
+.privacy-consent input {
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+  margin-top: 0.1rem;
+  accent-color: #55dceb;
+}
+
+.privacy-band {
+  display: grid;
+  min-height: 100svh;
+  padding-top: clamp(140px, 15vw, 190px);
+  background: radial-gradient(circle at 50% 12%, rgba(0, 221, 255, 0.1), transparent 38%);
+  place-items: start center;
+}
+
+.privacy-card {
+  width: min(900px, 100%);
+  padding: clamp(26px, 5vw, 54px);
+  color: rgba(245, 231, 200, 0.84);
+  background: rgba(0, 8, 11, 0.9);
+  border: 1px solid rgba(128, 241, 255, 0.22);
+  border-radius: 18px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.48), inset 0 0 40px rgba(0, 221, 255, 0.035);
+}
+
+.privacy-card .page-title { margin: 0.25rem 0 0; }
+.privacy-updated { margin: 0.4rem 0 2rem; color: rgba(158, 248, 255, 0.64); }
+.privacy-card section { margin-top: 1.8rem; }
+.privacy-card h2 { margin: 0 0 0.55rem; color: #bffaff; font-size: clamp(1.15rem, 3vw, 1.45rem); }
+.privacy-card p { margin: 0.55rem 0 0; line-height: 1.7; }
+.privacy-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.4rem; margin-top: 2.2rem; }
+.privacy-actions .reservation-submit { display: inline-grid; place-items: center; }
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
