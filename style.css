@@ -2685,6 +2685,10 @@ body.reservation-confirmed .reservations-page {
   text-shadow: none;
 }
 
+.social-icon[hidden] {
+  display: none;
+}
+
 button.social-contact {
   padding: 0;
   border: 0;
