@@ -3,17 +3,22 @@ const contactDialog = document.querySelector("[data-contact-dialog]");
 const contactForm = document.querySelector("[data-contact-form]");
 const contactStatus = document.querySelector("[data-contact-status]");
 const contactSubmit = document.querySelector("[data-contact-submit]");
+const contactPrivateNote = document.querySelector("[data-contact-private-note]");
 
 function contactText(key) {
   return window.MaelstromI18n?.t(key) || key;
 }
 
-function openContactDialog(groupRequest = false) {
+function openContactDialog(requestType = "") {
   if (!contactDialog) return;
-  if (groupRequest) {
-    const subject = contactForm?.elements.namedItem("subject");
-    if (subject && !subject.value) subject.value = contactText("contactFormGroupSubject");
+  const subject = contactForm?.elements.namedItem("subject");
+  if (requestType === "group" && subject && !subject.value) {
+    subject.value = contactText("contactFormGroupSubject");
   }
+  if (requestType === "private" && subject && !subject.value) {
+    subject.value = contactText("contactFormPrivateSubject");
+  }
+  if (contactPrivateNote) contactPrivateNote.hidden = requestType !== "private";
   contactDialog.showModal();
   contactForm?.elements.namedItem("name")?.focus();
 }
@@ -23,7 +28,7 @@ function closeContactDialog() {
 }
 
 document.querySelectorAll("[data-contact-open]").forEach((button) => {
-  button.addEventListener("click", () => openContactDialog(false));
+  button.addEventListener("click", () => openContactDialog());
 });
 document.querySelectorAll("[data-contact-close]").forEach((button) => {
   button.addEventListener("click", closeContactDialog);
@@ -62,6 +67,7 @@ window.addEventListener("maelstrom:languagechange", () => {
 });
 
 const contactParams = new URLSearchParams(window.location.search);
-if (contactParams.get("contact") === "group") {
-  window.addEventListener("DOMContentLoaded", () => openContactDialog(true), { once: true });
+const contactRequestType = contactParams.get("contact");
+if (contactRequestType === "group" || contactRequestType === "private") {
+  window.addEventListener("DOMContentLoaded", () => openContactDialog(contactRequestType), { once: true });
 }

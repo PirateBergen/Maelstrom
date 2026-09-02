@@ -2909,6 +2909,7 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
 }
 
 .contact-form > p { margin: 0; }
+.contact-private-note { color: #9eeeff; line-height: 1.5; }
 .contact-form label { display: grid; gap: 7px; }
 .contact-form label span { color: #9eeeff; }
 .contact-form input,
