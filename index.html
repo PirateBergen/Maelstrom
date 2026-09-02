@@ -257,7 +257,7 @@
             <span data-i18n="contactFormMessage">Message</span>
             <textarea name="message" rows="5" required maxlength="3000" data-i18n-placeholder="contactFormMessagePlaceholder" placeholder="Your message..."></textarea>
           </label>
-          <p class="form-privacy-note"><span data-i18n="contactPrivacyNote">We use your details only to answer your message.</span> <a href="privacy.html" target="_blank" rel="noopener" data-i18n="privacyLink">Privacy</a></p>
+          <p class="form-privacy-note"><span data-i18n="contactPrivacyNote">We use your details only to answer your message.</span> <a href="#privacy" data-privacy-open data-i18n="privacyPolicyLink">Privacy policy</a></p>
           <label class="contact-form-trap" aria-hidden="true">
             <span>Website</span>
             <input name="website" type="text" tabindex="-1" autocomplete="off" />
@@ -269,6 +269,7 @@
     </main>
 
     <script src="i18n.js?v=20260902-privacy"></script>
+    <script src="privacy.js?v=20260902-dialog"></script>
     <script src="reservations-config.js?v=20260828-newsletter"></script>
     <script src="newsletter.js?v=20260902-privacy"></script>
     <script src="contact.js?v=20260902-private-booking-note"></script>
