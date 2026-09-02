@@ -18,6 +18,9 @@ function openContactDialog(requestType = "") {
   if (requestType === "private" && subject && !subject.value) {
     subject.value = contactText("contactFormPrivateSubject");
   }
+  if (requestType === "photo-removal" && subject && !subject.value) {
+    subject.value = contactText("contactFormPhotoRemovalSubject");
+  }
   if (contactPrivateNote) contactPrivateNote.hidden = requestType !== "private";
   contactDialog.showModal();
   contactForm?.elements.namedItem("name")?.focus();
@@ -68,6 +71,6 @@ window.addEventListener("maelstrom:languagechange", () => {
 
 const contactParams = new URLSearchParams(window.location.search);
 const contactRequestType = contactParams.get("contact");
-if (contactRequestType === "group" || contactRequestType === "private") {
+if (["group", "private", "photo-removal"].includes(contactRequestType)) {
   window.addEventListener("DOMContentLoaded", () => openContactDialog(contactRequestType), { once: true });
 }
