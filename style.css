@@ -982,6 +982,26 @@ body.site-open .full-site {
   transition: none;
 }
 
+.opening-hours {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem clamp(0.8rem, 2vw, 1.4rem);
+  width: min(920px, calc(100% - 32px));
+  margin: 0.25rem auto 0;
+  color: rgba(217, 251, 255, 0.68);
+  font: 700 clamp(0.68rem, 1.1vw, 0.78rem)/1.45 "Trebuchet MS", Arial, sans-serif;
+  letter-spacing: 0.045em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.opening-hours span:not(:last-child)::after {
+  margin-left: clamp(0.8rem, 2vw, 1.4rem);
+  color: rgba(128, 241, 255, 0.38);
+  content: "·";
+}
+
 .photo-placeholder {
   position: relative;
   flex: 0 0 var(--frame-width, clamp(220px, 24vw, 340px));
