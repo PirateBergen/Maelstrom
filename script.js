@@ -1,4 +1,4 @@
-const OPENING_DATE = new Date("2026-09-15T19:00:00+02:00");
+const OPENING_DATE = new Date("2026-09-17T19:00:00+02:00");
 
 const gate = document.querySelector(".gate");
 const relicButton = document.querySelector(".map-disc-button");
@@ -89,7 +89,7 @@ function updateCountdown() {
 
   countdown.setAttribute(
     "aria-label",
-    `${t("countdownAria")}: ${days} ${t("days")}, ${hours} ${t("hours")}, ${minutes} ${t("minutes")}, ${seconds} ${t("seconds")}.`
+    `Countdown before opening night: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds.`
   );
 }
 

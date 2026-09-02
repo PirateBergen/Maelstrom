@@ -1,4 +1,4 @@
-const MAELSTROM_I18N_STORAGE = "maelstrom-language-v1";
+const MAELSTROM_I18N_STORAGE = "maelstrom-language-v2";
 
 const MAELSTROM_TRANSLATIONS = {
   en: {
@@ -626,8 +626,7 @@ function getInitialLanguage() {
     return saved;
   }
 
-  const browserLanguage = navigator.language?.slice(0, 2).toLowerCase();
-  return MAELSTROM_TRANSLATIONS[browserLanguage] ? browserLanguage : "en";
+  return "no";
 }
 
 function translate(key, language = window.MaelstromI18n?.language || getInitialLanguage()) {
