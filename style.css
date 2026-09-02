@@ -4005,6 +4005,13 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   color: #e9fdff;
 }
 
+.gallery-submission-reference {
+  margin: 0.25rem 0 0.9rem;
+  color: #9ef8ff;
+  font: 800 0.82rem/1.4 "Trebuchet MS", Arial, sans-serif;
+  letter-spacing: 0.05em;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

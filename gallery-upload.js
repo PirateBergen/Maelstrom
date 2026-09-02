@@ -5,6 +5,8 @@
   const MAX_SOURCE_SIZE = 25 * 1024 * 1024;
   const MAX_IMAGE_EDGE = 2560;
   const DAILY_UPLOAD_KEY = "maelstrom-gallery-upload-date-v1";
+  const DEVICE_ID_KEY = "maelstrom-gallery-device-v1";
+  const SERVER_ENDPOINT = window.MAELSTROM_RESERVATION_ENDPOINT || "";
   const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
   const endpoint = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
   const form = document.querySelector("#galleryUploadForm");
@@ -15,6 +17,7 @@
   const button = document.querySelector("#galleryUploadButton");
   const status = document.querySelector("#galleryUploadStatus");
   const thanks = document.querySelector("#galleryUploadThanks");
+  const submissionReference = document.querySelector("#gallerySubmissionReference");
   let previewUrl = "";
   let selectedFile = null;
 
@@ -51,6 +54,43 @@
     } catch {
       // The upload remains valid if storage is unavailable.
     }
+  };
+
+  const getDeviceId = () => {
+    try {
+      let value = localStorage.getItem(DEVICE_ID_KEY);
+      if (!/^[a-f0-9]{32}$/i.test(value || "")) {
+        value = Array.from(crypto.getRandomValues(new Uint8Array(16)), (byte) => byte.toString(16).padStart(2, "0")).join("");
+        localStorage.setItem(DEVICE_ID_KEY, value);
+      }
+      return value;
+    } catch {
+      return "";
+    }
+  };
+
+  const serverRequest = (action, device) => {
+    if (!SERVER_ENDPOINT || !device) return Promise.resolve(null);
+    return new Promise((resolve) => {
+      const callback = `maelstromGallery${Date.now()}${Math.floor(Math.random() * 1000)}`;
+      const script = document.createElement("script");
+      const timer = setTimeout(() => cleanup(null), 8000);
+      const cleanup = (result) => {
+        clearTimeout(timer);
+        delete window[callback];
+        script.remove();
+        resolve(result);
+      };
+      window[callback] = (payload) => cleanup(payload);
+      script.onerror = () => cleanup(null);
+      script.src = `${SERVER_ENDPOINT}?action=${encodeURIComponent(action)}&device=${encodeURIComponent(device)}&callback=${encodeURIComponent(callback)}&cache=${Date.now()}`;
+      document.body.appendChild(script);
+    });
+  };
+
+  const makeSubmissionId = () => {
+    const random = Array.from(crypto.getRandomValues(new Uint8Array(3)), (byte) => byte.toString(16).padStart(2, "0")).join("").toUpperCase();
+    return `MS-${bergenDateKey().replaceAll("-", "")}-${random}`;
   };
 
   const lockDailyUpload = () => {
@@ -137,9 +177,17 @@
 
     button.disabled = true;
     setStatus("galleryUploadSending");
+    const deviceId = getDeviceId();
+    const claim = await serverRequest("galleryUploadClaim", deviceId);
+    if (claim && claim.allowed === false) {
+      lockDailyUpload();
+      return;
+    }
+    const submissionId = makeSubmissionId();
     const payload = new FormData();
-    payload.append("file", file);
+    payload.append("file", new File([file], `maelstrom-${submissionId}.jpg`, { type: "image/jpeg", lastModified: Date.now() }));
     payload.append("upload_preset", UPLOAD_PRESET);
+    payload.append("context", `submission_id=${submissionId}|submitted_on=${bergenDateKey()}`);
 
     try {
       const response = await fetch(endpoint, { method: "POST", body: payload });
@@ -149,12 +197,17 @@
       selectedFile = null;
       preview.hidden = true;
       if (thanks) {
+        if (submissionReference) {
+          submissionReference.textContent = `${t("galleryReferenceLabel")}: ${submissionId}`;
+          submissionReference.hidden = false;
+        }
         thanks.hidden = false;
         document.body.classList.add("gallery-upload-confirmed");
       } else {
         setStatus("galleryUploadSuccess", "is-success");
       }
     } catch {
+      if (claim?.allowed === true) void serverRequest("galleryUploadRelease", deviceId);
       setStatus("galleryUploadError", "is-error");
       button.disabled = false;
     }
