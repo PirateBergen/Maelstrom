@@ -280,7 +280,11 @@ h1 {
   margin: clamp(0.35rem, 1.2vw, 0.7rem) auto clamp(0.25rem, 1vw, 0.5rem);
   filter:
     drop-shadow(0 12px 18px rgba(0, 0, 0, 0.74))
-    drop-shadow(0 0 18px rgba(146, 226, 232, 0.12));
+    drop-shadow(0 0 4px rgba(217, 255, 255, 0.84))
+    drop-shadow(0 0 12px rgba(76, 231, 255, 0.68))
+    drop-shadow(0 0 24px rgba(12, 153, 198, 0.48))
+    drop-shadow(0 0 42px rgba(3, 71, 116, 0.52));
+  animation: logo-neon-breathe 3.8s ease-in-out infinite;
   user-select: none;
 }
 
