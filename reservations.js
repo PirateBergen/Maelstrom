@@ -12,10 +12,30 @@ const divinationAddonToggle = document.querySelector("[data-divination-addon-tog
 const divinationAddonFields = document.querySelector("[data-divination-addon-fields]");
 const divinationParticipants = document.querySelector("[data-divination-participants]");
 const divinationTimeSlots = document.querySelector("[data-divination-time-slots]");
+const reservationNewsletterOptIn = document.querySelector("[data-reservation-newsletter-opt-in]");
+const reservationNewsletterCheckbox = reservationNewsletterOptIn?.querySelector('input[name="newsletterOptIn"]');
 let unavailableOracleTimes = new Set();
 let oracleAvailabilityRequest = 0;
 const MINIMUM_BOOKING_NOTICE_MINUTES = 15;
 const MAXIMUM_BOOKING_MONTHS = 6;
+const RESERVATION_NEWSLETTER_SUBSCRIBED_KEY = "maelstrom-newsletter-subscribed-v1";
+
+function hasNewsletterSubscriptionOnDevice() {
+  try {
+    return localStorage.getItem(RESERVATION_NEWSLETTER_SUBSCRIBED_KEY) === "yes";
+  } catch {
+    return false;
+  }
+}
+
+function rememberNewsletterSubscription() {
+  try {
+    localStorage.setItem(RESERVATION_NEWSLETTER_SUBSCRIBED_KEY, "yes");
+  } catch {
+    // The reservation still works if storage is unavailable.
+  }
+  if (reservationNewsletterOptIn) reservationNewsletterOptIn.hidden = true;
+}
 
 function reservationText(key) {
   return window.MaelstromI18n?.t(key) || key;
@@ -445,6 +465,9 @@ refreshBookingTimeOptions();
 updateDivinationParticipantOptions();
 renderDivinationTimeSlots();
 updateDivinationAddon();
+if (reservationNewsletterOptIn && hasNewsletterSubscriptionOnDevice()) {
+  reservationNewsletterOptIn.hidden = true;
+}
 
 reservationForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -517,10 +540,8 @@ reservationForm?.addEventListener("submit", async (event) => {
         `${tableNotes}${tableNotes ? "\n\n" : ""}[Oracle session requested — ${oracleTimes.length} person(s) — 20–30 min each — 250 NOK per slot]\n${oracleDetails}`
       );
     }
-    formData.set(
-      "newsletterOptIn",
-      reservationForm.querySelector('input[name="newsletterOptIn"]')?.checked ? "yes" : "no"
-    );
+    const newsletterRequested = Boolean(reservationNewsletterCheckbox?.checked);
+    formData.set("newsletterOptIn", newsletterRequested ? "yes" : "no");
     formData.set("submittedAt", new Date().toISOString());
     formData.set("source", "Maelstrom website");
 
@@ -529,6 +550,8 @@ reservationForm?.addEventListener("submit", async (event) => {
       mode: "no-cors",
       body: formData,
     });
+
+    if (newsletterRequested) rememberNewsletterSubscription();
 
     reservationForm.reset();
     updateGroupBookingNotice();
