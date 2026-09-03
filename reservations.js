@@ -16,6 +16,7 @@ const reservationNewsletterOptIn = document.querySelector("[data-reservation-new
 const reservationNewsletterCheckbox = reservationNewsletterOptIn?.querySelector('input[name="newsletterOptIn"]');
 let unavailableOracleTimes = new Set();
 let oracleAvailabilityRequest = 0;
+let reservationSubmitting = false;
 const MINIMUM_BOOKING_NOTICE_MINUTES = 15;
 const MAXIMUM_BOOKING_MONTHS = 6;
 const RESERVATION_NEWSLETTER_SUBSCRIBED_KEY = "maelstrom-newsletter-subscribed-v1";
@@ -471,6 +472,7 @@ if (reservationNewsletterOptIn && hasNewsletterSubscriptionOnDevice()) {
 
 reservationForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (reservationSubmitting) return;
 
   if (!validateReservationDate(true)) return;
 
@@ -516,6 +518,8 @@ reservationForm?.addEventListener("submit", async (event) => {
   }
 
   const submitButton = reservationForm.querySelector("button[type='submit']");
+  if (reservationSubmitting) return;
+  reservationSubmitting = true;
   submitButton?.setAttribute("disabled", "true");
 
   try {
@@ -544,6 +548,7 @@ reservationForm?.addEventListener("submit", async (event) => {
     formData.set("newsletterOptIn", newsletterRequested ? "yes" : "no");
     formData.set("submittedAt", new Date().toISOString());
     formData.set("source", "Maelstrom website");
+    formData.set("submissionId", await window.MaelstromReservationSubmission.reference(formData));
 
     await fetch(RESERVATION_ENDPOINT, {
       method: "POST",
@@ -552,6 +557,7 @@ reservationForm?.addEventListener("submit", async (event) => {
     });
 
     if (newsletterRequested) rememberNewsletterSubscription();
+    window.MaelstromReservationSubmission.clear();
 
     reservationForm.reset();
     updateGroupBookingNotice();
@@ -562,6 +568,7 @@ reservationForm?.addEventListener("submit", async (event) => {
   } catch {
     setReservationStatus("reservationError");
   } finally {
+    reservationSubmitting = false;
     submitButton?.removeAttribute("disabled");
   }
 });
