@@ -4012,6 +4012,10 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   letter-spacing: 0.05em;
 }
 
+.site-admin-footer { padding: 4px 20px 18px; text-align: center; }
+.site-admin-footer a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: #9aafb3; font: 14px/1.5 "Trebuchet MS", Arial, sans-serif; text-underline-offset: 4px; }
+.site-admin-footer a:focus-visible { outline: 2px solid #91edf2; outline-offset: 3px; }
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
