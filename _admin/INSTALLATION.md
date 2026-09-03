@@ -76,6 +76,35 @@ Envoyer uniquement la nouvelle URL privée `/exec` à l’assistant (ce n’est 
 
 ## Usage et limites
 
+### Mise à jour calendrier (3 septembre 2026)
+
+Le nouvel onglet Calendrier propose Jour / Semaine (lundi–dimanche) / Mois, Aujourd’hui,
+la navigation entre périodes et le choix d’une date. Les horaires sont ceux de Bergen.
+Les cartes indiquent l’heure d’arrivée exacte, le nom, le nombre de personnes et le statut.
+Un clic ouvre les coordonnées et les actions existantes de confirmation/annulation.
+Les compteurs indiquent les réservations et les personnes, pas la capacité disponible.
+Il n’y a ni durée d’occupation supposée, ni déplacement de réservation, ni plan de tables.
+Le calendrier inclut les archives non annulées pour consulter le passé ; les annulations
+restent consultables dans Réservations → Archives mais ne comptent pas dans le planning.
+Les vues semaine/mois défilent horizontalement sur un petit écran. Les journées chargées
+affichent trois cartes dans la vue mois, puis un bouton ouvrant la journée complète.
+La période entière (42 jours maximum) est chargée, sans limite de 50 réservations.
+
+Pour activer cette mise à jour :
+
+1. Sauvegarder les deux fichiers Admin actuels dans Apps Script.
+2. Remplacer le contenu de `admin.gs` / `Admin.gs` par `_admin/Admin.gs`.
+3. Ouvrir `_admin/Admin.html` **dans le Bloc-notes**, pas comme une page web,
+   puis copier son code complet dans le fichier **Admin.html** d’Apps Script.
+4. Enregistrer. Ne pas modifier Code.gs, le manifeste ou les propriétés secrètes.
+5. Déployer → Gérer les déploiements → choisir **Maelstrom administration privée**
+   (l’URL commence par `AKfycbwFofBE5stmKV`), crayon → Nouvelle version → Déployer.
+   Garder « Moi uniquement » et la même URL. Le déploiement public reste inchangé.
+6. Actualiser l’administration ; tester un jour connu, une semaine, un mois et les détails.
+
+Les fichiers sont prêts dans le dépôt ; la mise à jour Apps Script doit être effectuée
+par le propriétaire. Une publication GitHub ne met pas à jour le déploiement Google.
+
 Chaque action est vérifiée côté serveur, protégée par une session d’une heure et enregistrée. En cas de réponse réseau incertaine, actualiser avant de réessayer. Une erreur d’envoi d’e-mail n’annule pas la mise à jour du statut : un avertissement demande de prévenir le client manuellement.
 
 « Retirer / Refuser » ne supprime pas les fichiers Cloudinary : il retire le tag public et applique le refus. Le cache peut retarder l’effet. Pour une demande d’effacement définitif, supprimer ensuite le fichier dans Cloudinary et vérifier les copies restantes. La console n’effectue aucune suppression définitive en lot.

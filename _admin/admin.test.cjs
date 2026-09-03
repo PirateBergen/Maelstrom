@@ -60,7 +60,7 @@ test('every operation rejects anonymous/wrong users before reading data or conta
   const s=setup();
   for(const email of ['', 'attacker@example.test']) {
     s.state.email=email;
-    for(const action of ['bookings','messages','photos','confirmBooking','cancelBooking','readMessage','approvePhoto','rejectPhoto']) assert.equal(s.call(action).ok,false);
+    for(const action of ['bookings','calendar','messages','photos','confirmBooking','cancelBooking','readMessage','approvePhoto','rejectPhoto']) assert.equal(s.call(action).ok,false);
     assert.throws(()=>s.context.adminBootstrap(),/Accès refusé/);
     assert.match(s.context.renderAdminPage_().html,/Accès réservé/);
   }
@@ -161,7 +161,116 @@ test('unknown actions cannot call arbitrary Apps Script functions',()=>{
 test('private UI renders visitor content as text, with no third-party scripts',()=>{
   const html=fs.readFileSync(path.join(__dirname,'Admin.html'),'utf8');
   assert.ok(!html.includes('innerHTML'));assert.ok(!/<script[^>]+src=/.test(html));
-  const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(match=>match[1]);scripts.forEach(script=>new Function(script));
+  const scripts=[...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(match=>match[1]);scripts.forEach(script=>new Function(script));
+});
+
+test('calendar returns entire visible range including archives, excluding cancellations, without mutation',()=>{
+  const s=setup(),base=s.sheets.get('Reservations').rows[1];
+  for(let i=0;i<85;i++){const row=base.slice();row[2]='Guest '+i;row[10]='token-'+i;row[6]=i%2?'19:15':'19:30';s.sheets.get('Reservations').appendRow(row);}
+  const past=base.slice();past[1]='Archived';past[5]='2026-09-16';past[10]='past-token';s.sheets.get('Archive').appendRow(past);
+  const cancelled=base.slice();cancelled[1]='Cancelled by guest';cancelled[10]='cancel-token';s.sheets.get('Archive').appendRow(cancelled);
+  s.sheets.get('Archive').appendRow(base); // transient archive duplicate must not count twice
+  const result=s.call('calendar',{start:'2026-09-14',end:'2026-09-20'});
+  assert.equal(result.ok,true);assert.equal(result.data.items.length,87);assert.equal(result.data.items[0].archive,true);
+  assert.equal(result.data.items.filter(item=>item.archive).length,1);
+  assert.ok(!JSON.stringify(result).includes('past-token'));assert.equal(s.mail.length,0);assert.equal(s.remote.length,0);
+  assert.ok(!s.sheets.has('Admin log'));assert.equal(s.call('calendar',{start:'2026-10-01',end:'2026-10-31'}).data.items.length,0);
+});
+
+test('calendar validates ranges before reading sheets, requires session, and preserves duplicate legacy bookings',()=>{
+  const s=setup();
+  for(const [start,end] of [['2026-02-30','2026-03-01'],['2026-09-20','2026-09-01'],['2026-01-01','2026-12-31'],['',''],['<script>','2026-09-01']])assert.equal(s.call('calendar',{start,end}).ok,false);
+  assert.equal(s.state.accesses,0);
+  const row=s.sheets.get('Reservations').rows[1];row[10]='';s.sheets.get('Reservations').appendRow(row);
+  assert.equal(s.call('calendar',{start:'2026-09-17',end:'2026-09-17'}).data.items.length,2);
+  s.cache.clear();assert.match(s.call('calendar',{start:'2026-09-17',end:'2026-09-17'}).error,/Session expirée/);
+});
+
+function calendarModel() {
+  const html=fs.readFileSync(path.join(__dirname,'Admin.html'),'utf8');
+  return vm.runInNewContext(html.match(/<script id="calendarMath">([\s\S]*?)<\/script>/)[1]+'\nCalendar;', {Intl,Date});
+}
+
+test('calendar handles Monday weeks, leap years, 42-day months and year boundaries',()=>{
+  const c=calendarModel();
+  assert.equal(c.range('2026-09-06','week').start,'2026-08-31');
+  assert.equal(c.range('2026-12-31','week').end,'2027-01-03');
+  assert.equal(c.range('2026-03-01','month').days.length,42);
+  assert.ok(c.range('2028-02-10','month').days.includes('2028-02-29'));
+  assert.equal(c.move('2026-01-31','month',1),'2026-02-01');
+  assert.equal(c.move('2026-12-31','month',1),'2027-01-01');
+  assert.equal(c.move('2026-01-01','day',-1),'2025-12-31');
+  assert.equal(c.valid('2026-02-30'),false);assert.equal(c.valid('2028-02-29'),true);
+});
+
+test('calendar uses Bergen day regardless of browser timezone and keeps exact arrival hours',()=>{
+  const c=calendarModel();
+  assert.equal(c.today(new Date('2026-09-03T22:30:00Z')),'2026-09-04');
+  assert.equal(c.today(new Date('2026-01-03T22:30:00Z')),'2026-01-03');
+  assert.equal(c.range('2026-03-29','week').days.length,7);
+  assert.equal(c.range('2026-10-25','week').days.length,7);
+  assert.equal(c.hour('00:15'),0);assert.equal(c.hour('19:45'),19);assert.equal(c.hour('25:00'),null);
+  assert.equal(c.kind({status:'New'}),'pending');assert.equal(c.kind({status:'Confirmed'}),'confirmed');assert.equal(c.kind({archive:true,status:'Confirmed'}),'archived');
+  assert.equal(c.guests([{guests:'2'},{guests:'4'},{guests:'invalid'}]),6);
+});
+
+// Lightweight DOM doubles exercise rendering and navigation without opening a browser
+// or connecting to real Google Sheets / customer data.
+function calendarUI() {
+  class Element {
+    constructor(tag='div') {this.tagName=tag;this.children=[];this.dataset={};this.attributes={};this.listeners={};this.value='';this.hidden=false;this.open=false;this.offsetTop=0;this.offsetHeight=0;this.className='';this.textContent='';this.classList={toggle:()=>{}};}
+    append(...nodes){this.children.push(...nodes);}
+    prepend(...nodes){this.children.unshift(...nodes);}
+    replaceChildren(...nodes){this.children=nodes;}
+    setAttribute(key,value){this.attributes[key]=value;}
+    addEventListener(event,callback){this.listeners[event]=callback;}
+    showModal(){this.open=true;}
+    close(){this.open=false;this.listeners.close?.();}
+    querySelector(selector){return this.querySelectorAll(selector)[0]||null;}
+    querySelectorAll(selector){const all=this.children.flatMap(child=>[child,...child.querySelectorAll('*')]);return all.filter(node=>selector==='*'||node.tagName===selector||selector===`[data-hour="${node.dataset.hour}"]`);}
+  }
+  const nodes=new Map(),get=id=>{if(!nodes.has(id))nodes.set(id,new Element());return nodes.get(id);};
+  get('bookingScope').value='active';get('photoScope').value='pending';
+  const tabs=['bookings','calendar','photos','messages'].map(tab=>{const node=new Element('button');node.dataset.tab=tab;return node;});
+  const views=['day','week','month'].map(view=>{const node=new Element('button');node.dataset.view=view;return node;});
+  const document={getElementById:get,createElement:tag=>new Element(tag),addEventListener(){},querySelectorAll:selector=>selector==='[data-tab]'?tabs:selector==='[data-view]'?views:[...nodes.values(),...tabs,...views]};
+  const context=vm.createContext({document,window:{addEventListener(){}},Intl,Date,crypto,console,setTimeout,clearTimeout});
+  const html=fs.readFileSync(path.join(__dirname,'Admin.html'),'utf8');
+  for(const script of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g))vm.runInContext(script[1],context);
+  const run=code=>vm.runInContext(code,context);
+  run("state.csrf='test-session';state.tab='calendar';state.calendarDate='2026-09-17';");
+  return {get,run,context,tabs,views};
+}
+
+test('calendar renders all simultaneous arrivals, opens details, and month overflow opens day',()=>{
+  const ui=calendarUI();
+  ui.context.items=Array.from({length:7},(_,i)=>({id:String(i),name:i===0?'<img onerror=alert(1)>':'Guest '+i,date:'2026-09-17',time:i===6?'00:15':'19:15',guests:'2',status:'New',archive:false,email:'test@example.test',notes:'Notes'}));
+  ui.run("renderCalendar(items,Calendar.range(state.calendarDate,'day'));");
+  let events=ui.get('calendarGrid').querySelectorAll('button').filter(node=>node.className.startsWith('calendar-event'));
+  assert.equal(events.length,7);assert.equal(ui.get('calendarSummary').children[1].textContent,'14 personne(s)');
+  assert.equal(ui.get('calendarGrid').querySelectorAll('img').length,0);
+  events[0].listeners.click();assert.equal(ui.get('calendarDetail').open,true);
+  assert.equal(ui.get('calendarDetailBody').querySelector('details').open,true);
+  ui.get('closeCalendarDetail').onclick();assert.equal(ui.get('calendarDetail').open,false);
+  ui.run("state.calendarView='week';renderCalendar(items,Calendar.range(state.calendarDate,'week'));");
+  assert.equal(ui.get('calendarGrid').querySelector('thead').querySelectorAll('th').length,8);
+  ui.run("state.calendarView='month';renderCalendar(items,Calendar.range(state.calendarDate,'month'));");
+  events=ui.get('calendarGrid').querySelectorAll('button').filter(node=>node.className.startsWith('calendar-event'));
+  assert.equal(events.length,3);
+  const more=ui.get('calendarGrid').querySelectorAll('button').find(node=>node.className==='calendar-more');assert.equal(more.textContent,'+ 4 autres');
+  ui.run('load=()=>{};');more.listeners.click();assert.equal(ui.run('state.calendarView'),'day');assert.equal(ui.run('state.calendarDate'),'2026-09-17');
+});
+
+test('calendar load uses authenticated range and clears records on failure or tab change',async()=>{
+  const ui=calendarUI();
+  ui.run("rpc=async(method,query)=>{globalThis.lastQuery=query;return {ok:true,data:{items:[]}};};");
+  await ui.run('load(true)');assert.equal(ui.context.lastQuery.action,'calendar');assert.equal(ui.context.lastQuery.start,'2026-09-17');
+  assert.equal(ui.get('records').hidden,true);assert.equal(ui.get('next').hidden,true);assert.equal(ui.get('calendarGrid').attributes['aria-busy'],'false');
+  assert.match(ui.get('feedback').textContent,/Aucune réservation/);
+  ui.run("rpc=async()=>({ok:false,error:'Session expirée'});");await ui.run('load(true)');
+  assert.equal(ui.get('calendarGrid').children.length,0);assert.equal(ui.get('calendarSummary').children.length,0);assert.equal(ui.get('feedback').textContent,'Session expirée');
+  ui.run("state.tab='messages';rpc=async()=>({ok:true,data:{items:[],total:0,next:null}});");await ui.run('load(true)');
+  assert.equal(ui.get('calendarPanel').hidden,true);assert.equal(ui.get('records').hidden,false);
 });
 
 test('the public entry only accepts a Google Apps Script deployment URL',()=>{

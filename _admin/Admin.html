@@ -37,6 +37,28 @@
     .empty { padding:50px 20px; text-align:center; color:var(--muted); border:1px dashed var(--line); border-radius:12px; }
     #next { margin:20px 0; } dialog { color:inherit; background:#0c2029; border:1px solid #40707b; border-radius:14px; max-width:520px; width:calc(100% - 32px); padding:28px; }
     dialog::backdrop { background:#000b; backdrop-filter:blur(4px); } dialog h2 { font-size:1.35rem; } dialog p { white-space:pre-wrap; }
+    .calendar-nav,.calendar-views,.calendar-summary,.calendar-legend { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+    .calendar-views button[aria-pressed="true"] { background:var(--cyan);color:#051c23; }
+    #calendarTitle { font-size:1.3rem; margin:20px 0 12px; text-transform:capitalize; }
+    .calendar-summary { gap:12px; margin:12px 0; } .calendar-summary span { padding:8px 14px; border:1px solid var(--line); border-radius:8px; }
+    .calendar-legend { font-size:.875rem; color:var(--muted); margin:12px 0; gap:16px; }
+    .calendar-legend span::before { content:''; display:inline-block; width:10px; height:10px; margin-right:7px; border-radius:50%; background:#85e8ee; }
+    .calendar-legend .pending::before { background:#ffd18c; } .calendar-legend .archived::before { background:#aab7cb; }
+    .calendar-scroll { overflow:auto; max-height:72svh; border:1px solid var(--line); border-radius:12px; overscroll-behavior:contain; }
+    .calendar-table { position:relative; width:100%; border-collapse:separate; border-spacing:0; table-layout:fixed; }
+    .calendar-table.week { min-width:1000px; } .calendar-table.month { min-width:700px; }
+    .calendar-table th,.calendar-table td { border-right:1px solid var(--line); border-bottom:1px solid var(--line); vertical-align:top; padding:8px; }
+    .calendar-table th { position:sticky; top:0; z-index:2; background:#102831; font-size:.875rem; font-weight:500; }
+    .calendar-table th:first-child.hour { width:70px; } .calendar-table .hour { color:var(--muted); font-size:.875rem; }
+    .calendar-table tbody th.hour { position:static; background:#091a21; } .calendar-table td { height:68px; background:#09191f; }
+    .calendar-table.month td { height:155px; } .calendar-table .today { background:#123038; box-shadow:inset 0 3px var(--cyan); }
+    .calendar-table .outside { background:#061116; } .calendar-table .outside .day-link { color:var(--muted); }
+    .day-link { padding:6px; background:transparent; border:0; width:100%; text-align:left; }
+    .calendar-event { display:block; width:100%; text-align:left; margin:6px 0; padding:8px; border:1px solid #38626c; border-left:3px solid var(--cyan); background:#143039; border-radius:6px; font-size:.875rem; overflow-wrap:anywhere; }
+    .calendar-event.pending { border-left-color:#ffd18c;background:#2d2921; } .calendar-event.archived { border-left-color:#aab7cb;background:#202832; }
+    .calendar-event strong,.calendar-event small { display:block; } .calendar-event small { font-size:.875rem; }
+    .calendar-more { width:100%; font-size:.875rem; padding:5px; } .day-count { display:block; font-size:.875rem; color:var(--muted); }
+    #calendarDetail { max-width:650px; max-height:85svh; overflow:auto; } #calendarDetail .record { border:0;padding:16px 0; }
     @media(max-width:720px) { .shell { grid-template-columns:1fr; } aside { padding:18px; gap:15px; border-right:0; border-bottom:1px solid var(--line); } nav { display:flex; flex-wrap:wrap; } nav button { flex:1; text-align:center; padding:10px; } .account { display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; } main { padding:24px 18px; } .record { padding:18px; } }
   </style>
 </head>
@@ -46,6 +68,7 @@
       <div><div class="brand">Maelstrom</div><small class="eyebrow">Administration</small></div>
       <nav aria-label="Administration">
         <button data-tab="bookings" aria-current="page" disabled>Réservations</button>
+        <button data-tab="calendar" disabled>Calendrier</button>
         <button data-tab="photos" disabled>Galerie</button>
         <button data-tab="messages" disabled>Messages</button>
       </nav>
@@ -59,6 +82,19 @@
       </div>
       <div class="toolbar" id="photoFilters" hidden><label>Afficher<select id="photoScope"><option value="pending">En attente</option><option value="published">Publiées</option><option value="rejected">Refusées / retirées</option></select></label><small>La galerie publique peut mettre quelques minutes à se mettre à jour.</small></div>
       <p id="messageInfo" class="muted" hidden>Messages reçus depuis l’activation de l’administration. Les anciennes conversations e-mail ne sont pas importées.</p>
+      <section id="calendarPanel" aria-label="Calendrier des réservations" hidden>
+        <div class="toolbar">
+          <div class="calendar-views" role="group" aria-label="Vue du calendrier"><button data-view="day" aria-pressed="true">Jour</button><button data-view="week" aria-pressed="false">Semaine</button><button data-view="month" aria-pressed="false">Mois</button></div>
+          <div class="calendar-nav"><button id="calendarPrev" aria-label="Période précédente">←</button><button id="calendarToday">Aujourd’hui</button><button id="calendarNext" aria-label="Période suivante">→</button></div>
+          <label>Aller à une date<input id="calendarDate" type="date" min="1900-01-01" max="2100-12-31"></label>
+        </div>
+        <h2 id="calendarTitle"></h2>
+        <p class="muted">Heures de Bergen · Arrivées uniquement, sans durée d’occupation. Les réservations annulées sont exclues.</p>
+        <div id="calendarSummary" class="calendar-summary" aria-live="polite"></div>
+        <div class="calendar-legend"><span>Confirmée</span><span class="pending">À confirmer</span><span class="archived">Archivée</span></div>
+        <p id="calendarHint" class="muted" hidden>Sur mobile, fais glisser le tableau horizontalement pour voir les autres jours.</p>
+        <div id="calendarGrid" class="calendar-scroll" tabindex="0" aria-label="Planning des arrivées" aria-busy="true"></div>
+      </section>
       <p id="feedback" role="status" aria-live="polite">Connexion sécurisée en cours…</p>
       <small id="total"></small>
       <section id="records" aria-label="Résultats" aria-busy="true"></section>
@@ -66,10 +102,34 @@
     </main>
   </div>
   <dialog id="confirmation" aria-labelledby="confirmTitle"><h2 id="confirmTitle">Confirmer l’action</h2><p id="confirmText"></p><div class="actions"><button id="cancelAction" autofocus>Revenir</button><button id="acceptAction" class="primary">Confirmer</button></div></dialog>
+  <dialog id="calendarDetail" aria-labelledby="calendarDetailTitle"><div class="record-head"><h2 id="calendarDetailTitle">Réservation</h2><button id="closeCalendarDetail" autofocus>Fermer</button></div><div id="calendarDetailBody"></div></dialog>
+  <script id="calendarMath">
+    const Calendar = (() => {
+      const parse = key => new Date(key+'T12:00:00Z');
+      const key = date => date.toISOString().slice(0,10);
+      const valid = value => /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(parse(value).getTime()) && key(parse(value))===value && value>='1900-01-01' && value<='2100-12-31';
+      const add = (value,days) => {const date=parse(value);date.setUTCDate(date.getUTCDate()+days);return key(date);};
+      const monday = value => add(value,-((parse(value).getUTCDay()+6)%7));
+      const today = (now=new Date()) => {const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Oslo',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);return ['year','month','day'].map(type=>parts.find(p=>p.type===type).value).join('-');};
+      const range = (value,view) => {
+        let start=value,end=value;
+        if(view==='week'){start=monday(value);end=add(start,6);}
+        if(view==='month'){const date=parse(value);date.setUTCDate(1);start=monday(key(date));date.setUTCMonth(date.getUTCMonth()+1);date.setUTCDate(0);end=add(monday(key(date)),6);}
+        const days=[];for(let date=start;date<=end;date=add(date,1))days.push(date);
+        return {start,end,days};
+      };
+      const move = (value,view,direction) => {if(view!=='month')return add(value,direction*(view==='week'?7:1));const date=parse(value);date.setUTCDate(1);date.setUTCMonth(date.getUTCMonth()+direction);return key(date);};
+      const format = (value,options) => new Intl.DateTimeFormat('fr-FR',{timeZone:'UTC',...options}).format(parse(value));
+      const hour = time => /^([01]\d|2[0-3]):[0-5]\d$/.test(time)?Number(time.slice(0,2)):null;
+      const kind = item => item.archive?'archived':item.status==='Confirmed'?'confirmed':'pending';
+      const guests = items => items.reduce((sum,item)=>sum+(Number.isFinite(Number(item.guests))?Math.max(0,Number(item.guests)):0),0);
+      return {valid,add,today,range,move,format,hour,kind,guests};
+    })();
+  </script>
   <script>
     const $ = id => document.getElementById(id);
-    const state = { tab:'bookings', csrf:'', offset:0, cursor:'', next:null, busy:false, generation:0 };
-    const labels = { bookings:'Réservations', photos:'Galerie', messages:'Messages' };
+    const state = { tab:'bookings', csrf:'', offset:0, cursor:'', next:null, busy:false, generation:0, calendarView:'day', calendarDate:Calendar.today() };
+    const labels = { bookings:'Réservations', calendar:'Calendrier', photos:'Galerie', messages:'Messages' };
     const statuses = { New:'À confirmer', Confirmed:'Confirmée', Archived:'Archivée', Read:'Lu', 'Cancelled by Maelstrom':'Annulée par l’équipe', 'Cancelled by guest':'Annulée par le client' };
     function el(tag, text, cls) { const node=document.createElement(tag); if(text!=null) node.textContent=text; if(cls) node.className=cls; return node; }
     function report(message, error=false) { $('feedback').textContent=message; $('feedback').classList.toggle('error',error); }
@@ -91,6 +151,7 @@
       });
     }
     async function mutate(action, details, prompt) {
+      if($('calendarDetail').open) $('calendarDetail').close();
       if(state.busy||!await ask(prompt)) return;
       busy(true); report('Enregistrement en cours…');
       try {
@@ -133,21 +194,69 @@
       if($('photoScope').value!=='rejected') actions.append(actionButton($('photoScope').value==='published'?'Retirer':'Refuser',()=>mutate('rejectPhoto',{publicId:item.publicId},`Retirer/refuser la photo ${item.reference} ?\nElle restera conservée dans Cloudinary et pourra être approuvée à nouveau.`),true));
       card.append(actions);return card;
     }
+    function calendarOpenDay(date) {state.calendarDate=date;state.calendarView='day';load(true);}
+    function calendarEvent(item) {
+      const button=actionButton('',()=>{
+        $('calendarDetailBody').replaceChildren(bookingCard(item));
+        $('calendarDetailBody').querySelector('details').open=true;
+        $('calendarDetail').showModal();
+      });
+      button.className='calendar-event '+Calendar.kind(item);
+      button.append(el('strong',`${item.time || 'Sans horaire'} · ${item.name}`),el('small',`${item.guests} pers. · ${item.archive?'Archivée':statuses[item.status]||item.status}`));
+      return button;
+    }
+    function renderCalendar(items,range) {
+      const view=state.calendarView,today=Calendar.today(),grid=$('calendarGrid');
+      grid.replaceChildren();$('calendarDate').value=state.calendarDate;
+      document.querySelectorAll('[data-view]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.view===view)));
+      $('calendarHint').hidden=view==='day';
+      $('calendarTitle').textContent=view==='month'?Calendar.format(state.calendarDate,{month:'long',year:'numeric'}):view==='day'?Calendar.format(state.calendarDate,{weekday:'long',day:'numeric',month:'long',year:'numeric'}):`${Calendar.format(range.start,{day:'numeric',month:'short',year:'numeric'})} – ${Calendar.format(range.end,{day:'numeric',month:'short',year:'numeric'})}`;
+      const visible=items.filter(item=>view!=='month'||item.date.slice(0,7)===state.calendarDate.slice(0,7));
+      $('calendarSummary').replaceChildren(el('span',`${visible.length} réservation(s)`),el('span',`${Calendar.guests(visible)} personne(s)`),el('span',`${visible.filter(item=>Calendar.kind(item)==='pending').length} à confirmer`));
+      const byDay=new Map(range.days.map(date=>[date,items.filter(item=>item.date===date)]));
+      const table=el('table',null,'calendar-table '+view),head=el('thead'),body=el('tbody'),header=el('tr');
+      const caption=el('caption',$('calendarTitle').textContent);caption.hidden=true;table.append(caption,head,body);head.append(header);
+      if(view==='month') {
+        ['Lun.','Mar.','Mer.','Jeu.','Ven.','Sam.','Dim.'].forEach(day=>{const th=el('th',day);th.scope='col';header.append(th);});
+        for(let i=0;i<range.days.length;i+=7){const row=el('tr');body.append(row);range.days.slice(i,i+7).forEach(date=>{
+          const bookings=byDay.get(date),cell=el('td',null,date===today?'today':date.slice(0,7)!==state.calendarDate.slice(0,7)?'outside':'');
+          const day=actionButton(Calendar.format(date,{day:'numeric',month:'short'}),()=>calendarOpenDay(date));day.className='day-link';day.setAttribute('aria-label',Calendar.format(date,{weekday:'long',day:'numeric',month:'long',year:'numeric'})+' : '+bookings.length+' réservation(s)');
+          cell.append(day,el('small',`${bookings.length} rés. · ${Calendar.guests(bookings)} pers.`,'day-count'));
+          bookings.slice(0,3).forEach(item=>cell.append(calendarEvent(item)));
+          if(bookings.length>3){const more=actionButton(`+ ${bookings.length-3} autres`,()=>calendarOpenDay(date));more.className='calendar-more';cell.append(more);}
+          row.append(cell);
+        });}
+      } else {
+        const corner=el('th','Heure','hour');corner.scope='col';header.append(corner);
+        range.days.forEach(date=>{const th=el('th',null,date===today?'today':'');th.scope='col';const button=actionButton(Calendar.format(date,{weekday:'short',day:'numeric',month:'short'}),()=>calendarOpenDay(date));button.className='day-link';th.append(button,el('small',`${byDay.get(date).length} rés. · ${Calendar.guests(byDay.get(date))} pers.`,'day-count'));header.append(th);});
+        const hours=Array.from({length:24},(_,i)=>i);if(items.some(item=>Calendar.hour(item.time)===null))hours.push(null);
+        hours.forEach(hour=>{const row=el('tr');row.dataset.hour=String(hour);const th=el('th',hour===null?'À vérifier':String(hour).padStart(2,'0')+':00','hour');th.scope='row';row.append(th);
+          range.days.forEach(date=>{const cell=el('td');byDay.get(date).filter(item=>Calendar.hour(item.time)===hour).forEach(item=>cell.append(calendarEvent(item)));row.append(cell);});body.append(row);});
+      }
+      grid.append(table);
+      if(!items.length)report('Aucune réservation sur cette période.');
+      if(view!=='month') {const hours=items.map(item=>Calendar.hour(item.time)).filter(hour=>hour!==null);const first=hours.length?Math.min(...hours):16;const row=body.querySelector(`[data-hour="${first}"]`);grid.scrollTop=row?Math.max(0,row.offsetTop-head.offsetHeight):0;}else grid.scrollTop=0;
+    }
     async function load(reset=false) {
       if(!state.csrf) return;
       if(reset) { state.offset=0;state.cursor=''; }
       const generation=++state.generation;busy(true);report('Chargement…');$('records').replaceChildren();$('total').textContent='';$('next').hidden=true;
+      const isCalendar=state.tab==='calendar',range=Calendar.range(state.calendarDate,state.calendarView);
+      $('calendarPanel').hidden=!isCalendar;$('records').hidden=isCalendar;
+      $('calendarGrid').setAttribute('aria-busy','true');$('calendarGrid').replaceChildren();$('calendarSummary').replaceChildren();
       const query={action:state.tab,offset:state.offset,archive:$('bookingScope').value==='archive',date:$('bookingDate').value,filter:$('photoScope').value,cursor:state.cursor};
+      if(isCalendar)Object.assign(query,{start:range.start,end:range.end});
       try {
         const response=await rpc('dispatch',query);if(generation!==state.generation)return;
         if(!response.ok)throw new Error(response.error);
+        if(isCalendar){state.next=null;report('');renderCalendar(response.data.items,range);return;}
         const data=response.data;state.next=data.next;$('next').hidden=state.next===null;
         const render=state.tab==='bookings'?bookingCard:state.tab==='messages'?messageCard:photoCard;
         $('records').classList.toggle('photos',state.tab==='photos');data.items.forEach(item=>$('records').append(render(item)));
         if(!data.items.length)$('records').append(el('p','Aucun élément dans cette vue.','empty'));
         $('total').textContent=data.total===undefined?`${data.items.length} photo(s) sur cette page`:`${data.total} résultat(s)`;
         report('');
-      } catch(error) { if(generation===state.generation) report(error.message,true); } finally {if(generation===state.generation)busy(false);}
+      } catch(error) { if(generation===state.generation) report(error.message,true); } finally {if(generation===state.generation){busy(false);$('calendarGrid').setAttribute('aria-busy','false');}}
     }
     document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>{
       state.tab=button.dataset.tab;$('heading').textContent=labels[state.tab];
@@ -157,12 +266,20 @@
     $('refresh').onclick=()=>load(true);$('allDates').onclick=()=>{$('bookingDate').value='';load(true);};
     ['bookingScope','bookingDate','photoScope'].forEach(id=>$(id).addEventListener('change',()=>load(true)));
     $('next').onclick=()=>{if(state.tab==='photos')state.cursor=state.next;else state.offset=state.next;load();};
+    $('calendarDate').value=state.calendarDate;
+    document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{state.calendarView=button.dataset.view;load(true);}));
+    $('calendarDate').onchange=()=>{if(Calendar.valid($('calendarDate').value)){state.calendarDate=$('calendarDate').value;load(true);}else{$('calendarDate').value=state.calendarDate;report('Choisis une date valide.',true);}};
+    function calendarMove(direction){const date=Calendar.move(state.calendarDate,state.calendarView,direction);if(Calendar.valid(date)){state.calendarDate=date;load(true);}}
+    $('calendarPrev').onclick=()=>calendarMove(-1);$('calendarNext').onclick=()=>calendarMove(1);
+    $('calendarToday').onclick=()=>{state.calendarDate=Calendar.today();load(true);};
+    $('closeCalendarDetail').onclick=()=>$('calendarDetail').close();
+    $('calendarDetail').addEventListener('close',()=>$('calendarDetailBody').replaceChildren());
     document.addEventListener('DOMContentLoaded',async()=>{
       busy(true);
       try {const session=await rpc('bootstrap');state.csrf=session.csrf;$('account').textContent=session.email;await load();}
       catch(error){$('account').textContent='Accès non établi';report(error.message,true);busy(false);}
     });
-    window.addEventListener('pagehide',()=>{state.csrf='';$('records').replaceChildren();});
+    window.addEventListener('pagehide',()=>{state.csrf='';$('records').replaceChildren();$('calendarGrid').replaceChildren();$('calendarDetailBody').replaceChildren();});
   </script>
 </body>
 </html>

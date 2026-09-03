@@ -44,6 +44,7 @@ function adminDispatch(request) {
     }
     const actions = {
       bookings: () => adminBookings_(request),
+      calendar: () => adminCalendar_(request),
       messages: () => adminMessages_(request),
       photos: () => adminPhotos_(request),
       confirmBooking: () => adminChangeBooking_(request, "Confirmed"),
@@ -53,7 +54,7 @@ function adminDispatch(request) {
       rejectPhoto: () => adminChangePhoto_(request, false),
     };
     if (!Object.prototype.hasOwnProperty.call(actions, request.action)) throw new Error("Action inconnue.");
-    const mutation = !["bookings", "messages", "photos"].includes(request.action);
+    const mutation = !["bookings", "calendar", "messages", "photos"].includes(request.action);
     if (!mutation) return { ok: true, data: actions[request.action]() };
     if (!/^[a-f0-9-]{32,36}$/i.test(String(request.requestId || ""))) throw new Error("Identifiant de requête manquant.");
     const lock = LockService.getScriptLock();
@@ -95,6 +96,34 @@ function adminPage_(items, request) {
 function adminBookingId_(row) {
   // Do not send cancellation credentials or sheet row indexes to the browser.
   return adminHash_(row[10] || JSON.stringify([row[0], ...row.slice(2, 10)]));
+}
+
+function adminCalendar_(request) {
+  // A whole visible range is returned, never just the first page of bookings.
+  const start = String(request.start || ""), end = String(request.end || "");
+  const valid = value => /^\d{4}-\d{2}-\d{2}$/.test(value) &&
+    Number.isFinite(Date.parse(value + "T12:00:00Z")) && new Date(value + "T12:00:00Z").toISOString().slice(0, 10) === value;
+  if (!valid(start) || !valid(end) || end < start ||
+      (Date.parse(end) - Date.parse(start)) / 86400000 > 41) throw new Error("Période de calendrier invalide (42 jours maximum).");
+  const records = new Map();
+  // Active records win when a record also exists in the archive.
+  for (const archive of [true, false]) {
+    const sheet = archive ? getArchiveSheet_() : getReservationsSheet_();
+    const rows = adminRows_(sheet, RESERVATION_HEADERS.length);
+    for (let index = 0; index < rows.length; index++) {
+      const row = rows[index];
+      const date = adminDate_(row[5], "yyyy-MM-dd"), time = adminDate_(row[6], "HH:mm");
+      if (date < start || date > end) continue;
+      const id = adminBookingId_(row), status = String(row[1]);
+      // Legacy rows can be identical but still be separate bookings: do not collapse them.
+      const key = row[10] ? id : id + ":" + archive + ":" + index;
+      records.set(key, { id, status, name:String(row[2]), email:String(row[3]), phone:String(row[4] || ""),
+        date, time, guests:String(row[7]), notes:String(row[8] || ""), archive });
+    }
+  }
+  const items = Array.from(records.values()).filter(item => !/cancel|reject|declin/i.test(item.status))
+    .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time) || a.name.localeCompare(b.name));
+  return { items, start, end };
 }
 
 function adminBookings_(request) {
