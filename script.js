@@ -1,9 +1,10 @@
-const OPENING_DATE = new Date("2026-09-17T19:00:00+02:00");
+const { OPENING_DATE } = window.MaelstromLaunchSchedule;
 
 const gate = document.querySelector(".gate");
 const relicButton = document.querySelector(".map-disc-button");
 const countdown = document.querySelector(".countdown");
 const fullSite = document.querySelector(".full-site");
+const earlyAccessButton = document.querySelector("[data-early-access]");
 const previewParams = new URLSearchParams(window.location.search);
 const isSitePreview = previewParams.get("preview") === "site";
 const isAdminMode = previewParams.get("admin") === "maelstrom";
@@ -69,12 +70,15 @@ function pad(value, size = 2) {
 
 function updateCountdown() {
   const now = new Date();
-  const remaining = Math.max(0, OPENING_DATE.getTime() - now.getTime());
+  const launchPhase = window.MaelstromLaunchSchedule.phase(now);
 
-  if (remaining === 0) {
+  if (launchPhase === "open") {
     openFullSite();
     return;
   }
+
+  earlyAccessButton?.toggleAttribute("hidden", launchPhase !== "preview");
+  const remaining = Math.max(0, OPENING_DATE.getTime() - now.getTime());
 
   const totalSeconds = Math.floor(remaining / 1000);
   const days = Math.floor(totalSeconds / 86400);
@@ -294,7 +298,9 @@ window.addEventListener("popstate", () => {
   }
 });
 
-if (isSitePreview || Date.now() >= OPENING_DATE.getTime()) {
+earlyAccessButton?.addEventListener("click", openFullSite);
+
+if (isSitePreview || window.MaelstromLaunchSchedule.phase() === "open") {
   openFullSite();
 } else {
   relicButton.addEventListener("click", revealCountdown);
