@@ -10,6 +10,7 @@ const BREVO_API_KEY_PROPERTY = "BREVO_API_KEY";
 const BREVO_LIST_ID_PROPERTY = "BREVO_NEWSLETTER_LIST_ID";
 const MINIMUM_BOOKING_NOTICE_MINUTES = 15;
 const MAXIMUM_BOOKING_MONTHS = 6;
+const FIRST_BOOKING_DATE = "2026-09-23";
 const LATE_GRACE_MINUTES = 15;
 const REMINDER_HOURS_BEFORE = 24;
 
@@ -433,6 +434,8 @@ function isReservationDateAllowed_(dateValue) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(String(dateValue || ""))) {
     return false;
   }
+
+  if (dateValue < FIRST_BOOKING_DATE) return false;
 
   const selectedDate = new Date(`${dateValue}T12:00:00`);
   if (Number.isNaN(selectedDate.getTime())) {

@@ -28,12 +28,13 @@ function setup(){
     MailApp:{sendEmail:mail=>state.sent.push(mail)}
   });
   vm.runInContext(fs.readFileSync(path.join(__dirname,'../Code.gs'),'utf8'),c);
+  const realIsReservationDateAllowed=c.isReservationDateAllowed_;
   c.getReservationsSheet_=()=>active;c.getArchiveSheet_=()=>archive;c.json_=value=>value;
   c.isReservationDateAllowed_=()=>true;c.isReservationTimeAllowed_=()=>true;
   c.sendGuestConfirmation_=()=>{state.sent.push('guest');if(state.guestFailure)throw Error('secret error');};
   c.sendOwnerNotification_=()=>state.sent.push('owner');
   const data={name:'Guest',email:'guest@test.example',date:'2026-09-17',time:'19:00',guests:'2',submissionId:'a'.repeat(32)};
-  return {c,active,archive,state,props,data,post:(extra={})=>c.doPost({parameter:{...data,...extra}})};
+  return {c,active,archive,state,props,data,realIsReservationDateAllowed,post:(extra={})=>c.doPost({parameter:{...data,...extra}})};
 }
 test('public maintenance functions fail closed without an allowed active identity',()=>{
   for(const email of ['', 'other@test.example'])for(const name of ['archivePastReservations','installDailyArchiveTrigger','sendReservationReminders','installReservationReminderTrigger']){
@@ -56,6 +57,12 @@ test('email failure keeps receipt successful and retry creates no duplicate',()=
 test('same reference with changed details fails; distinct references allow separate bookings',()=>{
   const s=setup();assert.equal(s.post().ok,true);assert.equal(s.post({guests:'3'}).ok,false);
   assert.equal(s.post({submissionId:'b'.repeat(32)}).ok,true);assert.equal(s.active.rows.length,3);
+});
+test('backend never accepts a booking before opening day',()=>{
+  const s=setup();
+  s.c.isReservationDateAllowed_=s.realIsReservationDateAllowed;
+  assert.equal(s.c.isReservationDateAllowed_('2026-09-22'),false);
+  assert.equal(s.post({date:'2026-09-22'}).ok,false);
 });
 test('archived submission cannot be recreated by a retry',()=>{
   const s=setup();s.post();s.archive.appendRow(s.active.rows.pop());

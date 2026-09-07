@@ -19,6 +19,7 @@ let oracleAvailabilityRequest = 0;
 let reservationSubmitting = false;
 const MINIMUM_BOOKING_NOTICE_MINUTES = 15;
 const MAXIMUM_BOOKING_MONTHS = 6;
+const FIRST_BOOKING_DATE = "2026-09-23";
 const RESERVATION_NEWSLETTER_SUBSCRIBED_KEY = "maelstrom-newsletter-subscribed-v1";
 
 function hasNewsletterSubscriptionOnDevice() {
@@ -168,17 +169,23 @@ function getTodayDateValue() {
   return getBergenNowParts().date;
 }
 
+function getMinimumBookingDateValue() {
+  return getTodayDateValue() < FIRST_BOOKING_DATE ? FIRST_BOOKING_DATE : getTodayDateValue();
+}
+
 function validateReservationDate(report = false) {
   if (!reservationDate) return true;
 
-  reservationDate.min = getTodayDateValue();
+  reservationDate.min = getMinimumBookingDateValue();
   reservationDate.max = getMaximumDateValue();
   reservationDate.setCustomValidity("");
   const value = reservationDate.value;
   if (!value) return true;
 
   let errorKey = "";
-  if (value < reservationDate.min) {
+  if (value < FIRST_BOOKING_DATE) {
+    errorKey = "reservationBeforeOpening";
+  } else if (value < reservationDate.min) {
     errorKey = "reservationPastDate";
   } else if (value > reservationDate.max) {
     errorKey = "reservationTooFarDate";
@@ -459,7 +466,7 @@ window.addEventListener("maelstrom:languagechange", () => {
 });
 updateGroupBookingNotice();
 if (reservationDate) {
-  reservationDate.min = getTodayDateValue();
+  reservationDate.min = getMinimumBookingDateValue();
   reservationDate.max = getMaximumDateValue();
 }
 refreshBookingTimeOptions();
