@@ -2360,9 +2360,15 @@ body.reservation-confirmed .reservations-page {
   background:
     radial-gradient(circle at 50% 0%, rgba(0, 221, 255, 0.15), transparent 11rem),
     linear-gradient(145deg, rgba(2, 27, 31, 0.9), rgba(4, 15, 17, 0.9));
-  border: 1px solid rgba(128, 241, 255, 0.38);
+  border: 1px solid rgba(255, 215, 128, 0.82);
   border-radius: 6px;
-  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.34), 0 14px 26px rgba(0, 0, 0, 0.28);
+  box-shadow:
+    inset 0 0 24px rgba(255, 196, 78, 0.08),
+    inset 0 0 30px rgba(0, 0, 0, 0.34),
+    0 0 8px rgba(255, 210, 112, 0.66),
+    0 0 22px rgba(255, 185, 54, 0.38),
+    0 0 46px rgba(255, 171, 36, 0.2),
+    0 14px 26px rgba(0, 0, 0, 0.32);
 }
 
 .signature-tasting-card h2 {
