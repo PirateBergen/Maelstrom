@@ -2370,6 +2370,7 @@ body.reservation-confirmed .reservations-page {
 
 .signature-cocktail-card h4,
 .signature-cocktail-card p,
+.signature-video-link,
 .signature-cocktail-heading {
   position: relative;
   z-index: 1;
@@ -2423,6 +2424,36 @@ body.reservation-confirmed .reservations-page {
   text-decoration: none;
   perspective: 280px;
   transition: filter 180ms ease, transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.signature-video-link {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 36px;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: #dffcff;
+  background: rgba(0, 216, 229, 0.08);
+  border: 1px solid rgba(128, 241, 255, 0.34);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.signature-video-link[hidden] {
+  display: none;
+}
+
+.signature-video-link:hover,
+.signature-video-link:focus-visible {
+  color: #fff;
+  background: rgba(0, 216, 229, 0.16);
+  border-color: rgba(128, 241, 255, 0.72);
+  box-shadow: 0 0 16px rgba(0, 216, 229, 0.2);
 }
 
 .logbook-entry-icon::after {

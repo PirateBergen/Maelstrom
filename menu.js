@@ -1,5 +1,25 @@
 (() => {
   const links = document.querySelectorAll(".logbook-entry-icon");
+  const videoLinks = document.querySelectorAll(".signature-video-link");
+
+  videoLinks.forEach((link) => {
+    const videoUrl = String(link.dataset.videoUrl || "").trim();
+    if (!videoUrl) {
+      return;
+    }
+
+    try {
+      const url = new URL(videoUrl, window.location.href);
+      if (url.protocol !== "https:") {
+        return;
+      }
+
+      link.href = url.href;
+      link.hidden = false;
+    } catch (_error) {
+      // Keep the button hidden until a valid video URL is supplied.
+    }
+  });
 
   links.forEach((link) => {
     link.addEventListener("click", (event) => {
