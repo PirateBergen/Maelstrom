@@ -108,7 +108,7 @@ const MAELSTROM_TRANSLATIONS = {
     cocktailFrankTitle: "Captain Frank",
     cocktailShardTitle: "The Shard",
     cocktailHarborTitle: "The King",
-    cocktailFogTitle: "North Sea Fog",
+    cocktailFogTitle: "The Poison",
     signatureDetails: "Rum, smoke, spice, storm",
     openLogbookPage: "Logbook",
     shooterTasting: "Shooter tasting",
@@ -243,7 +243,7 @@ const MAELSTROM_TRANSLATIONS = {
     cocktailCompassNotes: "“Everyone knows Frank.” Champagne sorbet, Cointreau, orange cordial.",
     cocktailSirenNotes: "“Rocked by the waves and the creaking wood.” Feddie Oyster Shell Vodka, MSG saline solution, dry vermouth, smoked nori emulsion.",
     cocktailHarborNotes: "“The alchemist of Naples.” Vodka, lime cordial, lemon syrup, pastry cream, torched meringue.",
-    cocktailFogNotes: "Gin, elderflower, bergamot, saline mist.",
+    cocktailFogNotes: "“Trust no one.” Adriatico amaretto, Riesling liqueur, Fernet-Branca.",
   },
   fr: {
     navMenu: "Menu",
@@ -352,7 +352,7 @@ const MAELSTROM_TRANSLATIONS = {
     cocktailFrankTitle: "Capitaine Frank",
     cocktailShardTitle: "Le Tesson",
     cocktailHarborTitle: "Le King",
-    cocktailFogTitle: "Brume de la mer du Nord",
+    cocktailFogTitle: "Le Poison",
     signatureDetails: "Rhum, fumée, épices, tempête",
     openLogbookPage: "Journal de bord",
     shooterTasting: "Dégustation en shooters",
@@ -487,7 +487,7 @@ const MAELSTROM_TRANSLATIONS = {
     cocktailCompassNotes: "« Tout le monde connaît Frank. » Sorbet au champagne, Cointreau, cordial à l’orange.",
     cocktailSirenNotes: "« Bercé par les vagues et le craquement du bois. » Feddie Oyster Shell Vodka, solution saline au MSG (sel umami), vermouth dry, émulsion d’algue nori fumée.",
     cocktailHarborNotes: "« L’alchimiste de Naples. » Vodka, cordial de citron vert, sirop de citron, crème pâtissière, meringue flambée.",
-    cocktailFogNotes: "Gin, fleur de sureau, bergamote, brume saline.",
+    cocktailFogNotes: "« Ne faites confiance à personne. » Amaretto Adriatico, liqueur de Riesling, Fernet-Branca.",
   },
   no: {
     navMenu: "Meny",
@@ -596,7 +596,7 @@ const MAELSTROM_TRANSLATIONS = {
     cocktailFrankTitle: "Kaptein Frank",
     cocktailShardTitle: "Skåret",
     cocktailHarborTitle: "Kongen",
-    cocktailFogTitle: "Nordsjøtåke",
+    cocktailFogTitle: "Giften",
     signatureDetails: "Rom, røyk, krydder, storm",
     openLogbookPage: "Loggbok",
     shooterTasting: "Shootersmaking",
@@ -731,7 +731,7 @@ const MAELSTROM_TRANSLATIONS = {
     cocktailCompassNotes: "«Alle kjenner Frank.» Champagnesorbet, Cointreau, appelsincordial.",
     cocktailSirenNotes: "«Vugget av bølgene og knirkingen i treverket.» Feddie Oyster Shell Vodka, saltløsning med MSG (umamisalt), tørr vermut, emulsjon av røkt nori.",
     cocktailHarborNotes: "«Alkymisten fra Napoli.» Vodka, limecordial, sitronsirup, konditorkrem, flambert marengs.",
-    cocktailFogNotes: "Gin, hylleblomst, bergamott, salt sjødis.",
+    cocktailFogNotes: "«Stol ikke på noen.» Adriatico-amaretto, Riesling-likør, Fernet-Branca.",
   },
 };
 
