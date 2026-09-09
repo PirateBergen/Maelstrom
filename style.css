@@ -3534,6 +3534,16 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
     padding: 26px 18px;
   }
 
+  .menu-band .section-heading .page-title {
+    width: min(10ch, 100%);
+    margin-inline: auto;
+    font-size: clamp(2.35rem, 12vw, 3.35rem);
+    line-height: 0.94;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
   .intro-band {
     padding-top: 8px;
   }
