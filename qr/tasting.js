@@ -8,37 +8,43 @@ const TIER_POINTS = { S: 5, A: 4, B: 3, C: 2, D: 1 };
 const COCKTAILS = [
   {
     id: "up-is-down",
-    name: "Up Is Down",
+    name: "Meeting at the Tavern",
+    nameKey: "cocktailOfferTitle",
     notes: "Dark rum, lime, ginger, abyss bitters.",
     notesKey: "cocktailUpNotes",
   },
   {
     id: "black-current",
-    name: "The Black Current",
+    name: "The Departure",
+    nameKey: "cocktailSailsTitle",
     notes: "Spiced rum, blackcurrant, sea salt.",
     notesKey: "cocktailBlackNotes",
   },
   {
     id: "dead-mans-compass",
-    name: "Dead Man's Compass",
+    name: "Captain Frank",
+    nameKey: "cocktailFrankTitle",
     notes: "Bourbon, maple, orange smoke.",
     notesKey: "cocktailCompassNotes",
   },
   {
     id: "siren-sour",
-    name: "Siren Sour",
+    name: "A Day at Sea",
+    nameKey: "cocktailShardTitle",
     notes: "Aquavit, lemon, vanilla foam.",
     notesKey: "cocktailSirenNotes",
   },
   {
     id: "harbor-curse",
-    name: "Harbor Curse",
+    name: "The King",
+    nameKey: "cocktailHarborTitle",
     notes: "Mezcal, pineapple, chili, charred citrus.",
     notesKey: "cocktailHarborNotes",
   },
   {
     id: "north-sea-fog",
-    name: "North Sea Fog",
+    name: "The King’s Poison",
+    nameKey: "cocktailFogTitle",
     notes: "Gin, elderflower, bergamot, saline mist.",
     notesKey: "cocktailFogNotes",
   },
@@ -48,6 +54,11 @@ const state = Object.fromEntries(COCKTAILS.map((cocktail) => [cocktail.id, null]
 
 function t(key) {
   return window.MaelstromI18n?.t(key) || key;
+}
+
+function cocktailDisplayName(cocktail) {
+  const translatedName = cocktail.nameKey ? t(cocktail.nameKey) : "";
+  return translatedName && translatedName !== cocktail.nameKey ? translatedName : cocktail.name;
 }
 
 function readSubmissions() {
@@ -106,7 +117,8 @@ function lockForm(form, status) {
 }
 
 function getCocktailName(id) {
-  return COCKTAILS.find((cocktail) => cocktail.id === id)?.name || id;
+  const cocktail = COCKTAILS.find((item) => item.id === id);
+  return cocktail ? cocktailDisplayName(cocktail) : id;
 }
 
 function renderTierSummary() {
@@ -116,7 +128,7 @@ function renderTierSummary() {
   summary.innerHTML = TIERS.map((tier) => {
     const items = COCKTAILS.filter((cocktail) => state[cocktail.id] === tier);
     const content = items.length
-      ? items.map((item) => `<span class="tier-pill">${item.name}</span>`).join("")
+      ? items.map((item) => `<span class="tier-pill">${cocktailDisplayName(item)}</span>`).join("")
       : `<span>${t("noCocktailsYet")}</span>`;
 
     return `
@@ -132,13 +144,15 @@ function renderCocktails() {
   const list = document.querySelector("#cocktailList");
   if (!list) return;
 
-  list.innerHTML = COCKTAILS.map((cocktail) => `
+  list.innerHTML = COCKTAILS.map((cocktail) => {
+    const cocktailName = cocktailDisplayName(cocktail);
+    return `
     <article class="cocktail-card">
       <div>
-        <h3>${cocktail.name}</h3>
+        <h3>${cocktailName}</h3>
         <p>${t(cocktail.notesKey) || cocktail.notes}</p>
       </div>
-      <div class="tier-buttons" aria-label="Rank ${cocktail.name}">
+      <div class="tier-buttons" aria-label="Rank ${cocktailName}">
         ${TIERS.map((tier) => `
           <button type="button" data-cocktail="${cocktail.id}" data-tier="${tier}">
             ${tier}
@@ -146,7 +160,8 @@ function renderCocktails() {
         `).join("")}
       </div>
     </article>
-  `).join("");
+  `;
+  }).join("");
 
   Object.entries(state).forEach(([cocktail, tier]) => {
     if (!tier) return;

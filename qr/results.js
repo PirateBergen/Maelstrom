@@ -2,7 +2,7 @@ function scoreSubmissions(submissions) {
   const scores = Object.fromEntries(
     COCKTAILS.map((cocktail) => [
       cocktail.id,
-      { id: cocktail.id, name: cocktail.name, points: 0, votes: 0 },
+      { id: cocktail.id, name: cocktailDisplayName(cocktail), points: 0, votes: 0 },
     ])
   );
 
