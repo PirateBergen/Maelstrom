@@ -747,6 +747,19 @@ body.site-open .full-site {
   box-shadow: 0 0 22px rgba(76, 231, 255, 0.48);
 }
 
+.countdown-contact-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-top: clamp(0.75rem, 1.8vw, 1.1rem);
+}
+
+.countdown-contact-links .social-icon {
+  width: clamp(38px, 4.2vw, 46px);
+  min-height: 38px;
+}
+
 
 @keyframes logo-neon-breathe {
   0%,
@@ -3383,6 +3396,15 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
     width: min(100%, 126px);
     min-height: 44px;
     padding: 0.78rem 0.2rem 0.28rem;
+  }
+
+  .countdown-contact-links {
+    gap: 0.55rem;
+    margin-top: clamp(0.45rem, 1.4svh, 0.75rem);
+  }
+
+  .countdown-contact-links .social-icon {
+    width: 38px;
   }
 
   input,
