@@ -2404,6 +2404,17 @@ body.reservation-confirmed .reservations-page {
   line-height: 1.45;
 }
 
+.signature-cocktail-card .signature-cocktail-tagline {
+  color: rgba(255, 241, 197, 0.86);
+  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.signature-cocktail-card .signature-cocktail-recipe {
+  margin-top: 0.45rem;
+}
+
 .logbook-entry-icon {
   position: relative;
   z-index: 2;
