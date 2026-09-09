@@ -869,7 +869,7 @@ function applyLanguage(language) {
 }
 
 function createLanguageSelector() {
-  const hosts = [document.querySelector(".gate"), document.querySelector(".site-header")].filter(Boolean);
+  const hosts = [document.querySelector(".gate"), document.querySelector(".site-header"), document.querySelector(".tasting-language-header")].filter(Boolean);
   if (!hosts.length) {
     return;
   }

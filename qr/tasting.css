@@ -7,6 +7,21 @@
   background-color: #000;
 }
 
+.tasting-language-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 80;
+  height: 0;
+  pointer-events: none;
+}
+
+.tasting-language-header .language-switcher {
+  position: fixed;
+  top: max(14px, env(safe-area-inset-top));
+  left: max(14px, env(safe-area-inset-left));
+  pointer-events: auto;
+}
+
 .tasting-vote-page {
   min-height: 100svh;
   color: #a4f4ff;
@@ -702,10 +717,13 @@ body.vote-confirmed .site-header {
   }
 
   .tasting-vote-page .tasting-hero h1 {
-    width: calc(100vw - 32px);
-    max-width: 10ch;
-    font-size: clamp(2.35rem, 12vw, 3.65rem);
-    line-height: 0.94;
+    width: calc(100vw - 40px);
+    max-width: none;
+    padding-inline: 4px;
+    overflow-wrap: normal;
+    word-break: normal;
+    font-size: clamp(2.15rem, 10.5vw, 3.45rem);
+    line-height: 1;
   }
 
   .vote-thanks-content {
@@ -742,10 +760,13 @@ body.vote-confirmed .site-header {
   }
 
   .tasting-hero h1.tier-results-title {
-    width: calc(100vw - 28px);
-    max-width: 12ch;
-    font-size: clamp(2.25rem, 11.5vw, 3.75rem);
-    line-height: 0.9;
+    width: calc(100vw - 44px);
+    max-width: none;
+    padding-inline: 4px;
+    overflow-wrap: normal;
+    word-break: normal;
+    font-size: clamp(2rem, 9.8vw, 3.45rem);
+    line-height: 1;
   }
 
   .tasting-hero p:last-child {
