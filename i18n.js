@@ -3,7 +3,7 @@ const MAELSTROM_I18N_STORAGE = "maelstrom-language-v2";
 const MAELSTROM_TRANSLATIONS = {
   en: {
     navMenu: "Menu",
-    navReservations: "Reserve",
+    navReservations: "Booking",
     navTierList: "Tier list",
     navGallery: "Gallery",
     navLogbook: "Logbook",
@@ -267,7 +267,7 @@ const MAELSTROM_TRANSLATIONS = {
   },
   fr: {
     navMenu: "Menu",
-    navReservations: "Réserver",
+    navReservations: "Réservation",
     navTierList: "Tier list",
     navGallery: "Galerie",
     navLogbook: "Journal de bord",
@@ -531,7 +531,7 @@ const MAELSTROM_TRANSLATIONS = {
   },
   no: {
     navMenu: "Meny",
-    navReservations: "Reserver",
+    navReservations: "Reservasjon",
     navTierList: "Tierliste",
     navGallery: "Galleri",
     navLogbook: "Loggbok",
