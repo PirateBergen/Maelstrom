@@ -33,7 +33,7 @@
     </script>
     <link rel="preload" href="assets/maelstrom-pirate-map.webp" as="image" />
     <link rel="preload" href="assets/maelstrom-logo.webp" as="image" />
-    <link rel="stylesheet" href="style.css?v=20260909-countdown-contact-links" />
+    <link rel="stylesheet" href="style.css?v=20260909-countdown-languages" />
   </head>
   <body>
     <main class="gate" aria-label="Maelstrom site entrance" data-i18n-aria="gateAria">
@@ -72,25 +72,25 @@
         </button>
 
         <div class="countdown" aria-hidden="true">
-          <p class="kicker">Opening in Bergen</p>
+          <p class="kicker" data-i18n="openingInBergen">Opening in Bergen</p>
           <img class="countdown-logo" src="assets/maelstrom-logo.webp" alt="Maelstrom" draggable="false" />
           <p class="date" data-i18n="openingDate">September 23, 2026</p>
-          <div class="time-grid" role="timer" aria-label="Countdown before opening night" data-countdown-label>
+          <div class="time-grid" role="timer" aria-label="Countdown before opening night" data-i18n-aria="countdownAria" data-countdown-label>
             <span>
               <strong data-unit="days">000</strong>
-              <small>days</small>
+              <small data-i18n="days">days</small>
             </span>
             <span>
               <strong data-unit="hours">00</strong>
-              <small>hours</small>
+              <small data-i18n="hours">hours</small>
             </span>
             <span>
               <strong data-unit="minutes">00</strong>
-              <small>minutes</small>
+              <small data-i18n="minutes">minutes</small>
             </span>
             <span>
               <strong data-unit="seconds">00</strong>
-              <small>seconds</small>
+              <small data-i18n="seconds">seconds</small>
             </span>
           </div>
           <button class="early-site-access" type="button" data-early-access data-i18n="earlySiteAccess" hidden>Enter the site</button>
@@ -291,12 +291,12 @@
       <footer class="site-admin-footer"><a href="admin.html" rel="nofollow">Admin</a></footer>
     </main>
 
-    <script src="i18n.js?v=20260909-countdown-contact-links"></script>
+    <script src="i18n.js?v=20260909-countdown-languages"></script>
     <script src="privacy.js?v=20260902-dialog"></script>
     <script src="reservations-config.js?v=20260828-newsletter"></script>
     <script src="newsletter.js?v=20260902-privacy"></script>
     <script src="contact.js?v=20260909-countdown-dialog"></script>
     <script src="launch-schedule.js?v=20260907-opening-date"></script>
-    <script src="script.js?v=20260907-opening-date"></script>
+    <script src="script.js?v=20260909-countdown-languages"></script>
   </body>
 </html>

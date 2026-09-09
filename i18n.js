@@ -811,13 +811,14 @@ function applyLanguage(language) {
     button.setAttribute("aria-pressed", String(active));
   });
 
-  document.querySelector(".language-switcher")?.setAttribute("aria-label", translate("languageLabel", chosen));
+  document.querySelectorAll(".language-switcher").forEach((switcher) => {
+    switcher.setAttribute("aria-label", translate("languageLabel", chosen));
+  });
 
-  const trigger = document.querySelector("[data-language-toggle]");
-  if (trigger) {
+  document.querySelectorAll("[data-language-toggle]").forEach((trigger) => {
     trigger.setAttribute("aria-label", translate("languageLabel", chosen));
     trigger.querySelector("[data-current-language-flag]").textContent = activeLanguage.flag;
-  }
+  });
 
   try {
     localStorage.setItem(MAELSTROM_I18N_STORAGE, chosen);
@@ -829,54 +830,62 @@ function applyLanguage(language) {
 }
 
 function createLanguageSelector() {
-  const header = document.querySelector(".site-header");
-  if (!header || document.querySelector(".language-switcher")) {
+  const hosts = [document.querySelector(".gate"), document.querySelector(".site-header")].filter(Boolean);
+  if (!hosts.length) {
     return;
   }
 
-  const switcher = document.createElement("div");
-  switcher.className = "language-switcher";
-  switcher.setAttribute("aria-label", translate("languageLabel"));
-
-  switcher.innerHTML = `
-    <button class="language-toggle" type="button" data-language-toggle aria-expanded="false" aria-label="${translate("languageLabel")}">
-      <span data-current-language-flag aria-hidden="true">${MAELSTROM_LANGUAGES[0].flag}</span>
-      <span class="language-toggle-flags" aria-hidden="true">${MAELSTROM_LANGUAGES.map((language) => language.flag).join("")}</span>
-    </button>
-    <div class="language-options" role="group">
-      ${MAELSTROM_LANGUAGES.map((language) => `
-        <button type="button" data-language-option="${language.code}" aria-label="${language.label}" aria-pressed="false">
-          <span aria-hidden="true">${language.flag}</span>
-          <span>${language.code.toUpperCase()}</span>
-        </button>
-      `).join("")}
-    </div>
-  `;
-
-  switcher.addEventListener("click", (event) => {
-    const trigger = event.target.closest("[data-language-toggle]");
-    if (trigger) {
-      const open = switcher.classList.toggle("is-open");
-      trigger.setAttribute("aria-expanded", String(open));
+  hosts.forEach((host) => {
+    if (host.querySelector(":scope > .language-switcher")) {
       return;
     }
 
-    const button = event.target.closest("[data-language-option]");
-    if (button) {
-      applyLanguage(button.dataset.languageOption);
-      switcher.classList.remove("is-open");
-      switcher.querySelector("[data-language-toggle]")?.setAttribute("aria-expanded", "false");
-    }
+    const switcher = document.createElement("div");
+    switcher.className = "language-switcher";
+    switcher.setAttribute("aria-label", translate("languageLabel"));
+
+    switcher.innerHTML = `
+      <button class="language-toggle" type="button" data-language-toggle aria-expanded="false" aria-label="${translate("languageLabel")}">
+        <span data-current-language-flag aria-hidden="true">${MAELSTROM_LANGUAGES[0].flag}</span>
+        <span class="language-toggle-flags" aria-hidden="true">${MAELSTROM_LANGUAGES.map((language) => language.flag).join("")}</span>
+      </button>
+      <div class="language-options" role="group">
+        ${MAELSTROM_LANGUAGES.map((language) => `
+          <button type="button" data-language-option="${language.code}" aria-label="${language.label}" aria-pressed="false">
+            <span aria-hidden="true">${language.flag}</span>
+            <span>${language.code.toUpperCase()}</span>
+          </button>
+        `).join("")}
+      </div>
+    `;
+
+    switcher.addEventListener("click", (event) => {
+      const trigger = event.target.closest("[data-language-toggle]");
+      if (trigger) {
+        const open = switcher.classList.toggle("is-open");
+        trigger.setAttribute("aria-expanded", String(open));
+        return;
+      }
+
+      const button = event.target.closest("[data-language-option]");
+      if (button) {
+        applyLanguage(button.dataset.languageOption);
+        document.querySelectorAll(".language-switcher").forEach((item) => item.classList.remove("is-open"));
+        document.querySelectorAll("[data-language-toggle]").forEach((item) => item.setAttribute("aria-expanded", "false"));
+      }
+    });
+
+    host.appendChild(switcher);
   });
 
   document.addEventListener("click", (event) => {
-    if (!switcher.contains(event.target)) {
-      switcher.classList.remove("is-open");
-      switcher.querySelector("[data-language-toggle]")?.setAttribute("aria-expanded", "false");
-    }
+    document.querySelectorAll(".language-switcher").forEach((switcher) => {
+      if (!switcher.contains(event.target)) {
+        switcher.classList.remove("is-open");
+        switcher.querySelector("[data-language-toggle]")?.setAttribute("aria-expanded", "false");
+      }
+    });
   });
-
-  header.appendChild(switcher);
 }
 
 window.MaelstromI18n = {

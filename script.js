@@ -91,9 +91,10 @@ function updateCountdown() {
   units.minutes.textContent = pad(minutes);
   units.seconds.textContent = pad(seconds);
 
+  const text = (key) => window.MaelstromI18n?.t(key) || key;
   countdown.setAttribute(
     "aria-label",
-    `Countdown before opening night: ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds.`
+    `${text("countdownAria")}: ${days} ${text("days")}, ${hours} ${text("hours")}, ${minutes} ${text("minutes")}, ${seconds} ${text("seconds")}.`
   );
 }
 

@@ -719,6 +719,12 @@ body.site-open .full-site {
   user-select: none;
 }
 
+.gate > .language-switcher {
+  position: fixed;
+  top: max(14px, env(safe-area-inset-top));
+  left: max(14px, env(safe-area-inset-left));
+}
+
 .early-site-access {
   margin-top: clamp(0.85rem, 2vw, 1.25rem);
   min-height: 44px;
