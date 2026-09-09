@@ -5,6 +5,11 @@ const contactStatus = document.querySelector("[data-contact-status]");
 const contactSubmit = document.querySelector("[data-contact-submit]");
 const contactPrivateNote = document.querySelector("[data-contact-private-note]");
 
+// Keep the shared contact dialog available while the main site remains hidden behind the countdown.
+if (contactDialog) {
+  document.body.append(contactDialog);
+}
+
 function contactText(key) {
   return window.MaelstromI18n?.t(key) || key;
 }
