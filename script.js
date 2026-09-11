@@ -27,6 +27,8 @@ const googleReviewLink = document.querySelector("[data-google-review-link]");
 let carouselFrame = 0;
 let carouselOffset = 0;
 let carouselVelocity = 0;
+let carouselAutoplayTimer = 0;
+let carouselResetTimer = 0;
 let lightboxHistoryEntry = false;
 let lightboxPreviousFocus = null;
 const units = {
@@ -182,6 +184,53 @@ function jumpPhotoCarousel(direction) {
   setCarouselOffset(carouselOffset + direction * getCarouselStep());
 }
 
+function getCarouselLoopWidth() {
+  const firstFrame = photoTrack?.querySelector(".photo-placeholder");
+  const firstDuplicate = photoTrack?.querySelector('.photo-placeholder[aria-hidden="true"]');
+
+  if (!firstFrame || !firstDuplicate) {
+    return 0;
+  }
+
+  return firstDuplicate.offsetLeft - firstFrame.offsetLeft;
+}
+
+function advancePhotoCarousel() {
+  if (!photoCarousel || !photoTrack || document.hidden || !document.body.classList.contains("site-open")) {
+    return;
+  }
+
+  const loopWidth = getCarouselLoopWidth();
+  const nextOffset = carouselOffset - getCarouselStep();
+
+  if (loopWidth > 0 && nextOffset <= -loopWidth) {
+    setCarouselOffset(-loopWidth);
+    window.clearTimeout(carouselResetTimer);
+    carouselResetTimer = window.setTimeout(() => {
+      photoTrack.style.transition = "none";
+      setCarouselOffset(0);
+      photoTrack.getBoundingClientRect();
+      photoTrack.style.removeProperty("transition");
+    }, 380);
+    return;
+  }
+
+  setCarouselOffset(nextOffset);
+}
+
+function startCarouselAutoplay() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || carouselAutoplayTimer) {
+    return;
+  }
+
+  carouselAutoplayTimer = window.setInterval(advancePhotoCarousel, 3600);
+}
+
+function stopCarouselAutoplay() {
+  window.clearInterval(carouselAutoplayTimer);
+  carouselAutoplayTimer = 0;
+}
+
 function setLightboxContent(sourceFrame) {
   const frameClasses = Array.from(sourceFrame.classList).filter((className) =>
     className.startsWith("frame-") || className === "landscape"
@@ -241,11 +290,25 @@ function openLightbox(sourceFrame) {
 }
 
 if (photoCarousel && photoTrack) {
+  startCarouselAutoplay();
+  photoCarousel.addEventListener("mouseenter", stopCarouselAutoplay);
   photoCarousel.addEventListener("mousemove", updateCarouselVelocity);
-  photoCarousel.addEventListener("mouseleave", stopPhotoCarousel);
+  photoCarousel.addEventListener("mouseleave", () => {
+    stopPhotoCarousel();
+    startCarouselAutoplay();
+  });
+  photoCarousel.addEventListener("touchstart", stopCarouselAutoplay, { passive: true });
+  photoCarousel.addEventListener("touchend", startCarouselAutoplay, { passive: true });
   carouselPrevious?.addEventListener("click", () => jumpPhotoCarousel(1));
   carouselNext?.addEventListener("click", () => jumpPhotoCarousel(-1));
   window.addEventListener("resize", () => setCarouselOffset(carouselOffset));
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stopCarouselAutoplay();
+    } else {
+      startCarouselAutoplay();
+    }
+  });
 
   photoTrack.querySelectorAll(".photo-placeholder").forEach((frame) => {
     frame.setAttribute("role", "button");
