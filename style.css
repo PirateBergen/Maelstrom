@@ -380,6 +380,11 @@ h1 {
   animation: lettering-whirlpool 3200ms cubic-bezier(0.42, 0, 0.08, 1) forwards;
 }
 
+.gate.revealed .disc-flip,
+.gate.revealed .disc-lettering {
+  will-change: auto;
+}
+
 .gate.revealed .map-disc-button {
   opacity: 0;
   pointer-events: none;
@@ -432,6 +437,13 @@ body.site-open .gate {
 
 body.site-open .full-site {
   display: block;
+}
+
+/* Defer below-the-fold rendering while preserving the final visual layout. */
+.full-site .content-band,
+.full-site .site-footer {
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto 800px;
 }
 
 .site-header {
