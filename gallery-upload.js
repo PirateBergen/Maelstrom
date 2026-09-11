@@ -69,7 +69,7 @@
     }
   };
 
-  const serverRequest = (action, device) => {
+  const serverRequest = (action, device, extra = {}) => {
     if (!SERVER_ENDPOINT || !device) return Promise.resolve(null);
     return new Promise((resolve) => {
       const callback = `maelstromGallery${Date.now()}${Math.floor(Math.random() * 1000)}`;
@@ -83,7 +83,8 @@
       };
       window[callback] = (payload) => cleanup(payload);
       script.onerror = () => cleanup(null);
-      script.src = `${SERVER_ENDPOINT}?action=${encodeURIComponent(action)}&device=${encodeURIComponent(device)}&callback=${encodeURIComponent(callback)}&cache=${Date.now()}`;
+      const query = new URLSearchParams({ action, device, callback, cache: String(Date.now()), ...extra });
+      script.src = `${SERVER_ENDPOINT}?${query}`;
       document.body.appendChild(script);
     });
   };
@@ -192,6 +193,11 @@
     try {
       const response = await fetch(endpoint, { method: "POST", body: payload });
       if (!response.ok) throw new Error(`Cloudinary upload ${response.status}`);
+      const uploaded = await response.json();
+      void serverRequest("galleryUploadComplete", deviceId, {
+        publicId: uploaded.public_id || "",
+        submissionId,
+      });
       markUploadedToday();
       form.reset();
       selectedFile = null;

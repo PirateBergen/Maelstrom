@@ -13,6 +13,8 @@ const MAXIMUM_BOOKING_MONTHS = 6;
 const FIRST_BOOKING_DATE = "2026-09-23";
 const LATE_GRACE_MINUTES = 15;
 const REMINDER_HOURS_BEFORE = 24;
+const ADMIN_NTFY_TOPIC_PROPERTY = "ADMIN_NTFY_TOPIC";
+const ADMIN_APP_URL_PROPERTY = "ADMIN_APP_URL";
 
 const RESERVATION_HEADERS = [
   "Submitted at",
@@ -141,6 +143,12 @@ function doPost(e) {
     catch (_) { notificationFailures.push("guest_email_failed"); }
     try { sendOwnerNotification_(reservation); }
     catch (_) { notificationFailures.push("owner_email_failed"); }
+    sendAdminMobileNotification_(
+      "reservation",
+      "Nouvelle réservation",
+      `${reservation.guests} personne(s) · ${reservation.date} à ${reservation.time}`,
+      "bookings"
+    );
 
     if (CREATE_CALENDAR_EVENTS) {
       try { createCalendarEvent_(reservation); }
@@ -222,6 +230,13 @@ function handleContactMessage_(data) {
       </div>
     `,
   });
+
+  sendAdminMobileNotification_(
+    "message",
+    "Nouveau message",
+    "Un nouveau message attend dans l’administration.",
+    "messages"
+  );
 
   return json_({ ok: true, service: "Maelstrom contact form" });
 }
@@ -366,6 +381,10 @@ function doGet(e) {
     return jsonp_(releaseGalleryUploadClaim_(clean_(data.device)), data.callback);
   }
 
+  if (data.action === "galleryUploadComplete") {
+    return jsonp_(notifyGalleryUploadComplete_(data), data.callback);
+  }
+
   if (data.action === "oracleAvailability") {
     const date = clean_(data.date);
     return jsonp_({
@@ -421,6 +440,73 @@ function releaseGalleryUploadClaim_(device) {
   if (!/^[a-f0-9]{32}$/i.test(device)) return { ok: false };
   PropertiesService.getScriptProperties().deleteProperty(galleryDevicePropertyKey_(device));
   return { ok: true };
+}
+
+function notifyGalleryUploadComplete_(data) {
+  const publicId = clean_(data.publicId);
+  const submissionId = clean_(data.submissionId);
+  if (!/^[A-Za-z0-9_\/-]{1,255}$/.test(publicId) || !/^[a-f0-9]{32}$/i.test(submissionId)) {
+    return { ok: false };
+  }
+  if (typeof adminCloudinary_ !== "function" || typeof adminIsGalleryAsset_ !== "function") {
+    return { ok: false };
+  }
+
+  try {
+    const asset = adminCloudinary_("resources/image/upload/" + encodeURIComponent(publicId) + "?tags=true&context=true");
+    const custom = asset && asset.context && asset.context.custom || {};
+    const created = new Date(asset.created_at || "").getTime();
+    const recent = Number.isFinite(created) && Math.abs(Date.now() - created) <= 20 * 60 * 1000;
+    if (!recent || !adminIsGalleryAsset_(asset) || String(custom.submission_id || "") !== submissionId) {
+      return { ok: false };
+    }
+
+    const digest = Utilities.base64EncodeWebSafe(
+      Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, publicId)
+    ).replace(/=+$/g, "").slice(0, 36);
+    const cache = CacheService.getScriptCache();
+    const cacheKey = `gallery-notified-${digest}`;
+    if (cache.get(cacheKey)) return { ok: true, duplicate: true };
+    cache.put(cacheKey, "1", 21600);
+
+    sendAdminMobileNotification_(
+      "photo",
+      "Nouvelle photo à valider",
+      "Une nouvelle photo attend ton approbation dans la galerie.",
+      "photos"
+    );
+    return { ok: true };
+  } catch (_) {
+    return { ok: false };
+  }
+}
+
+function sendAdminMobileNotification_(kind, title, message, section) {
+  try {
+    const properties = PropertiesService.getScriptProperties();
+    const topic = String(properties.getProperty(ADMIN_NTFY_TOPIC_PROPERTY) || "").trim();
+    const adminUrl = String(properties.getProperty(ADMIN_APP_URL_PROPERTY) || "").trim();
+    if (!/^[A-Za-z0-9_-]{20,128}$/.test(topic)) return false;
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(adminUrl)) return false;
+
+    const tags = { reservation: "calendar", message: "email", photo: "camera" };
+    const response = UrlFetchApp.fetch("https://ntfy.sh", {
+      method: "post",
+      contentType: "application/json",
+      payload: JSON.stringify({
+        topic,
+        title: String(title || "Maelstrom"),
+        message: String(message || "Nouvelle activité dans l’administration."),
+        priority: 4,
+        tags: [tags[kind] || "bell"],
+        click: `${adminUrl}?action=admin#${encodeURIComponent(section || "reservations")}`,
+      }),
+      muteHttpExceptions: true,
+    });
+    return response.getResponseCode() >= 200 && response.getResponseCode() < 300;
+  } catch (_) {
+    return false;
+  }
 }
 
 function parseOracleTimes_(value) {

@@ -258,11 +258,14 @@
         report('');
       } catch(error) { if(generation===state.generation) report(error.message,true); } finally {if(generation===state.generation){busy(false);$('calendarGrid').setAttribute('aria-busy','false');}}
     }
-    document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>{
-      state.tab=button.dataset.tab;$('heading').textContent=labels[state.tab];
-      document.querySelectorAll('[data-tab]').forEach(tab=>tab.setAttribute('aria-current',tab===button?'page':'false'));
-      $('bookingFilters').hidden=state.tab!=='bookings';$('photoFilters').hidden=state.tab!=='photos';$('messageInfo').hidden=state.tab!=='messages';load(true);
-    }));
+    function selectTab(tabName,refresh=true) {
+      if(!Object.prototype.hasOwnProperty.call(labels,tabName))tabName='bookings';
+      state.tab=tabName;$('heading').textContent=labels[state.tab];
+      document.querySelectorAll('[data-tab]').forEach(tab=>tab.setAttribute('aria-current',tab.dataset.tab===state.tab?'page':'false'));
+      $('bookingFilters').hidden=state.tab!=='bookings';$('photoFilters').hidden=state.tab!=='photos';$('messageInfo').hidden=state.tab!=='messages';
+      if(refresh)load(true);
+    }
+    document.querySelectorAll('[data-tab]').forEach(button=>button.addEventListener('click',()=>selectTab(button.dataset.tab)));
     $('refresh').onclick=()=>load(true);$('allDates').onclick=()=>{$('bookingDate').value='';load(true);};
     ['bookingScope','bookingDate','photoScope'].forEach(id=>$(id).addEventListener('change',()=>load(true)));
     $('next').onclick=()=>{if(state.tab==='photos')state.cursor=state.next;else state.offset=state.next;load();};
@@ -276,6 +279,7 @@
     $('calendarDetail').addEventListener('close',()=>$('calendarDetailBody').replaceChildren());
     document.addEventListener('DOMContentLoaded',async()=>{
       busy(true);
+      const requestedTab=location.hash.slice(1);selectTab(requestedTab,false);
       try {const session=await rpc('bootstrap');state.csrf=session.csrf;$('account').textContent=session.email;await load();}
       catch(error){$('account').textContent='Accès non établi';report(error.message,true);busy(false);}
     });
