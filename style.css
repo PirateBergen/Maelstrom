@@ -3475,7 +3475,10 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   }
 
   .full-site {
-    background-size: 100% auto;
+    background-size:
+      100% 100%,
+      100% 100%,
+      96% auto;
   }
 
   .logbook-page {
