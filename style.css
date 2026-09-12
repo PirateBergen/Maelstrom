@@ -3485,7 +3485,7 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
       100% auto;
   }
 
-  .site-hero-content::before {
+  .site-hero::before {
     position: absolute;
     top: 42%;
     left: 50%;
