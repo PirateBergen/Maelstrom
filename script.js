@@ -27,8 +27,9 @@ const googleReviewLink = document.querySelector("[data-google-review-link]");
 let carouselFrame = 0;
 let carouselOffset = 0;
 let carouselVelocity = 0;
-let carouselAutoplayTimer = 0;
-let carouselResetTimer = 0;
+let carouselLastFrameTime = 0;
+let carouselBoostTimer = 0;
+let carouselPaused = false;
 let lightboxHistoryEntry = false;
 let lightboxPreviousFocus = null;
 const units = {
@@ -134,20 +135,32 @@ function setCarouselOffset(value) {
     return;
   }
 
-  const maxOffset = Math.max(0, photoTrack.scrollWidth - photoCarousel.clientWidth);
-  carouselOffset = Math.min(Math.max(value, -maxOffset), 0);
+  const loopWidth = getCarouselLoopWidth();
+
+  if (loopWidth > 0) {
+    while (value <= -loopWidth) value += loopWidth;
+    while (value > 0) value -= loopWidth;
+  }
+
+  carouselOffset = value;
   photoTrack.style.setProperty("--carousel-offset", `${carouselOffset}px`);
 }
 
-function movePhotoCarousel() {
-  if (!photoTrack || carouselVelocity === 0) {
+function movePhotoCarousel(time) {
+  if (!photoTrack) {
     carouselFrame = 0;
-    photoCarousel?.classList.remove("is-gliding");
     return;
   }
 
   photoCarousel.classList.add("is-gliding");
-  setCarouselOffset(carouselOffset + carouselVelocity);
+  const elapsed = carouselLastFrameTime ? Math.min(time - carouselLastFrameTime, 40) : 16.67;
+  carouselLastFrameTime = time;
+
+  if (!carouselPaused && !document.hidden && document.body.classList.contains("site-open")) {
+    const speed = carouselVelocity || -0.34;
+    setCarouselOffset(carouselOffset + speed * (elapsed / 16.67));
+  }
+
   carouselFrame = requestAnimationFrame(movePhotoCarousel);
 }
 
@@ -165,23 +178,18 @@ function updateCarouselVelocity(event) {
     carouselVelocity = 0;
   }
 
-  if (carouselVelocity !== 0 && carouselFrame === 0) {
-    carouselFrame = requestAnimationFrame(movePhotoCarousel);
-  }
 }
 
 function stopPhotoCarousel() {
   carouselVelocity = 0;
 }
 
-function getCarouselStep() {
-  return photoCarousel.clientWidth * 0.78;
-}
-
-function jumpPhotoCarousel(direction) {
-  carouselVelocity = 0;
-  photoCarousel.classList.remove("is-gliding");
-  setCarouselOffset(carouselOffset + direction * getCarouselStep());
+function boostPhotoCarousel(direction) {
+  carouselVelocity = direction * 3.2;
+  window.clearTimeout(carouselBoostTimer);
+  carouselBoostTimer = window.setTimeout(() => {
+    carouselVelocity = 0;
+  }, 1100);
 }
 
 function getCarouselLoopWidth() {
@@ -193,42 +201,6 @@ function getCarouselLoopWidth() {
   }
 
   return firstDuplicate.offsetLeft - firstFrame.offsetLeft;
-}
-
-function advancePhotoCarousel() {
-  if (!photoCarousel || !photoTrack || document.hidden || !document.body.classList.contains("site-open")) {
-    return;
-  }
-
-  const loopWidth = getCarouselLoopWidth();
-  const nextOffset = carouselOffset - getCarouselStep();
-
-  if (loopWidth > 0 && nextOffset <= -loopWidth) {
-    setCarouselOffset(-loopWidth);
-    window.clearTimeout(carouselResetTimer);
-    carouselResetTimer = window.setTimeout(() => {
-      photoTrack.style.transition = "none";
-      setCarouselOffset(0);
-      photoTrack.getBoundingClientRect();
-      photoTrack.style.removeProperty("transition");
-    }, 380);
-    return;
-  }
-
-  setCarouselOffset(nextOffset);
-}
-
-function startCarouselAutoplay() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || carouselAutoplayTimer) {
-    return;
-  }
-
-  carouselAutoplayTimer = window.setInterval(advancePhotoCarousel, 3600);
-}
-
-function stopCarouselAutoplay() {
-  window.clearInterval(carouselAutoplayTimer);
-  carouselAutoplayTimer = 0;
 }
 
 function setLightboxContent(sourceFrame) {
@@ -253,6 +225,7 @@ function setLightboxContent(sourceFrame) {
 function hideLightbox() {
   photoLightbox.hidden = true;
   document.body.classList.remove("lightbox-open");
+  carouselPaused = false;
   lightboxHistoryEntry = false;
   lightboxPreviousFocus?.focus?.();
   lightboxPreviousFocus = null;
@@ -276,7 +249,7 @@ function openLightbox(sourceFrame) {
     return;
   }
 
-  stopPhotoCarousel();
+  carouselPaused = true;
   setLightboxContent(sourceFrame);
   lightboxPreviousFocus = document.activeElement;
   photoLightbox.hidden = false;
@@ -290,25 +263,14 @@ function openLightbox(sourceFrame) {
 }
 
 if (photoCarousel && photoTrack) {
-  startCarouselAutoplay();
-  photoCarousel.addEventListener("mouseenter", stopCarouselAutoplay);
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    carouselFrame = requestAnimationFrame(movePhotoCarousel);
+  }
   photoCarousel.addEventListener("mousemove", updateCarouselVelocity);
-  photoCarousel.addEventListener("mouseleave", () => {
-    stopPhotoCarousel();
-    startCarouselAutoplay();
-  });
-  photoCarousel.addEventListener("touchstart", stopCarouselAutoplay, { passive: true });
-  photoCarousel.addEventListener("touchend", startCarouselAutoplay, { passive: true });
-  carouselPrevious?.addEventListener("click", () => jumpPhotoCarousel(1));
-  carouselNext?.addEventListener("click", () => jumpPhotoCarousel(-1));
+  photoCarousel.addEventListener("mouseleave", stopPhotoCarousel);
+  carouselPrevious?.addEventListener("click", () => boostPhotoCarousel(1));
+  carouselNext?.addEventListener("click", () => boostPhotoCarousel(-1));
   window.addEventListener("resize", () => setCarouselOffset(carouselOffset));
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) {
-      stopCarouselAutoplay();
-    } else {
-      startCarouselAutoplay();
-    }
-  });
 
   photoTrack.querySelectorAll(".photo-placeholder").forEach((frame) => {
     frame.setAttribute("role", "button");
