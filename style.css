@@ -3475,8 +3475,12 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   }
 
   .full-site {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.08) 30%, rgba(0, 0, 0, 0.24) 66%, rgba(0, 0, 0, 0.66) 90%, #000 100%),
+      url("assets/maelstrom-full-section-bg.webp");
+    background-position: center top;
+    background-repeat: no-repeat;
     background-size:
-      100% 100%,
       100% 100%,
       128% auto;
   }
