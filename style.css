@@ -3476,13 +3476,15 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
 
   .full-site {
     background:
+      linear-gradient(90deg, rgba(2, 8, 8, 0.62) 0%, rgba(2, 8, 8, 0.2) 3%, transparent 9%, transparent 91%, rgba(2, 8, 8, 0.2) 97%, rgba(2, 8, 8, 0.62) 100%),
       linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.08) 30%, rgba(0, 0, 0, 0.24) 66%, rgba(0, 0, 0, 0.66) 90%, #000 100%),
       url("assets/maelstrom-full-section-bg.webp");
     background-position: center top;
     background-repeat: no-repeat;
     background-size:
       100% 100%,
-      128% auto;
+      100% 100%,
+      100% auto;
   }
 
   .logbook-page {
