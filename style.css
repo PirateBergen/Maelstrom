@@ -3476,7 +3476,7 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
 
   .full-site {
     background:
-      linear-gradient(90deg, rgba(2, 8, 8, 0.62) 0%, rgba(2, 8, 8, 0.2) 3%, transparent 9%, transparent 91%, rgba(2, 8, 8, 0.2) 97%, rgba(2, 8, 8, 0.62) 100%),
+      linear-gradient(90deg, rgba(2, 8, 8, 0.46) 0%, transparent 24%, transparent 76%, rgba(2, 8, 8, 0.46) 100%),
       linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.08) 30%, rgba(0, 0, 0, 0.24) 66%, rgba(0, 0, 0, 0.66) 90%, #000 100%),
       url("assets/maelstrom-full-section-bg.webp");
     background-position: center top;
@@ -3485,6 +3485,22 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
       100% 100%,
       100% 100%,
       100% auto;
+  }
+
+  .site-hero-content::before {
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    z-index: 0;
+    display: block;
+    width: 118vw;
+    height: 64vw;
+    max-height: 390px;
+    content: "";
+    pointer-events: none;
+    background: radial-gradient(ellipse, rgba(82, 234, 255, 0.2) 0%, rgba(22, 151, 184, 0.1) 42%, transparent 74%);
+    filter: blur(10px);
+    transform: translate(-50%, -50%);
   }
 
   .logbook-page {
