@@ -20,11 +20,13 @@
   const submissionReference = document.querySelector("#gallerySubmissionReference");
   let previewUrl = "";
   let selectedFile = null;
+  let currentStatusKey = "";
 
   if (!form || !cameraInput || !libraryInput || !button || !status) return;
 
   const t = (key) => window.MaelstromI18n?.t(key) || key;
   const setStatus = (key, type = "") => {
+    currentStatusKey = key;
     status.textContent = t(key);
     status.className = `gallery-upload-status ${type}`.trim();
   };
@@ -156,6 +158,7 @@
     previewUrl = URL.createObjectURL(selectedFile);
     previewImage.src = previewUrl;
     preview.hidden = false;
+    currentStatusKey = "";
     status.textContent = "";
     button.disabled = false;
   };
@@ -166,6 +169,14 @@
   if (hasUploadedToday()) {
     lockDailyUpload();
   }
+
+  window.addEventListener("maelstrom:languagechange", () => {
+    if (currentStatusKey) status.textContent = t(currentStatusKey);
+    if (submissionReference && !submissionReference.hidden) {
+      const reference = submissionReference.textContent.split(": ").slice(1).join(": ");
+      submissionReference.textContent = `${t("galleryReferenceLabel")}: ${reference}`;
+    }
+  });
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();

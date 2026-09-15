@@ -7,6 +7,7 @@
   const lightbox = document.querySelector("#galleryLightbox");
   const lightboxImage = document.querySelector("#galleryLightboxImage");
   const lightboxClose = lightbox?.querySelector(".gallery-lightbox-close");
+  let renderedResources = [];
 
   if (!gallery) return;
 
@@ -37,6 +38,7 @@
   });
 
   const render = (resources) => {
+    renderedResources = resources;
     if (!resources.length) {
       if (status) status.textContent = t("galleryAwaitingPhotos");
       return;
@@ -69,6 +71,11 @@
 
     if (status) status.textContent = "";
   };
+
+  window.addEventListener("maelstrom:languagechange", () => {
+    render(renderedResources);
+    if (lightboxImage?.hasAttribute("src")) lightboxImage.alt = t("guestGalleryPhotoAlt");
+  });
 
   fetch(listUrl, { mode: "cors" })
     .then((response) => {

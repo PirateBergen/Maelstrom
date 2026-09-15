@@ -869,7 +869,12 @@ function applyLanguage(language) {
 }
 
 function createLanguageSelector() {
-  const hosts = [document.querySelector(".gate"), document.querySelector(".site-header"), document.querySelector(".tasting-language-header")].filter(Boolean);
+  const hosts = [...new Set([
+    ...document.querySelectorAll("[data-language-selector-host]"),
+    document.querySelector(".gate"),
+    document.querySelector(".site-header"),
+    document.querySelector(".tasting-language-header"),
+  ].filter(Boolean))];
   if (!hosts.length) {
     return;
   }
