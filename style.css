@@ -338,6 +338,27 @@ h1 {
   text-transform: uppercase;
 }
 
+.countdown-address {
+  display: inline-block;
+  min-height: 32px;
+  margin-top: clamp(0.45rem, 1.4vw, 0.75rem);
+  padding: 0.42rem 0.7rem;
+  color: rgba(217, 251, 255, 0.76);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: clamp(0.68rem, 1.5vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 180ms ease, text-shadow 180ms ease;
+}
+
+.countdown-address:hover,
+.countdown-address:focus-visible {
+  color: #e9fdff;
+  text-shadow: 0 0 12px rgba(76, 231, 255, 0.62);
+}
+
 .admin-preview-link {
   display: none;
   margin-top: 1rem;
