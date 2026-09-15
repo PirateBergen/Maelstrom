@@ -956,6 +956,13 @@ body.site-open .full-site {
   position: relative;
   margin-inline: calc(clamp(18px, 5vw, 72px) * -0.35);
   overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.photo-carousel.is-dragging {
+  cursor: grabbing;
 }
 
 .photo-carousel::before,
@@ -1043,11 +1050,11 @@ body.site-open .full-site {
   padding: 0 clamp(18px, 5vw, 72px) 0.8rem;
   transform: translateX(var(--carousel-offset, 0px));
   transition: transform 360ms cubic-bezier(0.22, 0.75, 0.24, 1);
-  will-change: transform;
 }
 
-.photo-carousel.is-gliding .photo-track {
+.photo-carousel.is-dragging .photo-track {
   transition: none;
+  will-change: transform;
 }
 
 .opening-hours {
