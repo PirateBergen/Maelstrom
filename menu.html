@@ -11,7 +11,7 @@
     <meta property="og:description" content="Discover the signature cocktails of Maelstrom in Bergen." />
     <meta property="og:url" content="https://maelstrombergen.com/menu.html" />
     <meta property="og:image" content="https://maelstrombergen.com/assets/maelstrom-logo.webp" />
-    <link rel="stylesheet" href="style.css?v=20260917-hide-tier-list" />
+    <link rel="stylesheet" href="style.css?v=20260917-allergen-legend" />
   </head>
   <body class="site-open">
     <main class="full-site menu-page" id="site" aria-label="Maelstrom menu">
@@ -51,7 +51,6 @@
                 <p class="signature-cocktail-tagline" data-i18n="cocktailOfferTagline">“A proposition you can’t refuse.”</p>
                 <p class="signature-cocktail-recipe" data-i18n="cocktailUpNotes">Sailor Jerry spiced rum, vanilla syrup, lime, cinnamon, ginger beer.</p>
                 <p class="signature-cocktail-tasting" data-i18n="cocktailOfferTasting">Warm and spicy, rounded by vanilla, with a fresh, sparkling finish.</p>
-                <p class="signature-cocktail-allergens" data-i18n="cocktailOfferAllergens">Allergens: no mandatory allergens identified; confirm against the vanilla syrup and ginger beer labels.</p>
                 <a class="signature-video-link" data-video-url="" hidden target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span><span data-i18n="watchCocktailVideo">Watch the video</span></a>
               </article>
               <article class="signature-cocktail-card">
@@ -65,7 +64,7 @@
                 <p class="signature-cocktail-tagline" data-i18n="cocktailSailsTagline">“The memory of one last look at his homeland.”</p>
                 <p class="signature-cocktail-recipe" data-i18n="cocktailBlackNotes">Port, house-made blackberry liqueur, house-made black pepper syrup, pepper essential oil, lime.</p>
                 <p class="signature-cocktail-tasting" data-i18n="cocktailDepartureTasting">Fruity and vinous, balanced between blackberry sweetness, bright acidity and black pepper spice.</p>
-                <p class="signature-cocktail-allergens" data-i18n="cocktailDepartureAllergens">Contains: sulphites.</p>
+                <p class="signature-cocktail-allergens" data-i18n="cocktailDepartureAllergens">SUL*</p>
                 <a class="signature-video-link" data-video-url="" hidden target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span><span data-i18n="watchCocktailVideo">Watch the video</span></a>
               </article>
               <article class="signature-cocktail-card">
@@ -79,7 +78,7 @@
                 <p class="signature-cocktail-tagline" data-i18n="cocktailFrankTagline">“Everyone knows Frank.”</p>
                 <p class="signature-cocktail-recipe" data-i18n="cocktailCompassNotes">House-made Rémy Martin Champagne sorbet, house-made Cointreau citrus coulis, orange tuile.</p>
                 <p class="signature-cocktail-tasting" data-i18n="cocktailFrankTasting">Fresh and indulgent, with sparkling Champagne, vibrant citrus and a crisp orange finish.</p>
-                <p class="signature-cocktail-allergens" data-i18n="cocktailFrankAllergens">Contains: GLU — gluten; SUL — sulphites.</p>
+                <p class="signature-cocktail-allergens" data-i18n="cocktailFrankAllergens">GLU* · SUL*</p>
                 <a class="signature-video-link" data-video-url="" hidden target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span><span data-i18n="watchCocktailVideo">Watch the video</span></a>
               </article>
               <article class="signature-cocktail-card">
@@ -93,7 +92,7 @@
                 <p class="signature-cocktail-tagline" data-i18n="cocktailShardTagline">“Rocked by the waves and the creaking wood.”</p>
                 <p class="signature-cocktail-recipe" data-i18n="cocktailSirenNotes">Feddie Oyster Shell Vodka, Dolin Dry Vermouth de Chambéry, MSG saline solution, house-made nori emulsion.</p>
                 <p class="signature-cocktail-tasting" data-i18n="cocktailSeaTasting">Dry, saline and deeply umami, with an elegant mineral character and a lingering marine finish.</p>
-                <p class="signature-cocktail-allergens" data-i18n="cocktailSeaAllergens">Contains: MOL — molluscs; SUL — sulphites.</p>
+                <p class="signature-cocktail-allergens" data-i18n="cocktailSeaAllergens">MOL* · SUL*</p>
                 <a class="signature-video-link" data-video-url="" hidden target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span><span data-i18n="watchCocktailVideo">Watch the video</span></a>
               </article>
               <article class="signature-cocktail-card">
@@ -107,7 +106,7 @@
                 <p class="signature-cocktail-tagline" data-i18n="cocktailKingTagline">“The alchemist of Naples.”</p>
                 <p class="signature-cocktail-recipe" data-i18n="cocktailHarborNotes">Vodka, lime cordial, yuzu syrup, Ancel pastry cream, house-made torched Swiss meringue.</p>
                 <p class="signature-cocktail-tasting" data-i18n="cocktailKingTasting">Creamy and indulgent, lifted by the lively acidity of lime and yuzu, with a toasted meringue finish.</p>
-                <p class="signature-cocktail-allergens" data-i18n="cocktailKingAllergens">Contains: EGG — eggs; MLK — milk.</p>
+                <p class="signature-cocktail-allergens" data-i18n="cocktailKingAllergens">EGG* · MLK*</p>
                 <a class="signature-video-link" data-video-url="" hidden target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span><span data-i18n="watchCocktailVideo">Watch the video</span></a>
               </article>
               <article class="signature-cocktail-card" hidden data-temporarily-hidden="kings-poison">
@@ -151,11 +150,21 @@
             <aside class="off-menu-note">
               <p data-i18n="offMenuCocktailNote">Looking for a cocktail that is not on the menu? Just ask us. We have a wide selection of products, so there is a very good chance we can make it for you.</p>
             </aside>
+            <section class="allergen-legend" aria-labelledby="allergenLegendTitle">
+              <h3 id="allergenLegendTitle" data-i18n="allergenLegendTitle">Allergen key</h3>
+              <ul>
+                <li data-i18n="allergenLegendEgg">EGG* — Eggs</li>
+                <li data-i18n="allergenLegendGluten">GLU* — Gluten</li>
+                <li data-i18n="allergenLegendMilk">MLK* — Milk</li>
+                <li data-i18n="allergenLegendMolluscs">MOL* — Molluscs</li>
+                <li data-i18n="allergenLegendSulphites">SUL* — Sulphites</li>
+              </ul>
+            </section>
           </article>
         </div>
       </section>
     </main>
-    <script src="i18n.js?v=20260909-booking-nav-label"></script>
+    <script src="i18n.js?v=20260917-allergen-legend"></script>
     <script src="privacy.js?v=20260902-dialog"></script>
     <script src="reservations-config.js?v=20260828-newsletter"></script>
     <script src="newsletter.js?v=20260902-privacy"></script>

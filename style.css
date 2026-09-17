@@ -2558,6 +2558,10 @@ body.reservation-confirmed .reservations-page {
   z-index: 1;
 }
 
+.signature-cocktail-card[hidden] {
+  display: none !important;
+}
+
 .signature-cocktail-heading {
   display: flex;
   gap: 0.8rem;
@@ -2609,6 +2613,35 @@ body.reservation-confirmed .reservations-page {
   color: rgba(255, 237, 187, 0.72);
   font-size: 0.76rem;
   font-style: italic;
+}
+
+.allergen-legend {
+  margin-top: 1.35rem;
+  padding-top: 1rem;
+  color: rgba(245, 231, 200, 0.62);
+  border-top: 1px solid rgba(128, 241, 255, 0.14);
+}
+
+.allergen-legend h3 {
+  margin: 0 0 0.55rem;
+  color: rgba(255, 241, 197, 0.78);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.allergen-legend ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.allergen-legend li {
+  font-size: 0.7rem;
+  line-height: 1.45;
 }
 
 .logbook-entry-icon {
