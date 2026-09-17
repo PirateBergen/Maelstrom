@@ -7,7 +7,7 @@ const logbookZoomOut = document.querySelector("[data-logbook-zoom-out]");
 const logbookZoomReset = document.querySelector("[data-logbook-zoom-reset]");
 const logbookZoomControls = document.querySelector(".logbook-zoom-controls");
 
-const LOGBOOK_PAGES = [
+const LOGBOOK_ALL_PAGES = [
   {
     cover: true,
   },
@@ -70,6 +70,10 @@ Of course, he knew Frank. Like everyone else.`,
     text: `When we entered the King's home, he invited us to explain why we had come. The Captain then admitted that he was searching for a woman and that, according to his sources, the alchemist had been seen with her not long ago. The King wore a wide smile as he listened, and there was a strange light in his eyes. "Frank needs the King's help... Il Re in persona! Che privilegio!" He laughed and chuckled. Our entire group felt uneasy with his excessive behavior, but after all, until then, there had been no real reason to worry. He stood up and invited us to drink, revealing that he knew we would come, as he knew very well how Frank felt about this woman. The news shocked the Captain. He had only spoken of his feelings to very few people, and there seemed to be no reasonable way for this alchemist to know anything about them. "I see beyond appearances, il mio capitano." He poured strange ingredients into a large cauldron as he explained that he was the one who had brought the young woman to Naples, hoping to lure the Captain there. He claimed to have received a vision, and that his mission was to help him in his quest. However, according to him, the young woman had refused to stay with the alchemist and had returned to sea aboard a merchant fleet leaving the continent. The Captain fell silent, saddened by the news. The King handed us glasses filled with a strange mixture that carried a rather pleasant smell of almonds. One of our companions reached for his glass faster than the rest of us and quickly began to choke. Everyone jumped to their feet, but it was already too late. Poison! The King held back a laugh and shouted: "Your mission is to die, Frank! The gods no longer want you on their seas! Long live the King!" He then made something explode, filling the room with smoke, and escaped in the confusion. We were still in shock, but the Captain quickly pulled himself together and headed back towards his ship without even worrying about his fallen sailor. "Who is he to speak for the gods? My fate belongs to me, and this King will not stand in my way." And so we returned to sea, in silence. It seems this quest will be less gentle than I first thought...`,
   },
 ];
+
+// Temporary editorial switch: set to 6 to restore the sixth journal entry.
+const LOGBOOK_VISIBLE_ENTRY_COUNT = 5;
+const LOGBOOK_PAGES = LOGBOOK_ALL_PAGES.slice(0, LOGBOOK_VISIBLE_ENTRY_COUNT + 1);
 
 const LOGBOOK_TRANSLATIONS = {
   fr: {

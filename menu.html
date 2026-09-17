@@ -22,7 +22,7 @@
         <nav class="site-nav" aria-label="Main navigation" data-i18n-aria="mainNavAria">
           <a href="menu.html" data-i18n="navMenu">Menu</a>
           <a href="reservations.html" data-i18n="navReservations">Booking</a>
-          <a href="qr/results.html" data-i18n="navTierList">Tier list</a>
+          <a href="qr/results.html" data-i18n="navTierList" hidden data-temporarily-hidden="tier-list">Tier list</a>
           <a href="gallery.html" data-i18n="navGallery">Galerie</a>
           <a href="logbook.html" data-i18n="navLogbook">Journal de bord</a>
           <a href="index.html?preview=site#contact" data-i18n="navContact">Contact</a>
@@ -35,7 +35,7 @@
         </div>
         <div class="menu-columns signature-menu">
           <article class="menu-panel signature-menu-panel">
-            <section class="signature-tasting-card" aria-labelledby="signatureTastingTitle">
+            <section class="signature-tasting-card" aria-labelledby="signatureTastingTitle" hidden data-temporarily-hidden="signature-shooter-tasting">
               <h2 id="signatureTastingTitle" data-i18n="signatureTastingTitle">Signature cocktail tasting</h2>
               <p data-i18n="signatureTastingText">A tasting board featuring all our signature cocktails, served in shooter-sized versions.</p>
             </section>
@@ -100,7 +100,7 @@
                 <p class="signature-cocktail-recipe" data-i18n="cocktailHarborNotes">Vodka, lime cordial, lemon syrup, pastry cream, torched meringue.</p>
                 <a class="signature-video-link" data-video-url="" hidden target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span><span data-i18n="watchCocktailVideo">Watch the video</span></a>
               </article>
-              <article class="signature-cocktail-card">
+              <article class="signature-cocktail-card" hidden data-temporarily-hidden="kings-poison">
                 <div class="signature-cocktail-heading">
                   <a class="logbook-entry-icon" href="logbook.html?entry=6" aria-label="Open logbook page" data-i18n-aria="openLogbookPage">
                     <img class="logbook-icon-closed" src="assets/logbook-cover.webp" alt="" width="44" height="58" />
