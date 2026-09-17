@@ -2450,6 +2450,10 @@ body.reservation-confirmed .reservations-page {
   border-radius: 4px;
 }
 
+.classic-cocktails-section[hidden] {
+  display: none !important;
+}
+
 .classic-cocktails-heading {
   margin-bottom: 1.2rem;
   text-align: center;
