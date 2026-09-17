@@ -2511,6 +2511,13 @@ body.reservation-confirmed .reservations-page {
   margin-top: 0.55rem;
 }
 
+.classic-cocktail-item .signature-cocktail-allergens {
+  margin-top: 0.65rem;
+  color: rgba(255, 237, 187, 0.72);
+  font-size: 0.76rem;
+  font-style: italic;
+}
+
 .off-menu-note {
   max-width: 760px;
   margin: clamp(1.2rem, 3vw, 2rem) auto 0;
