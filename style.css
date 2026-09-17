@@ -2501,6 +2501,16 @@ body.reservation-confirmed .reservations-page {
   line-height: 1.5;
 }
 
+.classic-cocktail-item .classic-cocktail-tagline,
+.classic-cocktail-item .classic-cocktail-tasting {
+  font-style: italic;
+}
+
+.classic-cocktail-item .classic-cocktail-recipe,
+.classic-cocktail-item .classic-cocktail-tasting {
+  margin-top: 0.55rem;
+}
+
 .off-menu-note {
   max-width: 760px;
   margin: clamp(1.2rem, 3vw, 2rem) auto 0;
