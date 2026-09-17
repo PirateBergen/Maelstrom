@@ -2597,6 +2597,20 @@ body.reservation-confirmed .reservations-page {
   margin-top: 0.45rem;
 }
 
+.signature-cocktail-card .signature-cocktail-tasting {
+  margin-top: 0.55rem;
+  color: rgba(244, 235, 210, 0.82);
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.signature-cocktail-card .signature-cocktail-allergens {
+  margin-top: 0.7rem;
+  color: rgba(255, 237, 187, 0.72);
+  font-size: 0.76rem;
+  font-style: italic;
+}
+
 .logbook-entry-icon {
   position: relative;
   z-index: 2;
