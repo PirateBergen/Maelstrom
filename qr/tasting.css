@@ -7,6 +7,11 @@
   background-color: #000;
 }
 
+/* Temporary launch switch: remove this rule to restore the Tier List button. */
+.site-nav a[data-i18n="navTierList"] {
+  display: none !important;
+}
+
 .tasting-language-header {
   position: fixed;
   inset: 0 0 auto;

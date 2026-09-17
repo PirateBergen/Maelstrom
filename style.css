@@ -761,6 +761,11 @@ body.site-open .full-site {
   user-select: none;
 }
 
+/* Temporary launch switch: remove this rule to restore the Tier List button. */
+.site-nav a[data-i18n="navTierList"] {
+  display: none !important;
+}
+
 .gate > .language-switcher {
   position: fixed;
   top: max(14px, env(safe-area-inset-top));
