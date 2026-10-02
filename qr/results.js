@@ -22,6 +22,43 @@ function scoreSubmissions(submissions) {
     .sort((a, b) => b.average - a.average || b.votes - a.votes);
 }
 
+function averageToTier(average) {
+  if (average >= 4.5) return "S";
+  if (average >= 3.5) return "A";
+  if (average >= 2.5) return "B";
+  if (average >= 1.5) return "C";
+  return "D";
+}
+
+function renderCollectiveTierBoard(ranked) {
+  const voted = ranked.filter((item) => item.votes > 0);
+  const rows = TIERS.map((tier) => {
+    const items = voted.filter((item) => averageToTier(item.average) === tier);
+    const content = items.length
+      ? items.map((item) => `
+          <article class="result-tier-cocktail">
+            <strong>${escapeHtml(item.name)}</strong>
+            <span>${item.average.toFixed(2)}</span>
+          </article>
+        `).join("")
+      : `<span class="empty-tier">${t("noCocktailsYet")}</span>`;
+
+    return `
+      <div class="tier-row results-tier-row" data-tier="${tier}">
+        <div class="tier-label">${tier}</div>
+        <div class="tier-items">${content}</div>
+      </div>
+    `;
+  }).join("");
+
+  const unranked = ranked.filter((item) => item.votes === 0);
+  const unrankedRow = unranked.length
+    ? `<div class="results-unranked"><strong>${t("noVotes")}</strong><div>${unranked.map((item) => `<span>${escapeHtml(item.name)}</span>`).join("")}</div></div>`
+    : "";
+
+  return `<div class="results-tier-board">${rows}${unrankedRow}</div>`;
+}
+
 function t(key) {
   return window.MaelstromI18n?.t(key) || key;
 }
@@ -118,13 +155,7 @@ async function renderResults() {
   const log = document.querySelector("#submissionLog");
   const ranked = scoreSubmissions(submissions);
 
-  leaderboard.innerHTML = ranked.map((item, index) => `
-    <article class="leader-card">
-      <span class="leader-rank">${index + 1}</span>
-      <span class="leader-name">${item.name}</span>
-      <span class="leader-score">${item.votes ? item.average.toFixed(2) : t("noVotes")}</span>
-    </article>
-  `).join("");
+  leaderboard.innerHTML = renderCollectiveTierBoard(ranked);
 
   const comments = submissions
     .filter((submission) => getComment(submission))

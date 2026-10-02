@@ -10,7 +10,7 @@
     />
     <title>Maelstrom | Tasting Tier List</title>
     <link rel="stylesheet" href="../style.css?v=20261001-tier-list-live" />
-    <link rel="stylesheet" href="tasting.css?v=20261001-tier-list-live" />
+    <link rel="stylesheet" href="tasting.css?v=20261002-drag-tier-list" />
   </head>
   <body class="tasting-body tasting-vote-page">
     <header class="tasting-language-header" aria-label="Language selection"></header>
@@ -25,8 +25,9 @@
       </section>
 
       <section class="tasting-board" aria-label="Cocktail ranking" data-i18n-aria="cocktailRankingAria">
-        <div class="tier-summary" id="tierSummary" aria-live="polite"></div>
+        <p class="drag-tier-hint" data-i18n="dragTierHint">Drag each cocktail into a tier. On mobile, you can also tap a cocktail and then tap a tier.</p>
         <div class="cocktail-list" id="cocktailList"></div>
+        <div class="tier-summary" id="tierSummary" aria-live="polite"></div>
 
         <form class="taster-form" id="tasterForm">
           <label>
@@ -54,8 +55,8 @@
       </div>
     </section>
 
-    <script src="../i18n.js?v=20260909-tier-list-languages"></script>
+    <script src="../i18n.js?v=20261002-drag-tier-list"></script>
     <script src="config.js?v=20260822-i18n-logbook-preload"></script>
-    <script src="tasting.js?v=20260909-tier-list-names"></script>
+    <script src="tasting.js?v=20261002-drag-tier-list"></script>
   </body>
 </html>

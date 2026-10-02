@@ -378,6 +378,98 @@ body.vote-confirmed .site-header {
   gap: 0.55rem;
 }
 
+.drag-tier-hint {
+  max-width: 760px;
+  margin: 0 auto;
+  color: rgba(164, 244, 255, 0.76);
+  line-height: 1.55;
+  text-align: center;
+}
+
+.cocktail-list {
+  display: grid;
+  gap: 0.6rem;
+  padding: clamp(0.8rem, 2vw, 1.1rem);
+  background: rgba(0, 13, 15, 0.82);
+  border: 1px solid rgba(128, 241, 255, 0.22);
+  border-radius: 8px;
+  box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.4), 0 14px 28px rgba(0, 0, 0, 0.25);
+}
+
+.unranked-heading {
+  color: #bffaff;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.unranked-drop-zone,
+.tier-items {
+  display: flex;
+  min-height: 62px;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  align-items: center;
+  padding: 0.65rem;
+}
+
+.unranked-drop-zone {
+  border: 1px dashed rgba(128, 241, 255, 0.26);
+  border-radius: 7px;
+}
+
+.tier-drop-zone {
+  transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.tier-drop-zone.is-drop-target {
+  border-color: rgba(189, 253, 255, 0.9);
+  box-shadow: 0 0 22px rgba(0, 221, 255, 0.28), inset 0 0 20px rgba(0, 221, 255, 0.08);
+}
+
+.tier-cocktail {
+  min-height: 44px;
+  padding: 0.6rem 0.78rem;
+  color: #d9fbff;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  background: linear-gradient(145deg, rgba(9, 43, 48, 0.96), rgba(2, 20, 24, 0.96));
+  border: 1px solid rgba(128, 241, 255, 0.3);
+  border-radius: 6px;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: clamp(0.72rem, 1.8vw, 0.84rem);
+  font-weight: 900;
+  letter-spacing: 0.035em;
+  text-align: left;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3), 0 0 12px rgba(0, 221, 255, 0.07);
+}
+
+.tier-cocktail:active {
+  cursor: grabbing;
+}
+
+.tier-cocktail.is-selected {
+  color: #031214;
+  background: linear-gradient(145deg, #c9fbff, #55dceb);
+  border-color: #d9fbff;
+  box-shadow: 0 0 18px rgba(0, 221, 255, 0.38);
+}
+
+.tier-cocktail.is-dragging {
+  z-index: 5;
+  opacity: 0.62;
+  transform: scale(1.04);
+}
+
+.empty-tier {
+  color: rgba(164, 244, 255, 0.48);
+  font-size: 0.78rem;
+  font-style: italic;
+}
+
 .tier-row {
   display: grid;
   grid-template-columns: 54px 1fr;
@@ -398,14 +490,13 @@ body.vote-confirmed .site-header {
   place-items: center;
 }
 
-.tier-items {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  align-items: center;
-  padding: 0.6rem;
-  color: rgba(245, 231, 200, 0.62);
-}
+.tier-row[data-tier="S"] .tier-label { background: #ff7f7f; }
+.tier-row[data-tier="A"] .tier-label { background: #ffbf7f; }
+.tier-row[data-tier="B"] .tier-label { background: #ffdf7f; }
+.tier-row[data-tier="C"] .tier-label { background: #fff27f; }
+.tier-row[data-tier="D"] .tier-label { background: #bfff7f; }
+
+.tier-items { color: rgba(245, 231, 200, 0.62); }
 
 .tier-pill {
   padding: 0.42rem 0.55rem;
@@ -418,12 +509,6 @@ body.vote-confirmed .site-header {
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-}
-
-.cocktail-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
 }
 
 .cocktail-card,
@@ -527,6 +612,55 @@ body.vote-confirmed .site-header {
 .submission-log {
   display: grid;
   gap: 0.8rem;
+}
+
+.results-tier-board {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.result-tier-cocktail {
+  display: grid;
+  min-width: min(190px, 100%);
+  gap: 0.18rem;
+  padding: 0.65rem 0.78rem;
+  color: #d9fbff;
+  background: linear-gradient(145deg, rgba(9, 43, 48, 0.96), rgba(2, 20, 24, 0.96));
+  border: 1px solid rgba(128, 241, 255, 0.28);
+  border-radius: 6px;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.28), 0 0 12px rgba(0, 221, 255, 0.07);
+}
+
+.result-tier-cocktail strong {
+  font-size: 0.82rem;
+}
+
+.result-tier-cocktail span {
+  color: rgba(164, 244, 255, 0.64);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.72rem;
+}
+
+.results-unranked {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.85rem;
+  color: rgba(164, 244, 255, 0.68);
+  border: 1px dashed rgba(128, 241, 255, 0.2);
+  border-radius: 7px;
+}
+
+.results-unranked div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.results-unranked span {
+  padding: 0.4rem 0.55rem;
+  background: rgba(0, 221, 255, 0.05);
+  border-radius: 5px;
+  font-size: 0.76rem;
 }
 
 .leader-card,
@@ -779,13 +913,13 @@ body.vote-confirmed .site-header {
     padding: 22px 14px;
   }
 
-  .cocktail-list {
-    grid-template-columns: 1fr;
-  }
-
   .tier-row {
     grid-template-columns: 42px 1fr;
     gap: 0.58rem;
+  }
+
+  .tier-cocktail {
+    width: 100%;
   }
 
   .tier-buttons {

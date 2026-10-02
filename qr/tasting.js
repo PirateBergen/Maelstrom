@@ -41,13 +41,6 @@ const COCKTAILS = [
     notes: "Mezcal, pineapple, chili, charred citrus.",
     notesKey: "cocktailHarborNotes",
   },
-  {
-    id: "north-sea-fog",
-    name: "The King’s Poison",
-    nameKey: "cocktailFogTitle",
-    notes: "Gin, elderflower, bergamot, saline mist.",
-    notesKey: "cocktailFogNotes",
-  },
 ];
 
 const state = Object.fromEntries(COCKTAILS.map((cocktail) => [cocktail.id, null]));
@@ -107,7 +100,7 @@ function showVoteThanks() {
 
 function lockForm(form, status) {
   form.classList.add("is-locked");
-  document.querySelectorAll(".tier-buttons button, #tasterForm input, #tasterForm textarea, #tasterForm button").forEach((control) => {
+  document.querySelectorAll(".tier-cocktail, #tasterForm input, #tasterForm textarea, #tasterForm button").forEach((control) => {
     control.disabled = true;
   });
 
@@ -116,23 +109,35 @@ function lockForm(form, status) {
   }
 }
 
-function getCocktailName(id) {
-  const cocktail = COCKTAILS.find((item) => item.id === id);
-  return cocktail ? cocktailDisplayName(cocktail) : id;
+function cocktailToken(cocktail) {
+  return `
+    <button class="tier-cocktail" type="button" draggable="true" data-cocktail="${cocktail.id}" aria-pressed="false">
+      <span>${cocktailDisplayName(cocktail)}</span>
+    </button>
+  `;
 }
 
-function renderTierSummary() {
+function renderTierBoard() {
   const summary = document.querySelector("#tierSummary");
-  if (!summary) return;
+  const list = document.querySelector("#cocktailList");
+  if (!summary || !list) return;
+
+  const unranked = COCKTAILS.filter((cocktail) => !state[cocktail.id]);
+  list.innerHTML = `
+    <div class="unranked-heading">${t("unrankedCocktails")}</div>
+    <div class="unranked-drop-zone tier-drop-zone" data-tier-drop="" tabindex="0">
+      ${unranked.length ? unranked.map(cocktailToken).join("") : `<span class="empty-tier">${t("allCocktailsRanked")}</span>`}
+    </div>
+  `;
 
   summary.innerHTML = TIERS.map((tier) => {
     const items = COCKTAILS.filter((cocktail) => state[cocktail.id] === tier);
     const content = items.length
-      ? items.map((item) => `<span class="tier-pill">${cocktailDisplayName(item)}</span>`).join("")
-      : `<span>${t("noCocktailsYet")}</span>`;
+      ? items.map(cocktailToken).join("")
+      : `<span class="empty-tier">${t("noCocktailsYet")}</span>`;
 
     return `
-      <div class="tier-row">
+      <div class="tier-row tier-drop-zone" data-tier="${tier}" data-tier-drop="${tier}" tabindex="0">
         <div class="tier-label">${tier}</div>
         <div class="tier-items">${content}</div>
       </div>
@@ -140,53 +145,104 @@ function renderTierSummary() {
   }).join("");
 }
 
-function renderCocktails() {
-  const list = document.querySelector("#cocktailList");
-  if (!list) return;
+let selectedCocktail = null;
+let pointerDrag = null;
+let suppressClick = false;
 
-  list.innerHTML = COCKTAILS.map((cocktail) => {
-    const cocktailName = cocktailDisplayName(cocktail);
-    return `
-    <article class="cocktail-card">
-      <div>
-        <h3>${cocktailName}</h3>
-        <p>${t(cocktail.notesKey) || cocktail.notes}</p>
-      </div>
-      <div class="tier-buttons" aria-label="Rank ${cocktailName}">
-        ${TIERS.map((tier) => `
-          <button type="button" data-cocktail="${cocktail.id}" data-tier="${tier}">
-            ${tier}
-          </button>
-        `).join("")}
-      </div>
-    </article>
-  `;
-  }).join("");
+function clearDropTargets() {
+  document.querySelectorAll(".tier-drop-zone.is-drop-target").forEach((zone) => zone.classList.remove("is-drop-target"));
+}
 
-  Object.entries(state).forEach(([cocktail, tier]) => {
-    if (!tier) return;
-    list
-      .querySelectorAll(`[data-cocktail="${cocktail}"]`)
-      .forEach((tierButton) => tierButton.classList.toggle("active", tierButton.dataset.tier === tier));
+function setCocktailTier(cocktailId, tier) {
+  if (!Object.prototype.hasOwnProperty.call(state, cocktailId)) return;
+  state[cocktailId] = TIERS.includes(tier) ? tier : null;
+  selectedCocktail = null;
+  renderTierBoard();
+}
+
+function selectCocktail(cocktailId) {
+  selectedCocktail = selectedCocktail === cocktailId ? null : cocktailId;
+  document.querySelectorAll(".tier-cocktail").forEach((card) => {
+    const selected = card.dataset.cocktail === selectedCocktail;
+    card.classList.toggle("is-selected", selected);
+    card.setAttribute("aria-pressed", String(selected));
   });
+}
 
-  if (!list.dataset.tierHandlerBound) {
-    list.dataset.tierHandlerBound = "true";
-    list.addEventListener("click", (event) => {
-      const button = event.target.closest("[data-cocktail][data-tier]");
-      if (!button) return;
+document.addEventListener("dragstart", (event) => {
+  const card = event.target.closest(".tier-cocktail");
+  if (!card || card.disabled) return;
+  event.dataTransfer.setData("text/plain", card.dataset.cocktail);
+  event.dataTransfer.effectAllowed = "move";
+  card.classList.add("is-dragging");
+});
 
-      const { cocktail, tier } = button.dataset;
-      state[cocktail] = tier;
+document.addEventListener("dragend", (event) => {
+  event.target.closest(".tier-cocktail")?.classList.remove("is-dragging");
+  clearDropTargets();
+});
 
-      document
-        .querySelectorAll(`[data-cocktail="${cocktail}"]`)
-        .forEach((tierButton) => tierButton.classList.toggle("active", tierButton.dataset.tier === tier));
+document.addEventListener("dragover", (event) => {
+  const zone = event.target.closest(".tier-drop-zone");
+  if (!zone) return;
+  event.preventDefault();
+  clearDropTargets();
+  zone.classList.add("is-drop-target");
+});
 
-      renderTierSummary();
-    });
+document.addEventListener("drop", (event) => {
+  const zone = event.target.closest(".tier-drop-zone");
+  if (!zone) return;
+  event.preventDefault();
+  const cocktailId = event.dataTransfer.getData("text/plain");
+  clearDropTargets();
+  setCocktailTier(cocktailId, zone.dataset.tierDrop);
+});
+
+document.addEventListener("pointerdown", (event) => {
+  const card = event.target.closest(".tier-cocktail");
+  if (!card || card.disabled || event.button !== 0) return;
+  pointerDrag = { id: card.dataset.cocktail, pointerId: event.pointerId, startX: event.clientX, startY: event.clientY, moved: false, card };
+  card.setPointerCapture?.(event.pointerId);
+});
+
+document.addEventListener("pointermove", (event) => {
+  if (!pointerDrag || pointerDrag.pointerId !== event.pointerId) return;
+  const distance = Math.hypot(event.clientX - pointerDrag.startX, event.clientY - pointerDrag.startY);
+  if (distance < 8 && !pointerDrag.moved) return;
+  pointerDrag.moved = true;
+  pointerDrag.card.classList.add("is-dragging");
+  clearDropTargets();
+  document.elementFromPoint(event.clientX, event.clientY)?.closest(".tier-drop-zone")?.classList.add("is-drop-target");
+});
+
+function finishPointerDrag(event) {
+  if (!pointerDrag || pointerDrag.pointerId !== event.pointerId) return;
+  const drag = pointerDrag;
+  pointerDrag = null;
+  drag.card.classList.remove("is-dragging");
+  const zone = document.elementFromPoint(event.clientX, event.clientY)?.closest(".tier-drop-zone");
+  clearDropTargets();
+  if (drag.moved) {
+    suppressClick = true;
+    if (zone) setCocktailTier(drag.id, zone.dataset.tierDrop);
+    setTimeout(() => { suppressClick = false; }, 0);
   }
 }
+
+document.addEventListener("pointerup", finishPointerDrag);
+document.addEventListener("pointercancel", finishPointerDrag);
+
+document.addEventListener("click", (event) => {
+  if (suppressClick) return;
+  const card = event.target.closest(".tier-cocktail");
+  if (card) {
+    selectCocktail(card.dataset.cocktail);
+    return;
+  }
+  const zone = event.target.closest(".tier-drop-zone");
+  if (zone && selectedCocktail) setCocktailTier(selectedCocktail, zone.dataset.tierDrop);
+});
 
 async function submitToEndpoint(payload) {
   if (!RESULT_ENDPOINT) return { skipped: true };
@@ -257,11 +313,9 @@ function setupForm() {
   });
 }
 
-renderCocktails();
-renderTierSummary();
+renderTierBoard();
 setupForm();
 
 window.addEventListener("maelstrom:languagechange", () => {
-  renderCocktails();
-  renderTierSummary();
+  renderTierBoard();
 });
