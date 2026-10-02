@@ -464,6 +464,93 @@ body.vote-confirmed .site-header {
   transform: scale(1.04);
 }
 
+body.cocktail-modal-open { overflow: hidden; }
+
+.cocktail-details-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  padding: max(18px, env(safe-area-inset-top)) 18px max(18px, env(safe-area-inset-bottom));
+  place-items: center;
+}
+
+.cocktail-details-modal[hidden] { display: none; }
+
+.cocktail-details-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background: rgba(0, 3, 4, 0.84);
+  border: 0;
+  backdrop-filter: blur(8px);
+}
+
+.cocktail-details-card {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(560px, 100%);
+  max-height: calc(100svh - 36px);
+  gap: 1.15rem;
+  padding: clamp(1.4rem, 5vw, 2.2rem);
+  overflow: auto;
+  color: #d9fbff;
+  background: radial-gradient(circle at 85% 0%, rgba(0, 221, 255, 0.13), transparent 12rem), linear-gradient(145deg, #061719, #01090b);
+  border: 1px solid rgba(128, 241, 255, 0.38);
+  border-radius: 10px;
+  box-shadow: 0 0 38px rgba(0, 221, 255, 0.16), 0 28px 70px rgba(0, 0, 0, 0.72);
+}
+
+.cocktail-details-card h2 {
+  max-width: calc(100% - 2.5rem);
+  margin: 0;
+  color: #e9fdff;
+  font-size: clamp(1.7rem, 6vw, 2.6rem);
+  line-height: 1;
+  text-shadow: 0 0 14px rgba(0, 221, 255, 0.42);
+}
+
+.cocktail-details-card section { display: grid; gap: 0.35rem; }
+
+.cocktail-details-card h3 {
+  margin: 0;
+  color: rgba(164, 244, 255, 0.66);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cocktail-details-card p { margin: 0; color: #c9f7fb; line-height: 1.62; }
+
+.cocktail-details-close {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  color: #d9fbff;
+  cursor: pointer;
+  background: rgba(0, 221, 255, 0.06);
+  border: 1px solid rgba(128, 241, 255, 0.26);
+  border-radius: 50%;
+  font-size: 1.8rem;
+  line-height: 1;
+  place-items: center;
+}
+
+.cocktail-details-close:hover,
+.cocktail-details-close:focus-visible {
+  background: rgba(0, 221, 255, 0.16);
+  border-color: rgba(201, 253, 255, 0.72);
+  outline: none;
+  box-shadow: 0 0 16px rgba(0, 221, 255, 0.24);
+}
+
 .empty-tier {
   color: rgba(164, 244, 255, 0.48);
   font-size: 0.78rem;

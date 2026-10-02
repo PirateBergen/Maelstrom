@@ -12,6 +12,7 @@ const COCKTAILS = [
     nameKey: "cocktailOfferTitle",
     notes: "Dark rum, lime, ginger, abyss bitters.",
     notesKey: "cocktailUpNotes",
+    descriptionKey: "cocktailOfferTasting",
   },
   {
     id: "black-current",
@@ -19,6 +20,7 @@ const COCKTAILS = [
     nameKey: "cocktailSailsTitle",
     notes: "Spiced rum, blackcurrant, sea salt.",
     notesKey: "cocktailBlackNotes",
+    descriptionKey: "cocktailDepartureTasting",
   },
   {
     id: "dead-mans-compass",
@@ -26,6 +28,7 @@ const COCKTAILS = [
     nameKey: "cocktailFrankTitle",
     notes: "Bourbon, maple, orange smoke.",
     notesKey: "cocktailCompassNotes",
+    descriptionKey: "cocktailFrankTasting",
   },
   {
     id: "siren-sour",
@@ -33,6 +36,7 @@ const COCKTAILS = [
     nameKey: "cocktailShardTitle",
     notes: "Aquavit, lemon, vanilla foam.",
     notesKey: "cocktailSirenNotes",
+    descriptionKey: "cocktailSeaTasting",
   },
   {
     id: "harbor-curse",
@@ -40,6 +44,7 @@ const COCKTAILS = [
     nameKey: "cocktailHarborTitle",
     notes: "Mezcal, pineapple, chili, charred citrus.",
     notesKey: "cocktailHarborNotes",
+    descriptionKey: "cocktailKingTasting",
   },
 ];
 
@@ -145,7 +150,6 @@ function renderTierBoard() {
   }).join("");
 }
 
-let selectedCocktail = null;
 let pointerDrag = null;
 let suppressClick = false;
 
@@ -156,17 +160,27 @@ function clearDropTargets() {
 function setCocktailTier(cocktailId, tier) {
   if (!Object.prototype.hasOwnProperty.call(state, cocktailId)) return;
   state[cocktailId] = TIERS.includes(tier) ? tier : null;
-  selectedCocktail = null;
   renderTierBoard();
 }
 
-function selectCocktail(cocktailId) {
-  selectedCocktail = selectedCocktail === cocktailId ? null : cocktailId;
-  document.querySelectorAll(".tier-cocktail").forEach((card) => {
-    const selected = card.dataset.cocktail === selectedCocktail;
-    card.classList.toggle("is-selected", selected);
-    card.setAttribute("aria-pressed", String(selected));
-  });
+function openCocktailDetails(cocktailId) {
+  const cocktail = COCKTAILS.find((item) => item.id === cocktailId);
+  const modal = document.querySelector("#cocktailDetailsModal");
+  if (!cocktail || !modal) return;
+  modal.dataset.cocktail = cocktail.id;
+  modal.querySelector("#cocktailDetailsTitle").textContent = cocktailDisplayName(cocktail);
+  modal.querySelector("#cocktailDetailsDescription").textContent = t(cocktail.descriptionKey);
+  modal.querySelector("#cocktailDetailsRecipe").textContent = t(cocktail.notesKey);
+  modal.hidden = false;
+  document.body.classList.add("cocktail-modal-open");
+  modal.querySelector(".cocktail-details-close")?.focus();
+}
+
+function closeCocktailDetails() {
+  const modal = document.querySelector("#cocktailDetailsModal");
+  if (!modal || modal.hidden) return;
+  modal.hidden = true;
+  document.body.classList.remove("cocktail-modal-open");
 }
 
 document.addEventListener("dragstart", (event) => {
@@ -237,11 +251,14 @@ document.addEventListener("click", (event) => {
   if (suppressClick) return;
   const card = event.target.closest(".tier-cocktail");
   if (card) {
-    selectCocktail(card.dataset.cocktail);
+    openCocktailDetails(card.dataset.cocktail);
     return;
   }
-  const zone = event.target.closest(".tier-drop-zone");
-  if (zone && selectedCocktail) setCocktailTier(selectedCocktail, zone.dataset.tierDrop);
+  if (event.target.matches("[data-close-cocktail-modal]")) closeCocktailDetails();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeCocktailDetails();
 });
 
 async function submitToEndpoint(payload) {
@@ -318,4 +335,6 @@ setupForm();
 
 window.addEventListener("maelstrom:languagechange", () => {
   renderTierBoard();
+  const modal = document.querySelector("#cocktailDetailsModal");
+  if (modal && !modal.hidden && modal.dataset.cocktail) openCocktailDetails(modal.dataset.cocktail);
 });
