@@ -1092,6 +1092,28 @@ body.site-open .full-site {
   text-transform: uppercase;
 }
 
+.opening-hours-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  margin: 0.35rem auto 0;
+  color: rgba(164, 244, 255, 0.86);
+  font: 800 clamp(0.62rem, 1vw, 0.72rem)/1.2 "Trebuchet MS", Arial, sans-serif;
+  letter-spacing: 0.13em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.opening-hours-note::before {
+  width: 0.38rem;
+  height: 0.38rem;
+  content: "";
+  background: #80f1ff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 221, 255, 0.75);
+}
+
 .opening-hours span:not(:last-child)::after {
   margin-left: clamp(0.8rem, 2vw, 1.4rem);
   color: rgba(128, 241, 255, 0.38);
