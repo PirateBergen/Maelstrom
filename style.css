@@ -2519,6 +2519,10 @@ body.reservation-confirmed .reservations-page {
   transform: translateY(-2px);
 }
 
+.signature-cocktail-photo-landscape {
+  width: min(100%, 420px);
+}
+
 .menu-category-price,
 .signature-tasting-card .menu-item-price {
   color: #fff1c5;
