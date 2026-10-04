@@ -515,11 +515,15 @@ body.cocktail-modal-open { overflow: hidden; }
 
 .cocktail-details-photo {
   display: block;
-  width: 100%;
-  max-height: min(44svh, 430px);
-  object-fit: cover;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: min(52svh, 520px);
+  margin-inline: auto;
+  object-fit: contain;
   object-position: center;
   border-radius: 7px;
+  background: rgba(0, 3, 4, 0.72);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.42);
 }
 
