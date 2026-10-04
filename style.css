@@ -2472,12 +2472,10 @@ body.reservation-confirmed .reservations-page {
   width: min(100%, 560px);
   margin: clamp(1rem, 2.5vw, 1.5rem) auto 0;
   cursor: default;
-  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 12px rgba(255, 196, 78, 0.16));
   transform: none;
 }
 
 .signature-tasting-photo:hover {
-  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 12px rgba(255, 196, 78, 0.16));
   transform: none;
 }
 
