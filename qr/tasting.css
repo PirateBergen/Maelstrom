@@ -513,6 +513,18 @@ body.cocktail-modal-open { overflow: hidden; }
   text-shadow: 0 0 14px rgba(0, 221, 255, 0.42);
 }
 
+.cocktail-details-photo {
+  display: block;
+  width: 100%;
+  max-height: min(44svh, 430px);
+  object-fit: cover;
+  object-position: center;
+  border-radius: 7px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.42);
+}
+
+.cocktail-details-photo[hidden] { display: none; }
+
 .cocktail-details-card section { display: grid; gap: 0.35rem; }
 
 .cocktail-details-card h3 {

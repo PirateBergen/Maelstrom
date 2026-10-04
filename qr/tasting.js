@@ -26,6 +26,7 @@ const COCKTAILS = [
     id: "dead-mans-compass",
     name: "Captain Frank",
     nameKey: "cocktailFrankTitle",
+    image: "../assets/cocktail-captain-frank.webp",
     notes: "Bourbon, maple, orange smoke.",
     notesKey: "cocktailCompassNotes",
     descriptionKey: "cocktailFrankTasting",
@@ -34,6 +35,7 @@ const COCKTAILS = [
     id: "siren-sour",
     name: "A Day at Sea",
     nameKey: "cocktailShardTitle",
+    image: "../assets/cocktail-a-day-at-sea.webp",
     notes: "Aquavit, lemon, vanilla foam.",
     notesKey: "cocktailSirenNotes",
     descriptionKey: "cocktailSeaTasting",
@@ -42,6 +44,7 @@ const COCKTAILS = [
     id: "harbor-curse",
     name: "The King",
     nameKey: "cocktailHarborTitle",
+    image: "../assets/cocktail-the-king.webp",
     notes: "Mezcal, pineapple, chili, charred citrus.",
     notesKey: "cocktailHarborNotes",
     descriptionKey: "cocktailKingTasting",
@@ -50,6 +53,7 @@ const COCKTAILS = [
     id: "north-sea-fog",
     name: "The King’s Poison",
     nameKey: "cocktailFogTitle",
+    image: "../assets/cocktail-kings-poison.webp?v=20261004-recrop",
     notes: "Adriatico amaretto, Riesling liqueur, Fernet-Branca.",
     notesKey: "cocktailFogNotes",
     descriptionKey: "cocktailPoisonTasting",
@@ -177,6 +181,12 @@ function openCocktailDetails(cocktailId) {
   if (!cocktail || !modal) return;
   modal.dataset.cocktail = cocktail.id;
   modal.querySelector("#cocktailDetailsTitle").textContent = cocktailDisplayName(cocktail);
+  const photo = modal.querySelector("#cocktailDetailsPhoto");
+  if (photo) {
+    photo.hidden = !cocktail.image;
+    photo.src = cocktail.image || "";
+    photo.alt = cocktail.image ? cocktailDisplayName(cocktail) : "";
+  }
   modal.querySelector("#cocktailDetailsDescription").textContent = t(cocktail.descriptionKey);
   modal.querySelector("#cocktailDetailsRecipe").textContent = t(cocktail.notesKey);
   modal.hidden = false;
