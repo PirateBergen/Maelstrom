@@ -2,7 +2,7 @@ function scoreSubmissions(submissions) {
   const scores = Object.fromEntries(
     COCKTAILS.map((cocktail) => [
       cocktail.id,
-      { id: cocktail.id, name: cocktailDisplayName(cocktail), points: 0, votes: 0 },
+      { id: cocktail.id, name: cocktailDisplayName(cocktail), image: cocktail.image || "", points: 0, votes: 0 },
     ])
   );
 
@@ -37,8 +37,15 @@ function renderCollectiveTierBoard(ranked) {
     const content = items.length
       ? items.map((item) => `
           <article class="result-tier-cocktail">
-            <strong>${escapeHtml(item.name)}</strong>
-            <span>${item.average.toFixed(2)}</span>
+            <div class="result-tier-cocktail-copy">
+              <strong>${escapeHtml(item.name)}</strong>
+              <span>${item.average.toFixed(2)}</span>
+            </div>
+            ${item.image ? `
+              <button class="result-cocktail-thumbnail" type="button" data-result-photo="${escapeHtml(item.image)}" data-result-photo-alt="${escapeHtml(item.name)}" aria-label="${escapeHtml(`${t("expandedPhoto")}: ${item.name}`)}">
+                <img src="${escapeHtml(item.image)}" alt="" loading="lazy" decoding="async" />
+              </button>
+            ` : ""}
           </article>
         `).join("")
       : `<span class="empty-tier">${t("noCocktailsYet")}</span>`;
@@ -183,6 +190,34 @@ async function renderResults() {
 document.querySelector("#clearLocalResults")?.addEventListener("click", () => {
   localStorage.removeItem(STORAGE_KEY);
   renderResults();
+});
+
+function closeResultPhoto() {
+  const lightbox = document.querySelector("#resultPhotoLightbox");
+  if (!lightbox || lightbox.hidden) return;
+  lightbox.hidden = true;
+  document.body.classList.remove("result-photo-open");
+}
+
+document.addEventListener("click", (event) => {
+  const trigger = event.target.closest("[data-result-photo]");
+  if (trigger) {
+    const lightbox = document.querySelector("#resultPhotoLightbox");
+    const image = lightbox?.querySelector("#resultPhotoImage");
+    if (!lightbox || !image) return;
+    image.src = trigger.dataset.resultPhoto;
+    image.alt = trigger.dataset.resultPhotoAlt || "";
+    lightbox.hidden = false;
+    document.body.classList.add("result-photo-open");
+    lightbox.querySelector(".result-photo-close")?.focus();
+    return;
+  }
+
+  if (event.target.matches("[data-close-result-photo], #resultPhotoImage")) closeResultPhoto();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeResultPhoto();
 });
 
 renderResults();
