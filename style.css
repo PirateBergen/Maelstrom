@@ -2486,6 +2486,18 @@ body.reservation-confirmed .reservations-page {
 .tasting-photo-lightbox { cursor: zoom-out; }
 .tasting-photo-lightbox .lightbox-frame { pointer-events: none; }
 
+.signature-cocktail-photo {
+  width: min(100%, 280px);
+  margin: 0.85rem auto 0;
+  cursor: zoom-in;
+  transform: none;
+}
+
+.signature-cocktail-photo:hover,
+.signature-cocktail-photo:focus-visible {
+  transform: translateY(-2px);
+}
+
 .menu-category-price,
 .signature-tasting-card .menu-item-price {
   color: #fff1c5;

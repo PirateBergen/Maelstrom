@@ -1,11 +1,20 @@
 (() => {
   const links = document.querySelectorAll(".logbook-entry-icon");
   const videoLinks = document.querySelectorAll(".signature-video-link");
-  const tastingPhoto = document.querySelector(".signature-tasting-photo");
+  const menuPhotos = document.querySelectorAll("[data-menu-photo]");
   const tastingPhotoLightbox = document.querySelector(".tasting-photo-lightbox");
+  const lightboxFrame = tastingPhotoLightbox?.querySelector(".lightbox-frame");
+  const lightboxImage = lightboxFrame?.querySelector("img");
+  let previousPhotoFocus = null;
 
-  const openTastingPhoto = () => {
-    if (!tastingPhotoLightbox) return;
+  const openTastingPhoto = (photo) => {
+    const sourceImage = photo?.querySelector("img");
+    if (!tastingPhotoLightbox || !lightboxFrame || !lightboxImage || !sourceImage) return;
+    const frameClasses = String(photo.dataset.lightboxFrame || "frame-dark-wood").split(/\s+/).filter(Boolean);
+    lightboxFrame.className = ["photo-placeholder", "lightbox-frame", ...frameClasses].join(" ");
+    lightboxImage.src = sourceImage.currentSrc || sourceImage.src;
+    lightboxImage.alt = sourceImage.alt;
+    previousPhotoFocus = photo;
     tastingPhotoLightbox.hidden = false;
     document.body.classList.add("lightbox-open");
     tastingPhotoLightbox.querySelector(".lightbox-close")?.focus();
@@ -15,15 +24,18 @@
     if (!tastingPhotoLightbox || tastingPhotoLightbox.hidden) return;
     tastingPhotoLightbox.hidden = true;
     document.body.classList.remove("lightbox-open");
-    tastingPhoto?.focus();
+    previousPhotoFocus?.focus();
+    previousPhotoFocus = null;
   };
 
-  tastingPhoto?.addEventListener("click", openTastingPhoto);
-  tastingPhoto?.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      openTastingPhoto();
-    }
+  menuPhotos.forEach((photo) => {
+    photo.addEventListener("click", () => openTastingPhoto(photo));
+    photo.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openTastingPhoto(photo);
+      }
+    });
   });
 
   tastingPhotoLightbox?.addEventListener("click", closeTastingPhoto);
