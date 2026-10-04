@@ -5,15 +5,17 @@
   const tastingPhotoLightbox = document.querySelector(".tasting-photo-lightbox");
   const lightboxFrame = tastingPhotoLightbox?.querySelector(".lightbox-frame");
   const lightboxImage = lightboxFrame?.querySelector("img");
+  const lightboxFrameOverlay = lightboxFrame?.querySelector(".lightbox-frame-overlay");
   let previousPhotoFocus = null;
 
   const openTastingPhoto = (photo) => {
     const sourceImage = photo?.querySelector("img");
-    if (!tastingPhotoLightbox || !lightboxFrame || !lightboxImage || !sourceImage) return;
+    if (!tastingPhotoLightbox || !lightboxFrame || !lightboxImage || !lightboxFrameOverlay || !sourceImage) return;
     const frameClasses = String(photo.dataset.lightboxFrame || "frame-dark-wood").split(/\s+/).filter(Boolean);
     lightboxFrame.className = ["photo-placeholder", "lightbox-frame", ...frameClasses].join(" ");
     lightboxImage.src = sourceImage.currentSrc || sourceImage.src;
     lightboxImage.alt = sourceImage.alt;
+    lightboxFrameOverlay.src = photo.dataset.lightboxFrameSrc || "assets/frame-dark-wood.webp";
     previousPhotoFocus = photo;
     tastingPhotoLightbox.hidden = false;
     document.body.classList.add("lightbox-open");
