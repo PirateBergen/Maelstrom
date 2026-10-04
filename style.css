@@ -2471,7 +2471,7 @@ body.reservation-confirmed .reservations-page {
 .signature-tasting-photo {
   width: min(100%, 560px);
   margin: clamp(1rem, 2.5vw, 1.5rem) auto 0;
-  cursor: default;
+  cursor: zoom-in;
   transform: none;
 }
 
@@ -2482,6 +2482,9 @@ body.reservation-confirmed .reservations-page {
 .signature-tasting-photo img {
   object-position: 52% 50%;
 }
+
+.tasting-photo-lightbox { cursor: zoom-out; }
+.tasting-photo-lightbox .lightbox-frame { pointer-events: none; }
 
 .menu-category-price,
 .signature-tasting-card .menu-item-price {

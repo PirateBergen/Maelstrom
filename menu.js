@@ -1,6 +1,35 @@
 (() => {
   const links = document.querySelectorAll(".logbook-entry-icon");
   const videoLinks = document.querySelectorAll(".signature-video-link");
+  const tastingPhoto = document.querySelector(".signature-tasting-photo");
+  const tastingPhotoLightbox = document.querySelector(".tasting-photo-lightbox");
+
+  const openTastingPhoto = () => {
+    if (!tastingPhotoLightbox) return;
+    tastingPhotoLightbox.hidden = false;
+    document.body.classList.add("lightbox-open");
+    tastingPhotoLightbox.querySelector(".lightbox-close")?.focus();
+  };
+
+  const closeTastingPhoto = () => {
+    if (!tastingPhotoLightbox || tastingPhotoLightbox.hidden) return;
+    tastingPhotoLightbox.hidden = true;
+    document.body.classList.remove("lightbox-open");
+    tastingPhoto?.focus();
+  };
+
+  tastingPhoto?.addEventListener("click", openTastingPhoto);
+  tastingPhoto?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openTastingPhoto();
+    }
+  });
+
+  tastingPhotoLightbox?.addEventListener("click", closeTastingPhoto);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeTastingPhoto();
+  });
 
   videoLinks.forEach((link) => {
     const videoUrl = String(link.dataset.videoUrl || "").trim();
