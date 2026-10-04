@@ -2694,6 +2694,19 @@ body.reservation-confirmed .reservations-page {
   margin-left: auto;
 }
 
+.signature-cocktail-price {
+  position: relative;
+  z-index: 1;
+  order: 1;
+  flex: 0 0 auto;
+  color: rgba(255, 241, 197, 0.72);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: clamp(0.62rem, 1vw, 0.72rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
 .signature-cocktail-card h4 {
   order: 1;
   margin: 0;
