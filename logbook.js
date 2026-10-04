@@ -71,8 +71,7 @@ Of course, he knew Frank. Like everyone else.`,
   },
 ];
 
-// Temporary editorial switch: set to 6 to restore the sixth journal entry.
-const LOGBOOK_VISIBLE_ENTRY_COUNT = 5;
+const LOGBOOK_VISIBLE_ENTRY_COUNT = 6;
 const LOGBOOK_PAGES = LOGBOOK_ALL_PAGES.slice(0, LOGBOOK_VISIBLE_ENTRY_COUNT + 1);
 
 const LOGBOOK_TRANSLATIONS = {

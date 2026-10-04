@@ -46,6 +46,14 @@ const COCKTAILS = [
     notesKey: "cocktailHarborNotes",
     descriptionKey: "cocktailKingTasting",
   },
+  {
+    id: "north-sea-fog",
+    name: "The King’s Poison",
+    nameKey: "cocktailFogTitle",
+    notes: "Adriatico amaretto, Riesling liqueur, Fernet-Branca.",
+    notesKey: "cocktailFogNotes",
+    descriptionKey: "cocktailPoisonTasting",
+  },
 ];
 
 const state = Object.fromEntries(COCKTAILS.map((cocktail) => [cocktail.id, null]));
