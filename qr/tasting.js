@@ -18,6 +18,7 @@ const COCKTAILS = [
     id: "black-current",
     name: "The Departure",
     nameKey: "cocktailSailsTitle",
+    image: "../assets/cocktail-the-departure.webp",
     notes: "Spiced rum, blackcurrant, sea salt.",
     notesKey: "cocktailBlackNotes",
     descriptionKey: "cocktailDepartureTasting",
