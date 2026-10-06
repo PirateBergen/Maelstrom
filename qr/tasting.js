@@ -10,6 +10,7 @@ const COCKTAILS = [
     id: "up-is-down",
     name: "Meeting at the Tavern",
     nameKey: "cocktailOfferTitle",
+    image: "../assets/cocktail-meeting-at-the-tavern.webp",
     notes: "Dark rum, lime, ginger, abyss bitters.",
     notesKey: "cocktailUpNotes",
     descriptionKey: "cocktailOfferTasting",
