@@ -537,7 +537,7 @@ function isReservationDateAllowed_(dateValue) {
   const maximumDate = new Date(targetYear, targetMonth, Math.min(day, lastDay), 12, 0, 0);
   const maximum = Utilities.formatDate(maximumDate, Session.getScriptTimeZone(), "yyyy-MM-dd");
   const weekday = selectedDate.getDay();
-  return dateValue >= today && dateValue <= maximum && weekday !== 0 && weekday !== 1 && weekday !== 2;
+  return dateValue >= today && dateValue <= maximum && weekday !== 1 && weekday !== 2;
 }
 
 function reservationDateTime_(dateValue, timeValue) {
