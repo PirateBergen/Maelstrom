@@ -4486,6 +4486,95 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
 .privacy-dialog-close:hover, .privacy-dialog-close:focus-visible { outline: 2px solid #55dceb; outline-offset: 2px; }
 .privacy-dialog-email { display: inline-grid; min-height: 44px; margin-top: 1.8rem; padding: 0.65rem 1rem; color: #031214; background: linear-gradient(145deg, #c9fbff, #55dceb); border-radius: 999px; font-weight: 900; text-decoration: none; place-items: center; }
 
+.event-announcement {
+  width: min(560px, calc(100% - 28px));
+  max-height: min(90svh, 780px);
+  padding: 0;
+  overflow: hidden;
+  color: #f5e7c8;
+  background: rgba(0, 8, 11, 0.98);
+  border: 1px solid rgba(110, 234, 255, 0.52);
+  border-radius: 22px;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.9), 0 0 42px rgba(0, 221, 255, 0.24), inset 0 0 48px rgba(0, 221, 255, 0.06);
+}
+
+.event-announcement::backdrop {
+  background: rgba(0, 3, 5, 0.82);
+  backdrop-filter: blur(6px);
+}
+
+.event-announcement-card {
+  position: relative;
+  display: grid;
+  max-height: min(90svh, 780px);
+  box-sizing: border-box;
+  padding: clamp(28px, 6vw, 48px);
+  overflow-y: auto;
+  text-align: center;
+  place-items: center;
+}
+
+.event-announcement-card::before,
+.event-announcement-card::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: 86px;
+  height: 86px;
+  pointer-events: none;
+  border-color: rgba(193, 154, 72, 0.62);
+}
+
+.event-announcement-card::before { top: 12px; left: 12px; border-top: 1px solid; border-left: 1px solid; }
+.event-announcement-card::after { right: 12px; bottom: 12px; border-right: 1px solid; border-bottom: 1px solid; }
+.event-announcement-card > * { position: relative; z-index: 2; }
+
+.event-announcement-glow {
+  position: absolute;
+  z-index: 0;
+  top: -100px;
+  left: 50%;
+  width: 360px;
+  height: 260px;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(0, 221, 255, 0.25), transparent 68%);
+  transform: translateX(-50%);
+}
+
+.event-announcement-logo { width: min(220px, 58vw); max-height: 112px; margin: -8px 0 8px; object-fit: contain; }
+.event-announcement-eyebrow { margin: 0 0 10px; color: #72efff; font: 800 0.72rem/1.3 "Trebuchet MS", Arial, sans-serif; letter-spacing: 0.24em; text-transform: uppercase; }
+.event-announcement h2 { margin: 0; color: #f1fdff; font: 700 clamp(1.7rem, 6vw, 2.65rem)/1.05 Georgia, "Times New Roman", serif; text-shadow: 0 0 22px rgba(0, 221, 255, 0.42); }
+.event-announcement-message { max-width: 42ch; margin: 18px 0 0; color: rgba(245, 231, 200, 0.86); font: 500 1rem/1.65 "Trebuchet MS", Arial, sans-serif; white-space: pre-line; }
+.event-announcement-image { width: min(100%, 430px); max-height: 280px; margin-top: 22px; border: 1px solid rgba(193, 154, 72, 0.52); border-radius: 12px; object-fit: cover; box-shadow: 0 16px 34px rgba(0, 0, 0, 0.5); }
+.event-announcement-link { display: inline-grid; min-height: 44px; margin-top: 24px; padding: 0.65rem 1.25rem; color: #031214; background: linear-gradient(145deg, #c9fbff, #55dceb); border-radius: 999px; font: 900 0.78rem/1.2 "Trebuchet MS", Arial, sans-serif; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; box-shadow: 0 0 22px rgba(0, 221, 255, 0.24); place-items: center; }
+.event-announcement-link:hover, .event-announcement-link:focus-visible { filter: brightness(1.12); outline: 2px solid #d7fbff; outline-offset: 3px; }
+
+.event-announcement-close {
+  position: absolute;
+  z-index: 4;
+  top: 14px;
+  right: 14px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  cursor: pointer;
+  background: rgba(2, 14, 17, 0.9);
+  border: 1px solid rgba(110, 234, 255, 0.48);
+  border-radius: 50%;
+}
+
+.event-announcement-close::before,
+.event-announcement-close::after { content: ""; position: absolute; top: 19px; left: 10px; width: 20px; height: 2px; background: #72efff; }
+.event-announcement-close::before { transform: rotate(45deg); }
+.event-announcement-close::after { transform: rotate(-45deg); }
+.event-announcement-close:hover, .event-announcement-close:focus-visible { outline: 2px solid #55dceb; outline-offset: 2px; }
+
+@media (max-width: 520px) {
+  .event-announcement-card { padding: 34px 22px 30px; }
+  .event-announcement-logo { width: min(190px, 54vw); }
+  .event-announcement-image { max-height: 220px; }
+}
+
 .gallery-removal-link {
   display: block;
   width: fit-content;
