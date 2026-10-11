@@ -3586,6 +3586,62 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   }
 }
 
+/* Tablet layout: preserve the framed desktop aesthetic without squeezing cards. */
+@media (min-width: 721px) and (max-width: 1100px) {
+  .site-header {
+    gap: 0.4rem;
+    padding: 14px 14px;
+  }
+
+  .brand-symbol {
+    width: 44px;
+  }
+
+  .site-nav {
+    flex: 1;
+    justify-content: flex-end;
+    gap: clamp(0.12rem, 0.45vw, 0.32rem);
+    font-size: clamp(0.58rem, 1.15vw, 0.72rem);
+    letter-spacing: 0.045em;
+  }
+
+  .site-nav a {
+    width: clamp(72px, 9.2vw, 98px);
+    min-height: clamp(46px, 6.2vw, 62px);
+    padding: clamp(1rem, 2.5vw, 1.55rem) 0.25rem 0.42rem;
+  }
+
+  .site-nav a[href$="logbook.html"] {
+    width: clamp(90px, 11.2vw, 116px);
+  }
+
+  .language-switcher {
+    top: 19px;
+    left: 62px;
+  }
+
+  .language-toggle {
+    min-width: 70px;
+    height: 38px;
+    padding-right: 0.95rem;
+    padding-left: 0.45rem;
+    font-size: 1rem;
+  }
+
+  .signature-cocktail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.9rem, 2vw, 1.2rem);
+  }
+
+  .signature-cocktail-card {
+    min-width: 0;
+  }
+
+  .signature-cocktail-heading {
+    flex-wrap: wrap;
+  }
+}
+
 @media (max-width: 720px) {
   html {
     min-height: 100svh;
