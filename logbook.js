@@ -24,7 +24,7 @@ const LOGBOOK_ALL_PAGES = [
     date: "May 4, 1717",
     text: `The morning was rough, and so was the night, but I had little time to think about it. I took a few belongings and hurried to the magnificent ship that would be my home for an unknown amount of time. I did not truly realize what I was about to do, and perhaps it was better that way. No man needs to think too much at the beginning of a new life. I quickly met my fellow travellers. Some were locals, others foreigners who had joined the crew before me during earlier stops. The captain introduced me to the others as the man in charge of the sails. It was an honorable role, and without delay, I gave my first orders. The anchor was raised, and I climbed into the rigging to release one of the folded sails. The sea wind hit my face; the air was cold, almost freezing up there. I watched my homeland slowly fade into the distance while my men worked around me. The coast stretched behind us. The pale houses of the town stood close together behind the walls, while the fort, standing at the water's edge, seemed to watch over me one last time. Farewell, my beautiful homeland. I took out my flask, filled with my best wine, and drank a farewell sip. It had never tasted so sweet as it did in that moment.`,
     illustration: {
-      src: "assets/logbook-entry-two-coast.webp",
+      src: "assets/logbook-entry-two-coast-display.webp",
       alt: "Watercolor coast sketch",
       variant: "coast",
     },
@@ -44,7 +44,7 @@ const LOGBOOK_ALL_PAGES = [
 
 As I write these words, I am sitting on deck. The air is fresh and salty. The ship rocks gently over the waves while the wood creaks endlessly beneath me. When you listen closely, you realize that true silence does not really exist. Yet there is something strangely hypnotic about this symphony. It is a strange life, that of a sailor. No amount of comfort could ever keep us away from the sea and its changing moods. Tonight, I may fall asleep soaked and cold, but even the comfort of a warm bed could never replace the joy that fills me when I look towards the horizon and see nothing but the vastness of the world.`,
     illustration: {
-      src: "assets/logbook-entry-four-boat.webp",
+      src: "assets/logbook-entry-four-boat-display.webp",
       alt: "The Shard ship sketch",
     },
   },
@@ -60,7 +60,7 @@ The question made the man smile. He took a drink from his strange mixture before
 
 Of course, he knew Frank. Like everyone else.`,
     illustration: {
-      src: "assets/logbook-entry-five-naples.webp",
+      src: "assets/logbook-entry-five-naples-display.webp",
       alt: "Naples alchemist entry sketch",
       variant: "side",
     },

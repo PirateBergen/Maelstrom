@@ -15,6 +15,7 @@ const LATE_GRACE_MINUTES = 15;
 const REMINDER_HOURS_BEFORE = 24;
 const ADMIN_NTFY_TOPIC_PROPERTY = "ADMIN_NTFY_TOPIC";
 const ADMIN_APP_URL_PROPERTY = "ADMIN_APP_URL";
+const ANALYTICS_SHEET_NAME = "Audience";
 
 const RESERVATION_HEADERS = [
   "Submitted at",
@@ -35,6 +36,11 @@ const RESERVATION_HEADERS = [
 ];
 
 function doPost(e) {
+  const requestData = (e && e.parameter) || {};
+  if (clean_(requestData.type) === "analytics") {
+    return handleAnalyticsEvent_(requestData);
+  }
+
   const lock = LockService.getScriptLock();
   let locked = false;
   let received = false;
@@ -43,7 +49,7 @@ function doPost(e) {
     lock.waitLock(10000);
     locked = true;
     const sheet = getReservationsSheet_();
-    const data = e.parameter || {};
+    const data = requestData;
 
     if (clean_(data.type) === "contact") {
       return handleContactMessage_(data);
@@ -881,6 +887,39 @@ function createCalendarEvent_(reservation) {
       ].join("\n"),
     }
   );
+}
+
+function handleAnalyticsEvent_(data) {
+  const allowedPaths = ["/", "/index.html", "/menu.html", "/reservations.html", "/gallery.html", "/gallery-upload.html", "/logbook.html", "/legal.html", "/qr/", "/qr/index.html", "/qr/results.html", "/qr/tasting.html"];
+  const path = clean_(data.path).slice(0, 120);
+  if (!allowedPaths.includes(path)) {
+    return json_({ ok: false });
+  }
+
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(5000);
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    let sheet = spreadsheet.getSheetByName(ANALYTICS_SHEET_NAME);
+    if (!sheet) {
+      sheet = spreadsheet.insertSheet(ANALYTICS_SHEET_NAME);
+      sheet.appendRow(["Visited at", "Page", "Language", "Device", "Referrer"]);
+      sheet.setFrozenRows(1);
+    }
+    sheet.appendRow([
+      new Date().toISOString(),
+      path,
+      clean_(data.language).slice(0, 5),
+      clean_(data.device).slice(0, 12),
+      clean_(data.referrer).slice(0, 20),
+    ]);
+    return json_({ ok: true });
+  } catch (error) {
+    console.error("Audience measurement failed: " + error.message);
+    return json_({ ok: false });
+  } finally {
+    try { lock.releaseLock(); } catch (releaseError) {}
+  }
 }
 
 function clean_(value) {

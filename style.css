@@ -583,6 +583,79 @@ body.site-open .full-site {
   width: clamp(118px, 10.4vw, 162px);
 }
 
+.mobile-nav-toggle {
+  display: none;
+}
+
+.site-public-footer {
+  padding: 1.1rem 1rem max(1.4rem, env(safe-area-inset-bottom));
+  color: rgba(239, 231, 207, 0.7);
+  font: 0.72rem/1.5 "Trebuchet MS", Arial, sans-serif;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.site-public-footer a:hover,
+.site-public-footer a:focus-visible {
+  color: #91edf2;
+}
+
+.legal-band {
+  min-height: 100svh;
+  padding-top: clamp(130px, 15vw, 190px);
+  padding-bottom: 3rem;
+}
+
+.legal-sheet {
+  width: min(860px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: clamp(1.35rem, 4vw, 3rem);
+  color: #efe7cf;
+  border: 1px solid rgba(205, 170, 91, 0.42);
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(5, 27, 34, 0.96), rgba(2, 13, 18, 0.98));
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.52), inset 0 0 34px rgba(46, 195, 217, 0.05);
+}
+
+.legal-sheet h1 {
+  margin: 0 0 1rem;
+  color: #91edf2;
+  font: clamp(2rem, 5vw, 3.8rem)/1 Georgia, serif;
+  white-space: normal;
+}
+
+.legal-sheet h2 {
+  margin: 1.65rem 0 0.35rem;
+  color: #f0c96c;
+  font: 1.15rem/1.25 Georgia, serif;
+}
+
+.legal-sheet p {
+  max-width: 74ch;
+  margin: 0.4rem 0;
+  line-height: 1.7;
+}
+
+.legal-sheet a {
+  color: #91edf2;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.legal-kicker {
+  color: rgba(239, 231, 207, 0.66);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.legal-copy { display: none; }
+html[lang="nb"] .legal-copy-no,
+html[lang="no"] .legal-copy-no,
+html[lang="en"] .legal-copy-en,
+html[lang="fr"] .legal-copy-fr { display: block; }
+
 .language-switcher {
   position: absolute;
   top: clamp(26px, 2.8vw, 34px);
@@ -3593,6 +3666,45 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
     padding: 14px 14px;
   }
 
+  .mobile-nav-toggle {
+    position: absolute;
+    top: max(12px, env(safe-area-inset-top));
+    right: 12px;
+    z-index: 72;
+    display: grid;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    border: 1px solid rgba(129, 232, 244, 0.42);
+    border-radius: 50%;
+    background: rgba(0, 15, 22, 0.82);
+    box-shadow: 0 0 20px rgba(40, 203, 225, 0.14);
+    cursor: pointer;
+    place-content: center;
+  }
+
+  .mobile-nav-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    margin: 2px 0;
+    background: #dffcff;
+    border-radius: 2px;
+    transition: transform 180ms ease, opacity 180ms ease;
+  }
+
+  .mobile-nav-open .mobile-nav-toggle span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .mobile-nav-open .mobile-nav-toggle span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .mobile-nav-open .mobile-nav-toggle span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
   .brand-symbol {
     width: 44px;
   }
@@ -3839,16 +3951,34 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   }
 
   .site-nav {
-    position: absolute;
-    top: clamp(232px, 35svh, 318px);
-    right: 14px;
-    left: 14px;
+    position: fixed;
+    top: max(66px, calc(env(safe-area-inset-top) + 56px));
+    right: 12px;
+    left: 12px;
+    z-index: 70;
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 0.38rem;
+    padding: 0.75rem;
+    border: 1px solid rgba(129, 232, 244, 0.22);
+    border-radius: 18px;
+    background: rgba(0, 12, 18, 0.94);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.58), 0 0 28px rgba(40, 203, 225, 0.1);
     font-size: 0.52rem;
     justify-items: center;
     letter-spacing: 0.04em;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px) scale(0.98);
+    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+    visibility: hidden;
+  }
+
+  .site-header.mobile-nav-open .site-nav {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    visibility: visible;
   }
 
   .site-nav a {
@@ -3876,14 +4006,6 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   .site-nav a[href$="logbook.html"] {
     width: min(100%, 144px);
     font-size: 0.48rem;
-  }
-
-  .menu-page .site-nav,
-.reservations-page .site-nav,
-.gallery-page .site-nav,
-.logbook-page .site-nav,
-.tasting-body .site-nav {
-    top: max(38px, calc(env(safe-area-inset-top) + 30px));
   }
 
 .menu-page .content-band,
