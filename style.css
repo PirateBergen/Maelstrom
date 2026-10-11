@@ -2601,6 +2601,20 @@ body.reservation-confirmed .reservations-page {
   line-height: 1.5;
 }
 
+.mocktail-availability,
+.classic-cocktail-item .mocktail-availability,
+.signature-cocktail-card .mocktail-availability {
+  margin: 0.18rem 0 0;
+  color: rgba(128, 241, 255, 0.9);
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  font-size: 0.72rem;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
 .classic-cocktail-item .classic-cocktail-tagline,
 .classic-cocktail-item .classic-cocktail-tasting {
   font-style: italic;
