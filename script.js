@@ -212,7 +212,16 @@ function setLightboxContent(sourceFrame) {
   lightboxFrame.textContent = "";
 
   if (sourceImage) {
-    lightboxFrame.appendChild(sourceImage.cloneNode(true));
+    const lightboxImage = sourceImage.cloneNode(true);
+    const fullSource = sourceImage.dataset.fullSrc;
+
+    if (fullSource) {
+      lightboxImage.src = fullSource;
+      lightboxImage.removeAttribute("srcset");
+      lightboxImage.removeAttribute("loading");
+    }
+
+    lightboxFrame.appendChild(lightboxImage);
   }
 
   label.textContent = sourceLabel;
