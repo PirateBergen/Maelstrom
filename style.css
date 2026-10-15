@@ -469,13 +469,6 @@ body.site-open .full-site {
   display: block;
 }
 
-/* Defer below-the-fold rendering while preserving the final visual layout. */
-.full-site .content-band,
-.full-site .site-footer {
-  content-visibility: auto;
-  contain-intrinsic-block-size: auto 800px;
-}
-
 .site-header {
   position: absolute;
   top: 0;
