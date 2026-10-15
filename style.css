@@ -583,10 +583,6 @@ body.site-open .full-site {
   width: clamp(118px, 10.4vw, 162px);
 }
 
-.mobile-nav-toggle {
-  display: none;
-}
-
 .site-public-footer {
   padding: 1.1rem 1rem max(1.4rem, env(safe-area-inset-bottom));
   color: rgba(239, 231, 207, 0.7);
@@ -2987,7 +2983,6 @@ body.reservation-confirmed .reservations-page {
     transition-duration: 0.01ms;
   }
 }
-
 .booking-band {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.7fr);
@@ -3666,45 +3661,6 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
     padding: 14px 14px;
   }
 
-  .mobile-nav-toggle {
-    position: absolute;
-    top: max(12px, env(safe-area-inset-top));
-    right: 12px;
-    z-index: 72;
-    display: grid;
-    width: 44px;
-    height: 44px;
-    padding: 10px;
-    border: 1px solid rgba(129, 232, 244, 0.42);
-    border-radius: 50%;
-    background: rgba(0, 15, 22, 0.82);
-    box-shadow: 0 0 20px rgba(40, 203, 225, 0.14);
-    cursor: pointer;
-    place-content: center;
-  }
-
-  .mobile-nav-toggle span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    margin: 2px 0;
-    background: #dffcff;
-    border-radius: 2px;
-    transition: transform 180ms ease, opacity 180ms ease;
-  }
-
-  .mobile-nav-open .mobile-nav-toggle span:nth-child(1) {
-    transform: translateY(6px) rotate(45deg);
-  }
-
-  .mobile-nav-open .mobile-nav-toggle span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .mobile-nav-open .mobile-nav-toggle span:nth-child(3) {
-    transform: translateY(-6px) rotate(-45deg);
-  }
-
   .brand-symbol {
     width: 44px;
   }
@@ -3951,34 +3907,16 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   }
 
   .site-nav {
-    position: fixed;
-    top: max(66px, calc(env(safe-area-inset-top) + 56px));
-    right: 12px;
-    left: 12px;
-    z-index: 70;
+    position: absolute;
+    top: clamp(232px, 35svh, 318px);
+    right: 14px;
+    left: 14px;
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 0.38rem;
-    padding: 0.75rem;
-    border: 1px solid rgba(129, 232, 244, 0.22);
-    border-radius: 18px;
-    background: rgba(0, 12, 18, 0.94);
-    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.58), 0 0 28px rgba(40, 203, 225, 0.1);
     font-size: 0.52rem;
     justify-items: center;
     letter-spacing: 0.04em;
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(-10px) scale(0.98);
-    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
-    visibility: hidden;
-  }
-
-  .site-header.mobile-nav-open .site-nav {
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
-    visibility: visible;
   }
 
   .site-nav a {
@@ -4006,6 +3944,15 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   .site-nav a[href$="logbook.html"] {
     width: min(100%, 144px);
     font-size: 0.48rem;
+  }
+
+  .menu-page .site-nav,
+  .reservations-page .site-nav,
+  .gallery-page .site-nav,
+  .logbook-page .site-nav,
+  .legal-page .site-nav,
+  .tasting-body .site-nav {
+    top: max(38px, calc(env(safe-area-inset-top) + 30px));
   }
 
 .menu-page .content-band,
@@ -4806,3 +4753,4 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
     transition-duration: 1ms !important;
   }
 }
+

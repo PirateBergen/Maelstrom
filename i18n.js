@@ -8,8 +8,6 @@ const MAELSTROM_TRANSLATIONS = {
     navGallery: "Gallery",
     navLogbook: "Logbook",
     navContact: "Contact",
-    mobileMenuOpen: "Open menu",
-    mobileMenuClose: "Close menu",
     legalNotice: "Legal & privacy",
     homeAria: "Maelstrom home",
     mainNavAria: "Main navigation",
@@ -335,8 +333,6 @@ const MAELSTROM_TRANSLATIONS = {
     navGallery: "Galerie",
     navLogbook: "Journal de bord",
     navContact: "Contact",
-    mobileMenuOpen: "Ouvrir le menu",
-    mobileMenuClose: "Fermer le menu",
     legalNotice: "Mentions légales et confidentialité",
     homeAria: "Accueil Maelstrom",
     mainNavAria: "Navigation principale",
@@ -662,8 +658,6 @@ const MAELSTROM_TRANSLATIONS = {
     navGallery: "Galleri",
     navLogbook: "Loggbok",
     navContact: "Kontakt",
-    mobileMenuOpen: "Åpne menyen",
-    mobileMenuClose: "Lukk menyen",
     legalNotice: "Juridisk informasjon og personvern",
     homeAria: "Maelstrom hjem",
     mainNavAria: "Hovednavigasjon",
@@ -1121,44 +1115,6 @@ function createLanguageSelector() {
   });
 }
 
-function createMobileNavigation() {
-  document.querySelectorAll(".site-header").forEach((header, index) => {
-    const nav = header.querySelector(".site-nav");
-    if (!nav || header.querySelector(".mobile-nav-toggle")) {
-      return;
-    }
-
-    nav.id ||= `site-navigation-${index + 1}`;
-    const button = document.createElement("button");
-    button.className = "mobile-nav-toggle";
-    button.type = "button";
-    button.setAttribute("aria-controls", nav.id);
-    button.setAttribute("aria-expanded", "false");
-    button.setAttribute("aria-label", translate("mobileMenuOpen"));
-    button.innerHTML = "<span></span><span></span><span></span>";
-
-    const close = () => {
-      header.classList.remove("mobile-nav-open");
-      button.setAttribute("aria-expanded", "false");
-      button.setAttribute("aria-label", translate("mobileMenuOpen"));
-    };
-
-    button.addEventListener("click", () => {
-      const open = header.classList.toggle("mobile-nav-open");
-      button.setAttribute("aria-expanded", String(open));
-      button.setAttribute("aria-label", translate(open ? "mobileMenuClose" : "mobileMenuOpen"));
-    });
-    nav.addEventListener("click", (event) => {
-      if (event.target.closest("a")) close();
-    });
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") close();
-    });
-
-    header.appendChild(button);
-  });
-}
-
 function createLegalLinks() {
   document.querySelectorAll("main.full-site").forEach((main) => {
     if (main.querySelector(".site-public-footer")) return;
@@ -1176,7 +1132,6 @@ window.MaelstromI18n = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  createMobileNavigation();
   createLegalLinks();
   createLanguageSelector();
   applyLanguage(window.MaelstromI18n.language);
