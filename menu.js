@@ -1,12 +1,16 @@
 (() => {
-  const links = document.querySelectorAll(".logbook-entry-icon");
+  const links = document.querySelectorAll("a.logbook-entry-icon");
   const videoLinks = document.querySelectorAll(".signature-video-link");
   const menuPhotos = document.querySelectorAll("[data-menu-photo]");
   const tastingPhotoLightbox = document.querySelector(".tasting-photo-lightbox");
   const lightboxFrame = tastingPhotoLightbox?.querySelector(".lightbox-frame");
   const lightboxImage = lightboxFrame?.querySelector("img");
   const lightboxFrameOverlay = lightboxFrame?.querySelector(".lightbox-frame-overlay");
+  const halloweenVideoButton = document.querySelector("[data-halloween-video-open]");
+  const halloweenVideoLightbox = document.querySelector(".halloween-video-lightbox");
+  const halloweenVideo = halloweenVideoLightbox?.querySelector("video");
   let previousPhotoFocus = null;
+  let previousVideoFocus = null;
 
   const openTastingPhoto = (photo) => {
     const sourceImage = photo?.querySelector("img");
@@ -30,6 +34,28 @@
     previousPhotoFocus = null;
   };
 
+  const openHalloweenVideo = () => {
+    if (!halloweenVideoLightbox || !halloweenVideo) return;
+    previousVideoFocus = document.activeElement;
+    halloweenVideoButton?.classList.add("is-opening");
+    window.setTimeout(() => {
+      halloweenVideoLightbox.hidden = false;
+      document.body.classList.add("lightbox-open");
+      halloweenVideoLightbox.querySelector(".lightbox-close")?.focus();
+      halloweenVideoButton?.classList.remove("is-opening");
+    }, 420);
+  };
+
+  const closeHalloweenVideo = () => {
+    if (!halloweenVideoLightbox || halloweenVideoLightbox.hidden) return;
+    halloweenVideo.pause();
+    if (halloweenVideo.readyState > 0) halloweenVideo.currentTime = 0;
+    halloweenVideoLightbox.hidden = true;
+    document.body.classList.remove("lightbox-open");
+    previousVideoFocus?.focus?.();
+    previousVideoFocus = null;
+  };
+
   menuPhotos.forEach((photo) => {
     photo.addEventListener("click", () => openTastingPhoto(photo));
     photo.addEventListener("keydown", (event) => {
@@ -41,8 +67,17 @@
   });
 
   tastingPhotoLightbox?.addEventListener("click", closeTastingPhoto);
+  halloweenVideoButton?.addEventListener("click", openHalloweenVideo);
+  halloweenVideoLightbox?.addEventListener("click", (event) => {
+    if (event.target === halloweenVideoLightbox || event.target.closest(".lightbox-close")) {
+      closeHalloweenVideo();
+    }
+  });
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeTastingPhoto();
+    if (event.key === "Escape") {
+      closeTastingPhoto();
+      closeHalloweenVideo();
+    }
   });
 
   videoLinks.forEach((link) => {

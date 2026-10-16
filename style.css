@@ -2596,8 +2596,9 @@ body.reservation-confirmed .reservations-page {
 
 .halloween-cocktail-heading {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 0.7rem;
 }
 
@@ -2606,6 +2607,55 @@ body.reservation-confirmed .reservations-page {
   font: 800 clamp(0.68rem, 1.3vw, 0.82rem)/1 "Trebuchet MS", Arial, sans-serif;
   letter-spacing: 0.08em;
   white-space: nowrap;
+}
+
+.halloween-video-button {
+  flex-basis: 50px;
+  width: 50px;
+  height: 50px;
+  padding: 0;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255, 170, 67, 0.24), transparent 68%),
+    rgba(23, 9, 5, 0.9);
+  border-color: rgba(240, 164, 76, 0.72);
+  box-shadow:
+    0 0 12px rgba(226, 103, 35, 0.46),
+    0 8px 16px rgba(0, 0, 0, 0.48);
+}
+
+.halloween-video-button::after {
+  color: #2a1008;
+  content: "▶";
+  background: #e99a45;
+  border-color: #2b120b;
+  font-size: 10px;
+  box-shadow: 0 0 12px rgba(239, 127, 43, 0.86);
+}
+
+.halloween-video-button:hover,
+.halloween-video-button:focus-visible,
+.halloween-video-button.is-opening {
+  border-color: rgba(255, 215, 143, 0.98);
+  box-shadow:
+    0 0 18px rgba(239, 127, 43, 0.78),
+    0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.halloween-video-stage {
+  display: grid;
+  width: min(92vw, 980px);
+  max-height: calc(100svh - 54px);
+  place-items: center;
+}
+
+.halloween-video-stage video {
+  display: block;
+  width: 100%;
+  max-height: calc(100svh - 72px);
+  background: #000;
+  border: 1px solid rgba(240, 164, 76, 0.66);
+  border-radius: 10px;
+  box-shadow: 0 0 26px rgba(226, 103, 35, 0.28), 0 28px 56px rgba(0, 0, 0, 0.72);
 }
 
 .halloween-cocktail-card .halloween-cocktail-intro {
