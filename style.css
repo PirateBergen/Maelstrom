@@ -599,6 +599,33 @@ body.site-open .full-site {
   text-align: center;
 }
 
+.idea-box-button {
+  min-height: 44px;
+  padding: 0.7rem 1.15rem;
+  margin: 0.75rem auto 0;
+  color: #eaffff;
+  background: linear-gradient(180deg, rgba(0, 116, 138, 0.82), rgba(0, 45, 55, 0.96));
+  border: 1px solid rgba(98, 235, 255, 0.7);
+  border-radius: 999px;
+  box-shadow: 0 0 18px rgba(0, 213, 255, 0.22), 0 10px 22px rgba(0, 0, 0, 0.38);
+  font: 800 0.72rem/1 "Trebuchet MS", Arial, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.idea-box-button:hover,
+.idea-box-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 24px rgba(78, 231, 255, 0.46), 0 12px 24px rgba(0, 0, 0, 0.42);
+  transform: translateY(-1px);
+}
+
+.idea-box-intro {
+  color: rgba(194, 244, 250, 0.84);
+  line-height: 1.58;
+}
+
 .events-group-title {
   max-width: 1120px;
   margin: 0 auto 1rem;

@@ -26,6 +26,9 @@ function openContactDialog(requestType = "") {
   if (requestType === "photo-removal" && subject && !subject.value) {
     subject.value = contactText("contactFormPhotoRemovalSubject");
   }
+  if (requestType === "idea" && subject) {
+    subject.value = contactText("ideaBoxSubject");
+  }
   if (contactPrivateNote) contactPrivateNote.hidden = requestType !== "private";
   contactDialog.showModal();
   contactForm?.elements.namedItem("name")?.focus();
@@ -36,7 +39,7 @@ function closeContactDialog() {
 }
 
 document.querySelectorAll("[data-contact-open]").forEach((button) => {
-  button.addEventListener("click", () => openContactDialog());
+  button.addEventListener("click", () => openContactDialog(button.dataset.contactType || ""));
 });
 document.querySelectorAll("[data-contact-close]").forEach((button) => {
   button.addEventListener("click", closeContactDialog);
