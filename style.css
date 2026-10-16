@@ -591,9 +591,12 @@ body.site-open .full-site {
 }
 
 .events-heading p {
-  margin: 0.4rem auto 0;
-  color: rgba(239, 231, 207, 0.82);
-  font: 0.96rem/1.7 "Trebuchet MS", Arial, sans-serif;
+  width: min(680px, 100%);
+  margin: -0.4rem auto 0;
+  color: rgba(194, 244, 250, 0.82);
+  font-size: clamp(0.92rem, 1.7vw, 1.05rem);
+  line-height: 1.6;
+  text-align: center;
 }
 
 .events-group-title {
@@ -849,6 +852,11 @@ body.site-open .full-site {
 
 .calendar-event-halloween h3 {
   color: #f8bd6c;
+}
+
+.calendar-event .calendar-event-special {
+  color: #f4bd63;
+  font-weight: 800;
 }
 
 .calendar-event-past {
@@ -4455,6 +4463,18 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
 
   .events-calendar {
     grid-template-columns: 1fr;
+  }
+
+  .events-heading .page-title {
+    width: 100%;
+    font-size: clamp(2rem, 10vw, 2.9rem);
+    line-height: 0.92;
+    overflow-wrap: normal;
+    white-space: pre-line;
+  }
+
+  .events-heading p {
+    margin-top: 0.25rem;
   }
 
   .event-card {
