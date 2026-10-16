@@ -468,11 +468,20 @@ updateGroupBookingNotice();
 if (reservationDate) {
   reservationDate.min = getMinimumBookingDateValue();
   reservationDate.max = getMaximumDateValue();
+  const reservationParams = new URLSearchParams(window.location.search);
+  const requestedDate = reservationParams.get("date") || "";
+  if (requestedDate >= reservationDate.min && requestedDate <= reservationDate.max) {
+    reservationDate.value = requestedDate;
+  }
 }
 refreshBookingTimeOptions();
 updateDivinationParticipantOptions();
 renderDivinationTimeSlots();
 updateDivinationAddon();
+if (new URLSearchParams(window.location.search).get("divination") === "1" && isWednesday(reservationDate?.value)) {
+  if (divinationAddonToggle) divinationAddonToggle.checked = true;
+  updateDivinationAddon();
+}
 if (reservationNewsletterOptIn && hasNewsletterSubscriptionOnDevice()) {
   reservationNewsletterOptIn.hidden = true;
 }
