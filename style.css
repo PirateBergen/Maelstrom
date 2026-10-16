@@ -2594,6 +2594,20 @@ body.reservation-confirmed .reservations-page {
   text-shadow: 0 0 18px rgba(225, 92, 26, 0.3);
 }
 
+.halloween-cocktail-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.7rem;
+}
+
+.halloween-cocktail-price {
+  color: rgba(255, 226, 174, 0.82);
+  font: 800 clamp(0.68rem, 1.3vw, 0.82rem)/1 "Trebuchet MS", Arial, sans-serif;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
 .halloween-cocktail-card .halloween-cocktail-intro {
   max-width: 660px;
   margin: 0.8rem auto 0;
