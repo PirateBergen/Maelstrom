@@ -576,6 +576,156 @@ body.site-open .full-site {
   width: clamp(118px, 10.4vw, 162px);
 }
 
+.events-band {
+  min-height: 100svh;
+  padding-top: clamp(145px, 16vw, 205px);
+  background:
+    radial-gradient(circle at 50% 18%, rgba(22, 143, 158, 0.18), transparent 34rem),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.42), transparent 22%, transparent 78%, rgba(0, 0, 0, 0.42));
+}
+
+.events-heading {
+  max-width: 900px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.events-heading p {
+  margin: 0.4rem auto 0;
+  color: rgba(239, 231, 207, 0.82);
+  font: 0.96rem/1.7 "Trebuchet MS", Arial, sans-serif;
+}
+
+.events-group-title {
+  max-width: 1120px;
+  margin: 0 auto 1rem;
+  color: #f7d77d;
+  font: 900 clamp(1rem, 2vw, 1.3rem)/1.2 "Palatino Linotype", Georgia, serif;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.events-grid {
+  display: grid;
+  width: min(1120px, 100%);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.6vw, 1.8rem);
+  margin: 0 auto;
+}
+
+.event-card {
+  position: relative;
+  display: grid;
+  min-height: 310px;
+  align-content: start;
+  gap: 0.9rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  overflow: hidden;
+  color: #eee5cc;
+  background:
+    linear-gradient(145deg, rgba(7, 34, 39, 0.96), rgba(2, 14, 17, 0.96)),
+    url("assets/maelstrom-pirate-map.webp") center / cover;
+  border: 1px solid rgba(240, 201, 108, 0.42);
+  border-radius: 12px;
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.48), inset 0 0 30px rgba(9, 110, 126, 0.12);
+}
+
+.event-card-halloween::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: radial-gradient(circle at 88% 8%, rgba(239, 117, 32, 0.2), transparent 45%);
+  pointer-events: none;
+}
+
+.event-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.event-card-topline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  color: rgba(239, 231, 207, 0.76);
+  font: 800 0.7rem/1.4 "Trebuchet MS", Arial, sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.event-status {
+  padding: 0.35rem 0.62rem;
+  color: #1a0c04;
+  background: linear-gradient(145deg, #ffe19a, #c88b30);
+  border-radius: 999px;
+}
+
+.event-card h3 {
+  margin: 0;
+  color: #8ff4ff;
+  font: 900 clamp(1.55rem, 3vw, 2.35rem)/1.05 "Palatino Linotype", Georgia, serif;
+  text-shadow: 0 0 14px rgba(29, 203, 223, 0.34);
+}
+
+.event-card p {
+  margin: 0;
+  font: 0.94rem/1.68 "Trebuchet MS", Arial, sans-serif;
+}
+
+.event-card .event-special {
+  color: #f4bd63;
+  font-weight: 800;
+}
+
+.event-book-button {
+  width: fit-content;
+  margin-top: auto;
+  padding: 0.76rem 1rem;
+  color: #110904;
+  background: linear-gradient(145deg, #ffe6a0, #c6943a);
+  border: 1px solid rgba(255, 238, 184, 0.7);
+  border-radius: 6px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.36);
+  font: 900 0.72rem/1 "Trebuchet MS", Arial, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.event-book-button:hover,
+.event-book-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 16px rgba(240, 201, 108, 0.42), 0 10px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.events-past-title {
+  margin-top: clamp(2.8rem, 7vw, 5rem);
+  color: rgba(239, 231, 207, 0.52);
+}
+
+.events-grid-past {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.event-card-past {
+  min-height: 230px;
+  color: rgba(222, 222, 216, 0.56);
+  filter: grayscale(1);
+  opacity: 0.62;
+}
+
+.event-card-past .event-status {
+  color: rgba(242, 242, 238, 0.8);
+  background: rgba(103, 110, 112, 0.5);
+}
+
+.event-card-past h3 {
+  color: rgba(216, 224, 224, 0.68);
+  text-shadow: none;
+}
+
 .site-public-footer {
   padding: 1.1rem 1rem max(1.4rem, env(safe-area-inset-bottom));
   color: rgba(239, 231, 207, 0.7);
@@ -4144,6 +4294,7 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
   .reservations-page .site-nav,
   .gallery-page .site-nav,
   .logbook-page .site-nav,
+  .events-page .site-nav,
   .legal-page .site-nav,
   .tasting-body .site-nav {
     top: max(38px, calc(env(safe-area-inset-top) + 30px));
@@ -4153,7 +4304,23 @@ body.gallery-upload-confirmed .gallery-upload-language-header {
 .reservations-page .content-band,
 .gallery-page .content-band,
 .logbook-page .content-band {
-    padding-top: max(150px, calc(env(safe-area-inset-top) + 138px));
+    padding-top: max(198px, calc(env(safe-area-inset-top) + 186px));
+  }
+
+  .events-page .content-band {
+    padding-top: max(210px, calc(env(safe-area-inset-top) + 198px));
+  }
+
+  .site-nav a:last-child {
+    grid-column: 3 / span 2;
+  }
+
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .event-card {
+    min-height: 0;
   }
 
   .logbook-band {
