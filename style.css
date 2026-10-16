@@ -2602,6 +2602,28 @@ body.reservation-confirmed .reservations-page {
   line-height: 1.55;
 }
 
+.halloween-cocktail-card .halloween-cocktail-recipe,
+.halloween-cocktail-card .halloween-cocktail-tasting,
+.halloween-cocktail-card .halloween-cocktail-allergens {
+  max-width: 680px;
+  margin: 0.7rem auto 0;
+  color: rgba(245, 231, 200, 0.76);
+  font-size: clamp(0.82rem, 1.4vw, 0.96rem);
+  line-height: 1.5;
+}
+
+.halloween-cocktail-card .halloween-cocktail-tasting {
+  color: rgba(255, 226, 174, 0.9);
+  font-style: italic;
+}
+
+.halloween-cocktail-card .halloween-cocktail-allergens {
+  color: rgba(255, 237, 187, 0.72);
+  font-size: 0.76rem;
+  font-style: italic;
+  letter-spacing: 0.05em;
+}
+
 .halloween-cocktail-legend {
   max-width: 760px;
   margin: clamp(1rem, 2.5vw, 1.5rem) auto 0;
