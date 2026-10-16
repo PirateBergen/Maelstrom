@@ -1,4 +1,11 @@
 (() => {
+  document.querySelectorAll("[data-expires-at]").forEach((item) => {
+    const expiresAt = Date.parse(item.dataset.expiresAt || "");
+    if (Number.isFinite(expiresAt) && Date.now() >= expiresAt) {
+      item.hidden = true;
+    }
+  });
+
   const links = document.querySelectorAll("a.logbook-entry-icon");
   const videoLinks = document.querySelectorAll(".signature-video-link");
   const menuPhotos = document.querySelectorAll("[data-menu-photo]");

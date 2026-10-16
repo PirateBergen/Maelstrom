@@ -2867,6 +2867,10 @@ body.reservation-confirmed .reservations-page {
     0 20px 36px rgba(0, 0, 0, 0.42);
 }
 
+.seasonal-menu-item[hidden] {
+  display: none !important;
+}
+
 .halloween-cocktail-card::before,
 .halloween-cocktail-card::after {
   position: absolute;
@@ -2995,6 +2999,23 @@ body.reservation-confirmed .reservations-page {
   color: rgba(245, 231, 200, 0.76);
   font-size: clamp(0.82rem, 1.4vw, 0.96rem);
   line-height: 1.5;
+}
+
+.halloween-cocktail-photo {
+  z-index: 1;
+  width: min(100%, 360px);
+  margin: clamp(1rem, 2.5vw, 1.5rem) auto 0;
+  cursor: zoom-in;
+  transform: none;
+}
+
+.halloween-cocktail-photo:hover,
+.halloween-cocktail-photo:focus-visible {
+  transform: translateY(-2px);
+}
+
+.halloween-cocktail-photo > img:first-child {
+  object-position: 43% 48%;
 }
 
 .halloween-cocktail-card .halloween-cocktail-tasting {
