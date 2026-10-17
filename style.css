@@ -1501,6 +1501,17 @@ html[lang="fr"] .legal-copy-fr { display: block; }
   content: "·";
 }
 
+.opening-hours-last-call {
+  display: block;
+  width: 100%;
+  margin-top: 0.4rem;
+  font-size: 0.72rem;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  opacity: 0.78;
+  text-align: center;
+}
+
 @media (max-width: 720px) {
   .opening-hours {
     display: grid;
