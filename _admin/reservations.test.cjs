@@ -29,12 +29,13 @@ function setup(){
   });
   vm.runInContext(fs.readFileSync(path.join(__dirname,'../Code.gs'),'utf8'),c);
   const realIsReservationDateAllowed=c.isReservationDateAllowed_;
+  const realIsReservationTimeAllowed=c.isReservationTimeAllowed_;
   c.getReservationsSheet_=()=>active;c.getArchiveSheet_=()=>archive;c.json_=value=>value;
   c.isReservationDateAllowed_=()=>true;c.isReservationTimeAllowed_=()=>true;
   c.sendGuestConfirmation_=()=>{state.sent.push('guest');if(state.guestFailure)throw Error('secret error');};
   c.sendOwnerNotification_=()=>state.sent.push('owner');
   const data={name:'Guest',email:'guest@test.example',date:'2026-09-17',time:'19:00',guests:'2',submissionId:'a'.repeat(32)};
-  return {c,active,archive,state,props,data,realIsReservationDateAllowed,post:(extra={})=>c.doPost({parameter:{...data,...extra}})};
+  return {c,active,archive,state,props,data,realIsReservationDateAllowed,realIsReservationTimeAllowed,post:(extra={})=>c.doPost({parameter:{...data,...extra}})};
 }
 test('public maintenance functions fail closed without an allowed active identity',()=>{
   for(const email of ['', 'other@test.example'])for(const name of ['archivePastReservations','installDailyArchiveTrigger','sendReservationReminders','installReservationReminderTrigger']){
@@ -63,6 +64,18 @@ test('backend never accepts a booking before opening day',()=>{
   s.c.isReservationDateAllowed_=s.realIsReservationDateAllowed;
   assert.equal(s.c.isReservationDateAllowed_('2026-09-22'),false);
   assert.equal(s.post({date:'2026-09-22'}).ok,false);
+});
+test('booking schedule follows opening days, last booking times, and the Halloween exception',()=>{
+  const s=setup();
+  assert.equal(s.c.reservationHours_('2026-10-25'),null);
+  assert.deepEqual({...s.c.reservationHours_('2026-10-27')},{open:960,lastBooking:1380});
+  assert.deepEqual({...s.c.reservationHours_('2026-10-30')},{open:960,lastBooking:1440});
+  assert.deepEqual({...s.c.reservationHours_('2026-10-31')},{open:1260,lastBooking:1440});
+  s.c.isReservationTimeAllowed_=s.realIsReservationTimeAllowed;
+  const future='2099-10-31';
+  assert.equal(s.c.isReservationTimeAllowed_(future,'15:45'),false);
+  assert.equal(s.c.isReservationTimeAllowed_(future,'16:00'),true);
+  assert.equal(s.c.isReservationTimeAllowed_(future,'00:00'),true);
 });
 test('archived submission cannot be recreated by a retry',()=>{
   const s=setup();s.post();s.archive.appendRow(s.active.rows.pop());

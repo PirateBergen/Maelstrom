@@ -543,7 +543,16 @@ function isReservationDateAllowed_(dateValue) {
   const maximumDate = new Date(targetYear, targetMonth, Math.min(day, lastDay), 12, 0, 0);
   const maximum = Utilities.formatDate(maximumDate, Session.getScriptTimeZone(), "yyyy-MM-dd");
   const weekday = selectedDate.getDay();
-  return dateValue >= today && dateValue <= maximum && weekday !== 1 && weekday !== 2;
+  return dateValue >= today && dateValue <= maximum && weekday !== 0 && weekday !== 1;
+}
+
+function reservationHours_(dateValue) {
+  if (dateValue === "2026-10-31") return { open: 21 * 60, lastBooking: 24 * 60 };
+  const selectedDate = new Date(`${dateValue}T12:00:00`);
+  if (Number.isNaN(selectedDate.getTime())) return null;
+  const weekday = selectedDate.getDay();
+  if (weekday === 0 || weekday === 1) return null;
+  return { open: 16 * 60, lastBooking: weekday === 5 || weekday === 6 ? 24 * 60 : 23 * 60 };
 }
 
 function reservationDateTime_(dateValue, timeValue) {
@@ -557,7 +566,12 @@ function reservationDateTime_(dateValue, timeValue) {
 
 function isReservationTimeAllowed_(dateValue, timeValue) {
   const reservationTime = reservationDateTime_(dateValue, timeValue);
-  return Boolean(reservationTime) && reservationTime.getTime() >= Date.now() + MINIMUM_BOOKING_NOTICE_MINUTES * 60 * 1000;
+  const hours = reservationHours_(dateValue);
+  const match = /^(\d{2}):(\d{2})$/.exec(String(timeValue || ""));
+  if (!reservationTime || !hours || !match) return false;
+  const minutes = timeValue === "00:00" ? 24 * 60 : Number(match[1]) * 60 + Number(match[2]);
+  return minutes >= hours.open && minutes <= hours.lastBooking &&
+    reservationTime.getTime() >= Date.now() + MINIMUM_BOOKING_NOTICE_MINUTES * 60 * 1000;
 }
 
 function getBookedOracleTimes_(date, sheet) {
@@ -870,7 +884,8 @@ function createCalendarEvent_(reservation) {
     throw new Error("Calendar not found.");
   }
 
-  const start = new Date(`${reservation.date}T${reservation.time}:00`);
+  const start = reservationDateTime_(reservation.date, reservation.time);
+  if (!start) throw new Error("Invalid reservation date or time.");
   const end = new Date(start.getTime() + 2 * 60 * 60 * 1000);
 
   calendar.createEvent(

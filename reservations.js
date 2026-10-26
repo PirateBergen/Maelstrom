@@ -21,6 +21,9 @@ const MINIMUM_BOOKING_NOTICE_MINUTES = 15;
 const MAXIMUM_BOOKING_MONTHS = 6;
 const FIRST_BOOKING_DATE = "2026-09-23";
 const RESERVATION_NEWSLETTER_SUBSCRIBED_KEY = "maelstrom-newsletter-subscribed-v1";
+const SPECIAL_BOOKING_HOURS = {
+  "2026-10-31": { open: "21:00", lastBooking: "00:00" },
+};
 
 function hasNewsletterSubscriptionOnDevice() {
   try {
@@ -43,14 +46,37 @@ function reservationText(key) {
   return window.MaelstromI18n?.t(key) || key;
 }
 
-function getBookableTimes(intervalMinutes = 15) {
+function getBookingHours(dateValue) {
+  if (SPECIAL_BOOKING_HOURS[dateValue]) return SPECIAL_BOOKING_HOURS[dateValue];
+  if (!dateValue) return { open: "16:00", lastBooking: "23:00" };
+  const weekday = new Date(`${dateValue}T12:00:00`).getDay();
+  if (weekday === 0 || weekday === 1) return null;
+  return weekday === 5 || weekday === 6
+    ? { open: "16:00", lastBooking: "00:00" }
+    : { open: "16:00", lastBooking: "23:00" };
+}
+
+function timeToMinutes(time) {
+  if (time === "00:00") return 24 * 60;
+  const [hour, minute] = time.split(":").map(Number);
+  return hour * 60 + minute;
+}
+
+function getBookableTimes(intervalMinutes = 15, dateValue = reservationDate?.value || "") {
+  const hours = getBookingHours(dateValue);
+  if (!hours) return [];
   const times = [];
-  for (let minutes = 18 * 60; minutes < 24 * 60; minutes += intervalMinutes) {
+  const openingMinutes = timeToMinutes(hours.open);
+  const lastBookingMinutes = timeToMinutes(hours.lastBooking);
+  for (let minutes = openingMinutes; minutes <= lastBookingMinutes; minutes += intervalMinutes) {
+    if (minutes === 24 * 60) {
+      times.push("00:00");
+      continue;
+    }
     const hour = String(Math.floor(minutes / 60)).padStart(2, "0");
     const minute = String(minutes % 60).padStart(2, "0");
     times.push(`${hour}:${minute}`);
   }
-  times.push("00:00");
   return times;
 }
 
@@ -86,15 +112,14 @@ function getLeadTimeUnavailableTimes(dateValue, intervalMinutes = 15) {
   const now = getBergenNowParts();
   if (!dateValue || dateValue !== now.date) return blocked;
   const earliest = now.minutes + MINIMUM_BOOKING_NOTICE_MINUTES;
-  getBookableTimes(intervalMinutes).forEach((time) => {
-    const [hour, minute] = time.split(":").map(Number);
-    const slotMinutes = time === "00:00" ? 24 * 60 : hour * 60 + minute;
+  getBookableTimes(intervalMinutes, dateValue).forEach((time) => {
+    const slotMinutes = timeToMinutes(time);
     if (slotMinutes < earliest) blocked.add(time);
   });
   return blocked;
 }
 
-function populateTimeSelect(select, selectedValue = "", unavailableTimes = new Set(), intervalMinutes = 15, hideUnavailable = false) {
+function populateTimeSelect(select, selectedValue = "", unavailableTimes = new Set(), intervalMinutes = 15, hideUnavailable = false, dateValue = reservationDate?.value || "") {
   const fragment = document.createDocumentFragment();
   const placeholder = document.createElement("option");
   placeholder.value = "";
@@ -102,7 +127,7 @@ function populateTimeSelect(select, selectedValue = "", unavailableTimes = new S
   placeholder.disabled = true;
   fragment.append(placeholder);
 
-  const availableTimes = getBookableTimes(intervalMinutes);
+  const availableTimes = getBookableTimes(intervalMinutes, dateValue);
   availableTimes.forEach((time) => {
     if (hideUnavailable && unavailableTimes.has(time) && time !== selectedValue) {
       return;
@@ -192,7 +217,7 @@ function validateReservationDate(report = false) {
   } else {
     const selectedDate = new Date(`${value}T12:00:00`);
     const weekday = selectedDate.getDay();
-    if (weekday === 1 || weekday === 2) errorKey = "reservationClosedDays";
+    if (weekday === 0 || weekday === 1) errorKey = "reservationClosedDays";
   }
 
   if (!errorKey) {
