@@ -864,6 +864,73 @@ body.site-open .full-site {
   box-shadow: 0 0 13px rgba(240, 201, 108, 0.38);
 }
 
+.calendar-event-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.calendar-event-actions button {
+  border: 1px solid rgba(132, 233, 244, 0.55);
+  border-radius: 999px;
+  background: rgba(4, 26, 30, 0.88);
+  color: #d8fbff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  padding: 9px 15px;
+}
+
+.calendar-event-actions button:hover,
+.calendar-event-actions button:focus-visible {
+  border-color: #8df5ff;
+  box-shadow: 0 0 18px rgba(52, 218, 235, 0.32);
+}
+
+.calendar-event-actions button:disabled,
+.masterclass-booking-pending:disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
+}
+
+.masterclass-facts,
+.masterclass-dialog-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+
+.masterclass-facts span,
+.masterclass-dialog-facts span {
+  color: rgba(220, 247, 250, 0.82);
+}
+
+.masterclass-dialog {
+  width: min(680px, calc(100vw - 28px));
+}
+
+.masterclass-dialog-content {
+  display: grid;
+  gap: 14px;
+}
+
+.masterclass-dialog-content h2,
+.masterclass-dialog-content p {
+  margin: 0;
+}
+
+.masterclass-dialog-content h2 {
+  color: #9ef5ff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+}
+
+.masterclass-dialog-content .reservation-submit {
+  justify-self: start;
+  width: auto;
+}
+
 .calendar-state {
   display: inline-block;
   margin-bottom: 0.34rem;

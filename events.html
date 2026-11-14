@@ -81,7 +81,7 @@
               <li class="calendar-event"><time datetime="2026-11-11"><strong>11</strong><span data-i18n="calendarWednesday">Wednesday</span></time><div><h3 data-i18n="divinationEventTitle">Divination at Maelstrom</h3><p data-i18n="divinationEventText">Private oracle sessions.</p><a href="reservations.html?date=2026-11-11&amp;divination=1" data-i18n="eventBookSession">Book</a></div></li>
               <li class="calendar-event"><time datetime="2026-11-18"><strong>18</strong><span data-i18n="calendarWednesday">Wednesday</span></time><div><h3 data-i18n="divinationEventTitle">Divination at Maelstrom</h3><p data-i18n="divinationEventText">Private oracle sessions.</p><a href="reservations.html?date=2026-11-18&amp;divination=1" data-i18n="eventBookSession">Book</a></div></li>
               <li class="calendar-event"><time datetime="2026-11-25"><strong>25</strong><span data-i18n="calendarWednesday">Wednesday</span></time><div><h3 data-i18n="divinationEventTitle">Divination at Maelstrom</h3><p data-i18n="divinationEventText">Private oracle sessions.</p><a href="reservations.html?date=2026-11-25&amp;divination=1" data-i18n="eventBookSession">Book</a></div></li>
-              <li class="calendar-event calendar-event-special"><time datetime="2026-11-26"><strong>26</strong><span data-i18n="calendarThursday">Thursday</span></time><div><span class="calendar-state" data-i18n="eventUpcomingStatus">Upcoming</span><h3 data-i18n="eventMonkeyShoulderTitle">Monkey Shoulder Masterclass</h3><p data-i18n="eventMonkeyShoulderText">Discover Monkey Shoulder whisky through a guided masterclass.</p><a href="reservations.html?date=2026-11-26" data-i18n="eventBookTable">Book a table</a></div></li>
+              <li class="calendar-event calendar-event-special"><time datetime="2026-11-26"><strong>26</strong><span data-i18n="calendarThursday">Thursday</span></time><div><span class="calendar-state" data-i18n="eventUpcomingStatus">Upcoming</span><h3 data-i18n="eventMonkeyShoulderTitle">Monkey Shoulder Masterclass</h3><p data-i18n="eventMonkeyShoulderText">A cocktail workshop with Monkey Shoulder and the pirates of Maelstrom.</p><p class="masterclass-facts"><strong data-i18n="eventMonkeyShoulderPrice">650 NOK per person</strong><span data-i18n="eventMonkeyShoulderCapacity">Maximum 20 participants</span></p><div class="calendar-event-actions"><button type="button" data-masterclass-details data-i18n="eventLearnMore">Learn more</button><button type="button" class="masterclass-booking-pending" disabled data-i18n="eventMasterclassBookingPending">Booking link coming soon</button></div></div></li>
             </ol>
           </section>
 
@@ -123,14 +123,28 @@
           <p class="contact-form-status" data-contact-status aria-live="polite"></p>
         </form>
       </dialog>
+
+      <dialog class="contact-dialog masterclass-dialog" data-masterclass-dialog aria-labelledby="masterclassTitle">
+        <button class="contact-dialog-close" type="button" data-masterclass-close data-i18n-aria="eventDetailsClose" aria-label="Close event details"></button>
+        <article class="masterclass-dialog-content">
+          <p class="site-kicker" data-i18n="eventMonkeyShoulderDate">26 November 2026</p>
+          <h2 id="masterclassTitle" data-i18n="eventMonkeyShoulderTitle">Monkey Shoulder Masterclass</h2>
+          <p data-i18n="eventMonkeyShoulderDetails1">Ahoy, landlubbers! Do you want to learn how to craft your own cocktails, taught by rugged pirates?</p>
+          <p data-i18n="eventMonkeyShoulderDetails2">Maelstrom invites you to a cocktail workshop with our special guest, Monkey Shoulder. Together, we will give you the skills to mix your own drinks at home.</p>
+          <p data-i18n="eventMonkeyShoulderDetails3">Guided by our experienced instructors, also known as pirates, you will get the chance to try your hand at being a bartender for the evening.</p>
+          <p data-i18n="eventMonkeyShoulderDetails4">Save the date, 26 November, and sign up before the ship fills up. See you there!</p>
+          <p class="masterclass-dialog-facts"><strong data-i18n="eventMonkeyShoulderPrice">650 NOK per person</strong><span data-i18n="eventMonkeyShoulderCapacity">Maximum 20 participants</span></p>
+          <button type="button" class="reservation-submit masterclass-booking-pending" disabled data-i18n="eventMasterclassBookingPending">Booking link coming soon</button>
+        </article>
+      </dialog>
     </main>
 
-    <script src="i18n.js?v=20261114-events"></script>
+    <script src="i18n.js?v=20261114-monkey-masterclass"></script>
     <script src="privacy.js?v=20260902-dialog"></script>
     <script src="reservations-config.js?v=20260828-newsletter"></script>
     <script src="analytics.js?v=20261011-initial"></script>
     <script src="newsletter.js?v=20260902-privacy"></script>
-    <script src="events.js?v=20261016-calendar"></script>
+    <script src="events.js?v=20261114-monkey-masterclass"></script>
     <script src="contact.js?v=20261016-idea-box"></script>
   </body>
 </html>

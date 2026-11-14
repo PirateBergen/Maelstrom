@@ -32,3 +32,18 @@ function updatePastCalendarEvents() {
 
 document.addEventListener("DOMContentLoaded", updatePastCalendarEvents);
 window.addEventListener("maelstrom:languagechange", updatePastCalendarEvents);
+
+function setupMasterclassDialog() {
+  const dialog = document.querySelector("[data-masterclass-dialog]");
+  if (!dialog) return;
+
+  document.querySelectorAll("[data-masterclass-details]").forEach((button) => {
+    button.addEventListener("click", () => dialog.showModal());
+  });
+  dialog.querySelector("[data-masterclass-close]")?.addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+}
+
+document.addEventListener("DOMContentLoaded", setupMasterclassDialog);
