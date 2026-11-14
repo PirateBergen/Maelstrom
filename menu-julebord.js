@@ -46,6 +46,10 @@ window.MAELSTROM_JULEBORD_MENU = {
       name: "Kaptein Sabeltann",
       description: "Inspired by the Captain’s legendary ice cream, a playful twist on a childhood favourite, blending zesty lemon, sweet cola and warm spiced rum.",
       recipe: "House-made limoncello sorbet and house-made cola coulis infused with Sailor Jerry spiced rum.",
+      image: "assets/cocktail-kaptein-sabeltann.jpg",
+      imageAlt: "Kaptein Sabeltann signature cocktail",
+      frameClass: "frame-green",
+      frameSrc: "assets/frame-green.webp",
     },
     {
       name: "Desperate Measure",
@@ -102,6 +106,7 @@ window.MAELSTROM_JULEBORD_MENU = {
       ${cocktail.description ? `<p class="signature-cocktail-tasting">${esc(cocktail.description)}</p>` : ""}
       <p class="signature-cocktail-recipe">${esc(cocktail.recipe)}</p>
       ${cocktail.allergens ? `<p class="signature-cocktail-allergens">${esc(cocktail.allergens)}</p>` : ""}
+      ${cocktail.image ? `<figure class="photo-placeholder ${esc(cocktail.frameClass || "frame-dark-wood")} signature-cocktail-photo menu-photo-trigger" role="button" tabindex="0" aria-label="Enlarge ${esc(cocktail.name)} cocktail photo" data-menu-photo data-lightbox-frame="${esc(cocktail.frameClass || "frame-dark-wood")}" data-lightbox-frame-src="${esc(cocktail.frameSrc || "assets/frame-dark-wood.webp")}"><img src="${esc(cocktail.image)}" alt="${esc(cocktail.imageAlt || cocktail.name)}" loading="lazy" decoding="async" draggable="false" /><img class="menu-photo-frame-overlay" src="${esc(cocktail.frameSrc || "assets/frame-dark-wood.webp")}" alt="" aria-hidden="true" loading="lazy" decoding="async" draggable="false" /></figure>` : ""}
     </article>`;
 
   panel.innerHTML = `
