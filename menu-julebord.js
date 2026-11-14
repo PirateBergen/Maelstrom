@@ -35,6 +35,10 @@ window.MAELSTROM_JULEBORD_MENU = {
       description: "A medieval-inspired spiced wine, blending warm aromatic spices, delicate citrus notes and the sweetness of honey.",
       recipe: "Chardonnay infused with honey, cinnamon, ginger, nutmeg, orange and lemon zest, and cloves.",
       allergens: "SUL*",
+      image: "assets/cocktail-celebration-under-the-star.jpg",
+      imageAlt: "Celebration Under the Star signature cocktail",
+      frameClass: "frame-dark-gold",
+      frameSrc: "assets/frame-dark-gold.webp",
     },
     {
       name: "Bad Omens",
