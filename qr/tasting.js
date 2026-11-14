@@ -1,11 +1,13 @@
-const STORAGE_KEY = "maelstrom-tasting-submissions-v1";
-const VISITOR_KEY = "maelstrom-tasting-visitor-v1";
-const SUBMITTED_KEY = "maelstrom-tasting-submitted-v1";
-const RESULT_ENDPOINT = window.MAELSTROM_RESULTS_ENDPOINT || "";
+const JULEBORD_TIER_MODE = Boolean(window.MAELSTROM_JULEBORD_TIER?.active)
+  || (document.body.classList.contains("tasting-vote-page") && new URLSearchParams(window.location.search).get("julebordPreview") === "1");
+const STORAGE_KEY = JULEBORD_TIER_MODE ? "maelstrom-julebord-tasting-submissions-v1" : "maelstrom-tasting-submissions-v1";
+const VISITOR_KEY = JULEBORD_TIER_MODE ? "maelstrom-julebord-tasting-visitor-v1" : "maelstrom-tasting-visitor-v1";
+const SUBMITTED_KEY = JULEBORD_TIER_MODE ? "maelstrom-julebord-tasting-submitted-v1" : "maelstrom-tasting-submitted-v1";
+const RESULT_ENDPOINT = JULEBORD_TIER_MODE ? "" : window.MAELSTROM_RESULTS_ENDPOINT || "";
 const TIERS = ["S", "A", "B", "C", "D"];
 const TIER_POINTS = { S: 5, A: 4, B: 3, C: 2, D: 1 };
 
-const COCKTAILS = [
+const LEGACY_COCKTAILS = [
   {
     id: "up-is-down",
     name: "Meeting at the Tavern",
@@ -61,6 +63,7 @@ const COCKTAILS = [
     descriptionKey: "cocktailPoisonTasting",
   },
 ];
+const COCKTAILS = JULEBORD_TIER_MODE ? window.MAELSTROM_JULEBORD_TIER.cocktails : LEGACY_COCKTAILS;
 
 const state = Object.fromEntries(COCKTAILS.map((cocktail) => [cocktail.id, null]));
 
@@ -189,8 +192,8 @@ function openCocktailDetails(cocktailId) {
     photo.src = cocktail.image || "";
     photo.alt = cocktail.image ? cocktailDisplayName(cocktail) : "";
   }
-  modal.querySelector("#cocktailDetailsDescription").textContent = t(cocktail.descriptionKey);
-  modal.querySelector("#cocktailDetailsRecipe").textContent = t(cocktail.notesKey);
+  modal.querySelector("#cocktailDetailsDescription").textContent = cocktail.descriptionKey ? t(cocktail.descriptionKey) : cocktail.description || "";
+  modal.querySelector("#cocktailDetailsRecipe").textContent = cocktail.notesKey ? t(cocktail.notesKey) : cocktail.notes || "";
   modal.hidden = false;
   document.body.classList.add("cocktail-modal-open");
   modal.querySelector(".cocktail-details-close")?.focus();
