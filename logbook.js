@@ -143,7 +143,10 @@ const LOGBOOK_CHAPTERS = {
   1: { pages: LOGBOOK_CHAPTER_ONE_PAGES, translations: LOGBOOK_CHAPTER_ONE_TRANSLATIONS },
   2: window.MAELSTROM_LOGBOOK_CHAPTER_TWO,
 };
-const configuredLogbookChapter = Number(window.MAELSTROM_LOGBOOK_CONFIG?.activeChapter) || 1;
+const requestedLogbookChapter = Number(new URLSearchParams(window.location.search).get("chapter"));
+const configuredLogbookChapter = LOGBOOK_CHAPTERS[requestedLogbookChapter]
+  ? requestedLogbookChapter
+  : Number(window.MAELSTROM_LOGBOOK_CONFIG?.activeChapter) || 1;
 let activeLogbookChapter = LOGBOOK_CHAPTERS[configuredLogbookChapter] ? configuredLogbookChapter : 1;
 let LOGBOOK_PAGES = LOGBOOK_CHAPTERS[activeLogbookChapter].pages;
 let LOGBOOK_TRANSLATIONS = LOGBOOK_CHAPTERS[activeLogbookChapter].translations;

@@ -92,12 +92,15 @@ window.MAELSTROM_JULEBORD_MENU = {
   if (!panel) return;
 
   const esc = (value = "") => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
-  const card = (cocktail, price, className = "signature-cocktail-card") => `
+  const card = (cocktail, price, className = "signature-cocktail-card", options = {}) => `
     <article class="${className}">
-      <div class="signature-cocktail-heading"><h3>${esc(cocktail.name)}</h3>${price ? `<span class="signature-cocktail-price">${price} NOK</span>` : ""}</div>
+      <div class="signature-cocktail-heading">
+        ${options.logbookEntry ? `<a class="logbook-entry-icon" href="logbook.html?chapter=2&amp;entry=${options.logbookEntry}" aria-label="Open the corresponding logbook page"><img class="logbook-icon-closed" src="assets/logbook-cover.webp" alt="" width="44" height="58" /><img class="logbook-icon-open" src="assets/logbook-open-icon-transparent.webp" alt="" width="90" height="58" decoding="async" /></a>` : ""}
+        <h3>${esc(cocktail.name)}</h3>${price ? `<span class="signature-cocktail-price">${price} NOK</span>` : ""}
+      </div>
       ${cocktail.mocktail ? `<p class="mocktail-availability">Mocktail available — ${menu.prices.mocktail} NOK</p>` : ""}
-      ${cocktail.description ? `<p class="signature-cocktail-tasting">${esc(cocktail.description)}</p>` : ""}
-      <p class="signature-cocktail-recipe">${esc(cocktail.recipe)}</p>
+      ${cocktail.description ? `<div class="julebord-menu-detail julebord-menu-description"><span class="julebord-menu-label">Description</span><p>${esc(cocktail.description)}</p></div>` : ""}
+      <div class="julebord-menu-detail julebord-menu-recipe"><span class="julebord-menu-label">Ingredients</span><p>${esc(cocktail.recipe)}</p></div>
       ${cocktail.allergens ? `<p class="signature-cocktail-allergens">${esc(cocktail.allergens)}</p>` : ""}
     </article>`;
 
@@ -111,7 +114,7 @@ window.MAELSTROM_JULEBORD_MENU = {
       <p>${esc(menu.experience.description)}</p>
       <div class="classic-cocktails-list">${menu.experience.cocktails.map((item) => card(item, "", "classic-cocktail-item")).join("")}</div>
     </section>
-    <div class="signature-cocktail-grid">${menu.signatures.map((item) => card(item, menu.prices.signature)).join("")}</div>
+    <div class="signature-cocktail-grid julebord-signature-grid">${menu.signatures.map((item, index) => card(item, menu.prices.signature, "signature-cocktail-card julebord-cocktail-card", { logbookEntry: index + 1 })).join("")}</div>
     <section class="classic-cocktails-section"><div class="classic-cocktails-heading"><h2>Julebord Classics</h2><p class="menu-category-price">${menu.prices.classic} NOK</p></div>
       <div class="classic-cocktails-list">${menu.classics.map((item) => card(item, menu.prices.classic, "classic-cocktail-item")).join("")}</div>
     </section>

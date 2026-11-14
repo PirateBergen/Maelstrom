@@ -2671,6 +2671,46 @@ body.reservation-confirmed .reservations-page {
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.45);
 }
 
+.julebord-cocktail-card,
+.julebord-trinity-card .classic-cocktail-item {
+  row-gap: 0.7rem;
+}
+
+.julebord-menu-detail {
+  margin-top: 0.7rem;
+  padding: 0.75rem 0.85rem;
+  border-left: 2px solid rgba(198, 153, 76, 0.58);
+  background: rgba(7, 28, 31, 0.34);
+}
+
+.julebord-menu-description {
+  border-left-color: rgba(93, 211, 226, 0.6);
+  background: rgba(10, 55, 61, 0.28);
+}
+
+.julebord-menu-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: #d8b76e;
+  font: 700 0.7rem/1.1 Georgia, serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.julebord-menu-description .julebord-menu-label {
+  color: #8ce6ef;
+}
+
+.julebord-menu-detail p {
+  margin: 0;
+  line-height: 1.55;
+}
+
+.julebord-signature-grid .signature-cocktail-card {
+  padding-top: clamp(1.15rem, 2vw, 1.6rem);
+  padding-bottom: clamp(1.15rem, 2vw, 1.6rem);
+}
+
 .logbook-entry p {
   margin: 0 0 0.72rem;
 }
