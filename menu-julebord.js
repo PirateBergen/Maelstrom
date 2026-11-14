@@ -46,7 +46,7 @@ window.MAELSTROM_JULEBORD_MENU = {
       name: "Kaptein Sabeltann",
       description: "Inspired by the Captain’s legendary ice cream, a playful twist on a childhood favourite, blending zesty lemon, sweet cola and warm spiced rum.",
       recipe: "House-made limoncello sorbet and house-made cola coulis infused with Sailor Jerry spiced rum.",
-      image: "assets/cocktail-kaptein-sabeltann.jpg",
+      image: "assets/cocktail-kaptein-sabeltann-drink-green.jpg",
       imageAlt: "Kaptein Sabeltann signature cocktail",
       frameClass: "frame-green",
       frameSrc: "assets/frame-green.webp",
