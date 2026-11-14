@@ -86,7 +86,8 @@ window.MAELSTROM_JULEBORD_MENU = {
 
 (() => {
   const menu = window.MAELSTROM_JULEBORD_MENU;
-  if (!menu.active) return;
+  const previewEnabled = new URLSearchParams(window.location.search).get("julebordPreview") === "1";
+  if (!menu.active && !previewEnabled) return;
   const panel = document.querySelector(".signature-menu-panel");
   if (!panel) return;
 
