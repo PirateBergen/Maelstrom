@@ -7,7 +7,6 @@ window.MAELSTROM_LOGBOOK_CHAPTER_TWO = {
     { cover: true },
     {
       title: "JULEBORD",
-      subtitle: "“celebration under the star”",
       date: "December 23, 1717",
       text: `Here we are at sea on Christmas Eve. The cold is biting, and it is difficult to ignore the pain. Yet tonight, beneath the starry December sky, the laughter of our crew can be heard echoing across the endless horizon of the North Sea. Frank's quest to find his beloved has guided our helm since my arrival aboard this ship, but today the captain's attention is with us, and for once he seems to genuinely enjoy our company as a friend rather than a leader. Our last stop filled our holds with barrels of wine, which we drank until we forgot the cold. With festive hearts, we went off to sleep, and despite the dampness of our beds, the night was indeed gentle.`,
     },
@@ -39,7 +38,6 @@ Captain Sabeltann took this information very seriously. He did not seem to like 
     fr: {
       1: {
         title: "JULEBORD",
-        subtitle: "« celebration under the star »",
         date: "23 décembre 1717",
         text: `Nous voici en mer à la veille de Noël. Le froid est mordant, il est difficile d'ignorer la douleur. Pourtant ce soir, sous le ciel étoilé de décembre, on peut entendre le rire de notre équipage résonner dans l'infini horizon de la mer du Nord. La quête de Frank pour retrouver sa belle guide notre gouvernail depuis mon arrivée sur ce navire mais aujourd'hui l'attention du capitaine est à nos côtés, et pour une fois il semble sincèrement apprécier notre compagnie de la manière d'un ami et non d'un chef. Notre dernière halte a rempli nos caves de tonneaux de vin que nous buvons jusqu'à oublier le froid. C'est le cœur en fête que nous partîmes dormir, et malgré l'humidité de nos couches la nuit fut bien douce.`,
       },
@@ -70,7 +68,6 @@ Le capitaine Sabeltann prit ces informations très au sérieux. Il ne semblait p
     no: {
       1: {
         title: "JULEBORD",
-        subtitle: "« celebration under the star »",
         date: "23. desember 1717",
         text: `Her er vi til sjøs på julaften. Kulden er bitende, og det er vanskelig å ignorere smerten. Likevel kan man i kveld, under den stjerneklare desemberhimmelen, høre latteren fra mannskapet vårt gi gjenklang over Nordsjøens endeløse horisont. Franks søken etter å finne sin elskede har styrt roret vårt siden jeg kom om bord på dette skipet, men i dag er kapteinens oppmerksomhet rettet mot oss, og for én gangs skyld ser han ut til å oppriktig nyte vårt selskap som en venn og ikke som en leder. Vårt siste stopp fylte lasterommene våre med tønner vin, som vi drikker til vi glemmer kulden. Med feststemning i hjertene gikk vi til sengs, og til tross for fuktigheten i sengeleiene våre var natten riktig mild.`,
       },
