@@ -72,9 +72,9 @@ Of course, he knew Frank. Like everyone else.`,
 ];
 
 const LOGBOOK_VISIBLE_ENTRY_COUNT = 6;
-const LOGBOOK_PAGES = LOGBOOK_ALL_PAGES.slice(0, LOGBOOK_VISIBLE_ENTRY_COUNT + 1);
+const LOGBOOK_CHAPTER_ONE_PAGES = LOGBOOK_ALL_PAGES.slice(0, LOGBOOK_VISIBLE_ENTRY_COUNT + 1);
 
-const LOGBOOK_TRANSLATIONS = {
+const LOGBOOK_CHAPTER_ONE_TRANSLATIONS = {
   fr: {
     1: {
       date: "3 mai 1717",
@@ -139,6 +139,16 @@ Kongen holdt tilbake en latter og ropte: «Ditt oppdrag er å dø, Frank! Gudene
   },
 };
 
+const LOGBOOK_CHAPTERS = {
+  1: { pages: LOGBOOK_CHAPTER_ONE_PAGES, translations: LOGBOOK_CHAPTER_ONE_TRANSLATIONS },
+  2: window.MAELSTROM_LOGBOOK_CHAPTER_TWO,
+};
+const configuredLogbookChapter = Number(window.MAELSTROM_LOGBOOK_CONFIG?.activeChapter) || 1;
+let activeLogbookChapter = LOGBOOK_CHAPTERS[configuredLogbookChapter] ? configuredLogbookChapter : 1;
+let LOGBOOK_PAGES = LOGBOOK_CHAPTERS[activeLogbookChapter].pages;
+let LOGBOOK_TRANSLATIONS = LOGBOOK_CHAPTERS[activeLogbookChapter].translations;
+const logbookChapterSelector = document.querySelector("[data-logbook-chapters]");
+
 const LOGBOOK_PAGE_POSITIONS = [
   ["50%", "50%"],
   ["48%", "47%"],
@@ -157,6 +167,33 @@ function getInitialLogbookPage() {
   }
 
   return 1;
+}
+
+function renderLogbookChapterSelector() {
+  if (!logbookChapterSelector || configuredLogbookChapter < 2) {
+    return;
+  }
+
+  logbookChapterSelector.hidden = false;
+  logbookChapterSelector.innerHTML = [1, 2]
+    .map((chapter) => `
+      <button class="logbook-chapter-button${chapter === activeLogbookChapter ? " is-active" : ""}" type="button" data-logbook-chapter="${chapter}">
+        <span class="logbook-chapter-cover" aria-hidden="true"></span>
+        <span>Chapter ${chapter}</span>
+      </button>
+    `)
+    .join("");
+}
+
+function changeLogbookChapter(chapter) {
+  if (!LOGBOOK_CHAPTERS[chapter]) return;
+  activeLogbookChapter = chapter;
+  LOGBOOK_PAGES = LOGBOOK_CHAPTERS[chapter].pages;
+  LOGBOOK_TRANSLATIONS = LOGBOOK_CHAPTERS[chapter].translations;
+  logbookPage = 1;
+  renderLogbookChapterSelector();
+  renderLogbookPage();
+  warmLogbookImageCache();
 }
 
 let logbookPage = getInitialLogbookPage();
@@ -289,9 +326,13 @@ function renderLogbookPage() {
   const illustration = page.illustration
     ? `<span class="logbook-entry-illustration-wrap${illustrationClass}" style="--illustration-mask: url('${escapeHtml(page.illustration.src)}');"><img class="logbook-entry-illustration" src="${escapeHtml(page.illustration.src)}" alt="${escapeHtml(page.illustration.alt)}" decoding="async" draggable="false" /></span>`
     : "";
+  const title = page.title ? `<h2>${escapeHtml(page.title)}</h2>` : "";
+  const subtitle = page.subtitle ? `<p class="logbook-entry-subtitle">${escapeHtml(page.subtitle)}</p>` : "";
 
   logbookSheet.innerHTML = `
     <article class="logbook-entry${entryClass}">
+      ${title}
+      ${subtitle}
       <time>${escapeHtml(page.date)}</time>
       <div>${paragraphs}</div>
       ${illustration}
@@ -335,6 +376,11 @@ logbookZoomReset?.addEventListener("click", (event) => {
   event.stopPropagation();
   logbookZoom = 1;
   applyLogbookZoom();
+});
+
+logbookChapterSelector?.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-logbook-chapter]");
+  if (button) changeLogbookChapter(Number(button.dataset.logbookChapter));
 });
 
 function changeLogbookPage(direction) {
@@ -392,5 +438,6 @@ logbookSheet?.addEventListener(
 window.addEventListener("maelstrom:languagechange", renderLogbookPage);
 
 applyLogbookZoom();
+renderLogbookChapterSelector();
 renderLogbookPage();
 warmLogbookImageCache();
