@@ -55,9 +55,9 @@ window.MAELSTROM_JULEBORD_MENU = {
     },
   ],
   classics: [
-    { name: "The King", mocktail: true, recipe: "Vodka, lime cordial, yuzu syrup, Ancel pastry cream and house-made torched Swiss meringue.", allergens: "EGG* · MLK*" },
-    { name: "Meeting at the Tavern", mocktail: true, recipe: "Sailor Jerry spiced rum, vanilla syrup, lime, cinnamon and ginger beer." },
-    { name: "Bonny’s Red Kiss", mocktail: true, recipe: "Rose- and hibiscus-infused gin, house-made raspberry liqueur, lime, sugar, egg white and freeze-dried raspberries.", allergens: "EGG*" },
+    { name: "The King", mocktail: true, description: "Creamy and indulgent, lifted by the lively acidity of lime and yuzu, with a toasted meringue finish.", recipe: "Vodka, lime cordial, yuzu syrup, Ancel pastry cream and house-made torched Swiss meringue.", allergens: "EGG* · MLK*" },
+    { name: "Meeting at the Tavern", mocktail: true, description: "Warm and spicy, rounded by vanilla, with a fresh, sparkling finish.", recipe: "Sailor Jerry spiced rum, vanilla syrup, lime, cinnamon and ginger beer." },
+    { name: "Bonny’s Red Kiss", mocktail: true, description: "Floral, vibrant and silky, with intense raspberry, bright lime acidity and a delicate rose finish.", recipe: "Rose- and hibiscus-infused gin, house-made raspberry liqueur, lime, sugar, egg white and freeze-dried raspberries.", allergens: "EGG*" },
     {
       name: "The Velvet Cutlass",
       mocktail: true,
@@ -99,8 +99,8 @@ window.MAELSTROM_JULEBORD_MENU = {
         <h3>${esc(cocktail.name)}</h3>${price ? `<span class="signature-cocktail-price">${price} NOK</span>` : ""}
       </div>
       ${cocktail.mocktail ? `<p class="mocktail-availability">Mocktail available — ${menu.prices.mocktail} NOK</p>` : ""}
-      ${cocktail.description ? `<div class="julebord-menu-detail julebord-menu-description"><span class="julebord-menu-label">Description</span><p>${esc(cocktail.description)}</p></div>` : ""}
-      <div class="julebord-menu-detail julebord-menu-recipe"><span class="julebord-menu-label">Ingredients</span><p>${esc(cocktail.recipe)}</p></div>
+      ${cocktail.description ? `<p class="signature-cocktail-tasting">${esc(cocktail.description)}</p>` : ""}
+      <p class="signature-cocktail-recipe">${esc(cocktail.recipe)}</p>
       ${cocktail.allergens ? `<p class="signature-cocktail-allergens">${esc(cocktail.allergens)}</p>` : ""}
     </article>`;
 
@@ -115,7 +115,7 @@ window.MAELSTROM_JULEBORD_MENU = {
       <div class="classic-cocktails-list">${menu.experience.cocktails.map((item) => card(item, "", "classic-cocktail-item")).join("")}</div>
     </section>
     <div class="signature-cocktail-grid julebord-signature-grid">${menu.signatures.map((item, index) => card(item, menu.prices.signature, "signature-cocktail-card julebord-cocktail-card", { logbookEntry: index + 1 })).join("")}</div>
-    <section class="classic-cocktails-section"><div class="classic-cocktails-heading"><h2>Julebord Classics</h2><p class="menu-category-price">${menu.prices.classic} NOK</p></div>
+    <section class="classic-cocktails-section julebord-classics-section"><div class="classic-cocktails-heading"><h2>Julebord Classics</h2><p class="menu-category-price">${menu.prices.classic} NOK</p></div>
       <div class="classic-cocktails-list">${menu.classics.map((item) => card(item, menu.prices.classic, "classic-cocktail-item")).join("")}</div>
     </section>
     <aside class="off-menu-note"><p>Looking for a cocktail or mocktail that is not on the menu? Just ask us.</p></aside>
