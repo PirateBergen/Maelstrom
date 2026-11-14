@@ -16,6 +16,11 @@ const REMINDER_HOURS_BEFORE = 24;
 const ADMIN_NTFY_TOPIC_PROPERTY = "ADMIN_NTFY_TOPIC";
 const ADMIN_APP_URL_PROPERTY = "ADMIN_APP_URL";
 const ANALYTICS_SHEET_NAME = "Audience";
+const EVENT_REGISTRATIONS_SHEET_NAME = "Event registrations";
+const EVENT_REGISTRATION_HEADERS = ["Submitted at", "Status", "Event ID", "Event", "Date", "Name", "Email", "Phone", "Participants", "Price per person", "Submission ID"];
+const SPECIAL_EVENTS = {
+  "monkey-shoulder-2026": { name: "Monkey Shoulder Masterclass", date: "2026-11-26", capacity: 20, price: 650 },
+};
 
 const RESERVATION_HEADERS = [
   "Submitted at",
@@ -48,8 +53,13 @@ function doPost(e) {
   try {
     lock.waitLock(10000);
     locked = true;
-    const sheet = getReservationsSheet_();
     const data = requestData;
+
+    if (clean_(data.type) === "eventRegistration") {
+      return handleEventRegistration_(data);
+    }
+
+    const sheet = getReservationsSheet_();
 
     if (clean_(data.type) === "contact") {
       return handleContactMessage_(data);
@@ -169,6 +179,69 @@ function doPost(e) {
   } finally {
     if (locked) lock.releaseLock();
   }
+}
+
+function handleEventRegistration_(data) {
+  const eventId = clean_(data.eventId);
+  const event = SPECIAL_EVENTS[eventId];
+  const name = clean_(data.name);
+  const email = clean_(data.email).toLowerCase();
+  const phone = clean_(data.phone);
+  const participants = Number(clean_(data.participants));
+  const submissionId = clean_(data.submissionId);
+  if (!event || !name || !/^\S+@\S+\.\S+$/.test(email) || !phone || !Number.isInteger(participants) || participants < 1 || participants > event.capacity) {
+    return json_({ ok: false, error: "Missing or invalid event registration fields." });
+  }
+  if (!/^[a-f0-9]{32}$/i.test(submissionId)) return json_({ ok: false, error: "Invalid submission reference." });
+
+  const sheet = getEventRegistrationsSheet_();
+  const rows = sheet.getLastRow() > 1 ? sheet.getRange(2, 1, sheet.getLastRow() - 1, EVENT_REGISTRATION_HEADERS.length).getValues() : [];
+  const duplicate = rows.find((row) => String(row[10] || "") === submissionId);
+  if (duplicate) return json_({ ok: true, received: true, duplicate: true });
+
+  const booked = rows.reduce((total, row) => String(row[2]) === eventId && String(row[1]).toLowerCase() !== "cancelled" ? total + Number(row[8] || 0) : total, 0);
+  const remaining = Math.max(0, event.capacity - booked);
+  if (participants > remaining) return json_({ ok: false, error: "Not enough places remaining.", remaining });
+
+  sheet.appendRow([new Date().toISOString(), "New", eventId, event.name, event.date, name, email, phone, participants, event.price, submissionId]);
+  MailApp.sendEmail({
+    to: email,
+    subject: `${BAR_NAME} - ${event.name} registration received`,
+    name: BAR_NAME,
+    replyTo: REPLY_TO_EMAIL,
+    htmlBody: `<div style="font:16px/1.6 Arial;color:#102124"><h2>Registration received</h2><p>Hello ${escapeHtml_(name)},</p><p>We have received your registration for <strong>${escapeHtml_(event.name)}</strong>.</p><p><strong>Date:</strong> ${escapeHtml_(event.date)}<br><strong>Participants:</strong> ${participants}<br><strong>Price:</strong> ${event.price} NOK per person, payable on site.</p><p>We look forward to welcoming you aboard.</p></div>`,
+  });
+  MailApp.sendEmail({
+    to: OWNER_EMAIL,
+    subject: `New ${event.name} registration - ${participants} participant(s)`,
+    name: `${BAR_NAME} website`,
+    replyTo: email,
+    htmlBody: `<div style="font:16px/1.6 Arial;color:#102124"><h2>New event registration</h2><p><strong>${escapeHtml_(name)}</strong><br>${escapeHtml_(email)}<br>${escapeHtml_(phone)}</p><p>${participants} participant(s) · ${event.price} NOK per person</p><p>${Math.max(0, remaining - participants)} place(s) remaining after this registration.</p></div>`,
+  });
+  sendAdminMobileNotification_("reservation", "Nouvelle inscription masterclass", `${participants} personne(s) · ${event.name}`, "bookings");
+  return json_({ ok: true, received: true, remaining: Math.max(0, remaining - participants) });
+}
+
+function getEventRegistrationsSheet_() {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = spreadsheet.getSheetByName(EVENT_REGISTRATIONS_SHEET_NAME);
+  if (!sheet) sheet = spreadsheet.insertSheet(EVENT_REGISTRATIONS_SHEET_NAME);
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(EVENT_REGISTRATION_HEADERS);
+    sheet.setFrozenRows(1);
+  } else {
+    sheet.getRange(1, 1, 1, EVENT_REGISTRATION_HEADERS.length).setValues([EVENT_REGISTRATION_HEADERS]);
+  }
+  return sheet;
+}
+
+function eventAvailability_(eventId) {
+  const event = SPECIAL_EVENTS[eventId];
+  if (!event) return { ok: false, error: "Unknown event." };
+  const sheet = getEventRegistrationsSheet_();
+  const rows = sheet.getLastRow() > 1 ? sheet.getRange(2, 1, sheet.getLastRow() - 1, EVENT_REGISTRATION_HEADERS.length).getValues() : [];
+  const booked = rows.reduce((total, row) => String(row[2]) === eventId && String(row[1]).toLowerCase() !== "cancelled" ? total + Number(row[8] || 0) : total, 0);
+  return { ok: true, eventId, capacity: event.capacity, booked, remaining: Math.max(0, event.capacity - booked), price: event.price };
 }
 
 function reservationFingerprint_(reservation, data) {
@@ -398,6 +471,10 @@ function doGet(e) {
       date,
       bookedTimes: getBookedOracleTimes_(date),
     }, data.callback);
+  }
+
+  if (data.action === "eventAvailability") {
+    return jsonp_(eventAvailability_(clean_(data.eventId)), data.callback);
   }
 
   if (data.action === "cancel" && clean_(data.token)) {
