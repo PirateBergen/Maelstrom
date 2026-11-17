@@ -19,7 +19,7 @@ const ANALYTICS_SHEET_NAME = "Audience";
 const EVENT_REGISTRATIONS_SHEET_NAME = "Event registrations";
 const EVENT_REGISTRATION_HEADERS = ["Submitted at", "Status", "Event ID", "Event", "Date", "Name", "Email", "Phone", "Participants", "Price per person", "Submission ID"];
 const SPECIAL_EVENTS = {
-  "monkey-shoulder-2026": { name: "Monkey Shoulder Masterclass", date: "2026-11-26", capacity: 20, price: 650 },
+  "monkey-shoulder-2026": { name: "Monkey Shoulder Masterclass", date: "2026-11-26", time: "16:00", capacity: 20, price: 650 },
 };
 
 const RESERVATION_HEADERS = [
@@ -209,14 +209,14 @@ function handleEventRegistration_(data) {
     subject: `${BAR_NAME} - ${event.name} registration received`,
     name: BAR_NAME,
     replyTo: REPLY_TO_EMAIL,
-    htmlBody: `<div style="font:16px/1.6 Arial;color:#102124"><h2>Registration received</h2><p>Hello ${escapeHtml_(name)},</p><p>We have received your registration for <strong>${escapeHtml_(event.name)}</strong>.</p><p><strong>Date:</strong> ${escapeHtml_(event.date)}<br><strong>Participants:</strong> ${participants}<br><strong>Price:</strong> ${event.price} NOK per person, payable on site.</p><p>We look forward to welcoming you aboard.</p></div>`,
+    htmlBody: `<div style="font:16px/1.6 Arial;color:#102124"><h2>Registration received</h2><p>Hello ${escapeHtml_(name)},</p><p>We have received your registration for <strong>${escapeHtml_(event.name)}</strong>.</p><p><strong>Date:</strong> ${escapeHtml_(event.date)}<br><strong>Time:</strong> ${escapeHtml_(event.time)}<br><strong>Participants:</strong> ${participants}<br><strong>Price:</strong> ${event.price} NOK per person, payable on site.</p><p>We look forward to welcoming you aboard.</p></div>`,
   });
   MailApp.sendEmail({
     to: OWNER_EMAIL,
-    subject: `New ${event.name} registration - ${participants} participant(s)`,
+    subject: `MASTERCLASS BOOKING — ${event.name} — ${participants} participant(s)`,
     name: `${BAR_NAME} website`,
     replyTo: email,
-    htmlBody: `<div style="font:16px/1.6 Arial;color:#102124"><h2>New event registration</h2><p><strong>${escapeHtml_(name)}</strong><br>${escapeHtml_(email)}<br>${escapeHtml_(phone)}</p><p>${participants} participant(s) · ${event.price} NOK per person</p><p>${Math.max(0, remaining - participants)} place(s) remaining after this registration.</p></div>`,
+    htmlBody: `<div style="font:16px/1.6 Arial;color:#102124"><h2>New Monkey Shoulder Masterclass booking</h2><p><strong>Event:</strong> ${escapeHtml_(event.name)}<br><strong>Date:</strong> ${escapeHtml_(event.date)}<br><strong>Time:</strong> ${escapeHtml_(event.time)}</p><p><strong>Guest:</strong> ${escapeHtml_(name)}<br><strong>Email:</strong> ${escapeHtml_(email)}<br><strong>Phone:</strong> ${escapeHtml_(phone)}</p><p><strong>Participants:</strong> ${participants}<br><strong>Price:</strong> ${event.price} NOK per person</p><p>${Math.max(0, remaining - participants)} place(s) remaining after this registration.</p></div>`,
   });
   sendAdminMobileNotification_("reservation", "Nouvelle inscription masterclass", `${participants} personne(s) · ${event.name}`, "bookings");
   return json_({ ok: true, received: true, remaining: Math.max(0, remaining - participants) });

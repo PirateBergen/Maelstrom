@@ -84,7 +84,8 @@ function setupMasterclassDialog() {
     button.addEventListener("click", () => { dialog.showModal(); loadAvailability(); });
   });
   document.querySelectorAll("[data-masterclass-book]").forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
       dialog.showModal();
       loadAvailability().then(() => form?.querySelector("input")?.focus());
     });
@@ -122,6 +123,12 @@ function setupMasterclassDialog() {
 
   window.addEventListener("maelstrom:languagechange", renderAvailability);
   renderAvailability();
+
+  const bookingId = new URLSearchParams(window.location.search).get("booking");
+  if (bookingId === "monkey-shoulder-2026") {
+    dialog.showModal();
+    loadAvailability().then(() => form?.querySelector("input")?.focus());
+  }
 }
 
 document.addEventListener("DOMContentLoaded", setupMasterclassDialog);

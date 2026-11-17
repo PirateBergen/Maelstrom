@@ -871,7 +871,8 @@ body.site-open .full-site {
   margin-top: 12px;
 }
 
-.calendar-event-actions button {
+.calendar-event-actions button,
+.calendar-event-actions a {
   border: 1px solid rgba(132, 233, 244, 0.55);
   border-radius: 999px;
   background: rgba(4, 26, 30, 0.88);
@@ -880,10 +881,13 @@ body.site-open .full-site {
   font: inherit;
   font-weight: 700;
   padding: 9px 15px;
+  text-decoration: none;
 }
 
 .calendar-event-actions button:hover,
-.calendar-event-actions button:focus-visible {
+.calendar-event-actions button:focus-visible,
+.calendar-event-actions a:hover,
+.calendar-event-actions a:focus-visible {
   border-color: #8df5ff;
   box-shadow: 0 0 18px rgba(52, 218, 235, 0.32);
 }
