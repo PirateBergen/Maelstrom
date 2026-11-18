@@ -1242,6 +1242,11 @@ function getSavedLanguage() {
 }
 
 function getInitialLanguage() {
+  const requested = new URLSearchParams(window.location.search).get("lang");
+  if (requested && MAELSTROM_TRANSLATIONS[requested]) {
+    return requested;
+  }
+
   const saved = getSavedLanguage();
   if (saved && MAELSTROM_TRANSLATIONS[saved]) {
     return saved;
