@@ -1,9 +1,15 @@
 window.MAELSTROM_JULEBORD_MENU = {
   active: true,
-  prices: { signature: 195, classic: 180, keelhauled: 180, unholyTrinity: 360, mocktail: 130 },
+  prices: { signature: 195, classic: 180, keelhauled: 180, unholyTrinity: 360, julShot: 80, mocktail: 130 },
   tasting: {
     name: "The Keelhauled",
     description: "A tasting board featuring the four Julebord signature cocktails in shooter-sized versions.",
+  },
+  julShot: {
+    name: "Jul Shot",
+    description: "Velvety and indulgent, with roasted pecan, chocolate-hazelnut notes and a warm whisky finish.",
+    recipe: "Roasted pecan-infused Monkey Shoulder whisky, Nugatti and Baileys.",
+    allergens: "NUT* · MLK* · SOY*",
   },
   experience: {
     name: "The Unholy Trinity",
@@ -116,6 +122,13 @@ window.MAELSTROM_JULEBORD_MENU = {
   panel.innerHTML = `
     <section class="signature-tasting-card">
       <h2>${esc(menu.tasting.name)}</h2><p class="menu-item-price">${menu.prices.keelhauled} NOK</p><p>${esc(menu.tasting.description)}</p>
+    </section>
+    <section class="signature-tasting-card julebord-shot-card">
+      <p class="classic-cocktails-kicker">Festive special</p>
+      <h2>${esc(menu.julShot.name)}</h2><p class="menu-item-price">${menu.prices.julShot} NOK</p>
+      <p class="signature-cocktail-tasting">${esc(menu.julShot.description)}</p>
+      <p class="signature-cocktail-recipe">${esc(menu.julShot.recipe)}</p>
+      <p class="signature-cocktail-allergens">${esc(menu.julShot.allergens)}</p>
     </section>
     <section class="signature-tasting-card julebord-trinity-card">
       <p class="classic-cocktails-kicker">${esc(menu.experience.eyebrow)}</p>

@@ -2685,6 +2685,27 @@ body.reservation-confirmed .reservations-page {
   padding-bottom: clamp(1.15rem, 2vw, 1.6rem);
 }
 
+.julebord-shot-card {
+  width: min(100%, 620px);
+  margin-right: auto;
+  margin-left: auto;
+  padding: clamp(0.9rem, 2vw, 1.25rem);
+}
+
+.julebord-shot-card .classic-cocktails-kicker {
+  margin-top: 0;
+}
+
+.julebord-shot-card .signature-cocktail-tasting {
+  color: rgba(128, 241, 255, 0.82);
+  font-family: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  font-style: italic;
+}
+
+.julebord-shot-card .signature-cocktail-recipe {
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .julebord-cocktail-card .signature-cocktail-tasting,
 .julebord-trinity-card .signature-cocktail-tasting,
 .julebord-classics-section .signature-cocktail-tasting {
