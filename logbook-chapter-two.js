@@ -1,5 +1,5 @@
 window.MAELSTROM_LOGBOOK_CONFIG = {
-  activeChapter: 1,
+  activeChapter: 2,
 };
 
 window.MAELSTROM_LOGBOOK_CHAPTER_TWO = {

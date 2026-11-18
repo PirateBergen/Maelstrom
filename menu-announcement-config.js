@@ -1,5 +1,5 @@
 window.MAELSTROM_EVENT_ANNOUNCEMENT = {
-  enabled: true,
+  enabled: false,
   id: "yule-board-menu-coming-soon-2026",
   image: "",
   link: "",

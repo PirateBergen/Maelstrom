@@ -1,5 +1,5 @@
 window.MAELSTROM_JULEBORD_TIER = {
-  active: false,
+  active: true,
   cocktails: [
     { id: "celebration-under-the-star", name: "Celebration Under the Star", image: "../assets/cocktail-celebration-under-the-star.jpg", description: "Warm medieval spices, delicate citrus and honeyed sweetness.", notes: "Chardonnay infused with honey, cinnamon, ginger, nutmeg, orange and lemon zest, and cloves." },
     { id: "bad-omens", name: "Bad Omens", description: "Toasted hazelnut, creamy coconut and delicate pastry notes.", notes: "Frangelico, vodka, coconut syrup, coconut cream, Ancel pastry cream, egg white and shredded coconut." },

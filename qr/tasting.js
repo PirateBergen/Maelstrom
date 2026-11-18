@@ -3,7 +3,7 @@ const JULEBORD_TIER_MODE = Boolean(window.MAELSTROM_JULEBORD_TIER?.active)
 const STORAGE_KEY = JULEBORD_TIER_MODE ? "maelstrom-julebord-tasting-submissions-v1" : "maelstrom-tasting-submissions-v1";
 const VISITOR_KEY = JULEBORD_TIER_MODE ? "maelstrom-julebord-tasting-visitor-v1" : "maelstrom-tasting-visitor-v1";
 const SUBMITTED_KEY = JULEBORD_TIER_MODE ? "maelstrom-julebord-tasting-submitted-v1" : "maelstrom-tasting-submitted-v1";
-const RESULT_ENDPOINT = JULEBORD_TIER_MODE ? "" : window.MAELSTROM_RESULTS_ENDPOINT || "";
+const RESULT_ENDPOINT = window.MAELSTROM_RESULTS_ENDPOINT || "";
 const TIERS = ["S", "A", "B", "C", "D"];
 const TIER_POINTS = { S: 5, A: 4, B: 3, C: 2, D: 1 };
 

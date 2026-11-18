@@ -1,5 +1,5 @@
 window.MAELSTROM_JULEBORD_MENU = {
-  active: false,
+  active: true,
   prices: { signature: 195, classic: 180, keelhauled: 180, unholyTrinity: 360, mocktail: 130 },
   tasting: {
     name: "The Keelhauled",
