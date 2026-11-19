@@ -3337,6 +3337,47 @@ body.reservation-confirmed .reservations-page {
   width: min(100%, 420px);
 }
 
+.signature-cocktail-photo.has-photo-swap {
+  perspective: 900px;
+}
+
+.signature-cocktail-photo .menu-photo-swap {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+}
+
+.signature-cocktail-photo .menu-photo-swap-primary {
+  animation: bad-omens-photo-light 6s ease-in-out infinite;
+}
+
+.signature-cocktail-photo .menu-photo-swap-secondary {
+  animation: bad-omens-photo-dark 6s ease-in-out infinite;
+}
+
+@keyframes bad-omens-photo-light {
+  0%, 45% { opacity: 1; transform: rotateY(0deg); }
+  50%, 95% { opacity: 0; transform: rotateY(180deg); }
+  100% { opacity: 1; transform: rotateY(360deg); }
+}
+
+@keyframes bad-omens-photo-dark {
+  0%, 45% { opacity: 0; transform: rotateY(-180deg); }
+  50%, 95% { opacity: 1; transform: rotateY(0deg); }
+  100% { opacity: 0; transform: rotateY(180deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signature-cocktail-photo .menu-photo-swap-primary {
+    animation: none;
+  }
+
+  .signature-cocktail-photo .menu-photo-swap-secondary {
+    display: none;
+    animation: none;
+  }
+}
+
 .menu-category-price,
 .signature-tasting-card .menu-item-price {
   color: #fff1c5;

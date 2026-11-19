@@ -51,6 +51,11 @@ window.MAELSTROM_JULEBORD_MENU = {
       description: "A rich and velvety cocktail combining toasted hazelnut, creamy coconut and delicate pastry notes for a decadent dessert-like experience.",
       recipe: "Frangelico, vodka, Monin coconut syrup, coconut cream, Ancel pastry cream, egg white and shredded coconut.",
       allergens: "NUT* · MLK* · EGG*",
+      image: "assets/cocktail-bad-omens-light.jpg",
+      alternateImage: "assets/cocktail-bad-omens-dark.jpg",
+      imageAlt: "Bad Omens signature cocktail",
+      frameClass: "frame-red",
+      frameSrc: "assets/frame-red-wood.webp",
     },
     {
       name: "Kaptein Sabeltann",
@@ -116,7 +121,7 @@ window.MAELSTROM_JULEBORD_MENU = {
       ${cocktail.description ? `<p class="signature-cocktail-tasting">${esc(cocktail.description)}</p>` : ""}
       <p class="signature-cocktail-recipe">${esc(cocktail.recipe)}</p>
       ${cocktail.allergens ? `<p class="signature-cocktail-allergens">${esc(cocktail.allergens)}</p>` : ""}
-      ${cocktail.image ? `<figure class="photo-placeholder ${esc(cocktail.frameClass || "frame-dark-wood")} signature-cocktail-photo menu-photo-trigger" role="button" tabindex="0" aria-label="Enlarge ${esc(cocktail.name)} cocktail photo" data-menu-photo data-lightbox-frame="${esc(cocktail.frameClass || "frame-dark-wood")}" data-lightbox-frame-src="${esc(cocktail.frameSrc || "assets/frame-dark-wood.webp")}"><img src="${esc(cocktail.image)}" alt="${esc(cocktail.imageAlt || cocktail.name)}" loading="lazy" decoding="async" draggable="false" /><img class="menu-photo-frame-overlay" src="${esc(cocktail.frameSrc || "assets/frame-dark-wood.webp")}" alt="" aria-hidden="true" loading="lazy" decoding="async" draggable="false" /></figure>` : ""}
+      ${cocktail.image ? `<figure class="photo-placeholder ${esc(cocktail.frameClass || "frame-dark-wood")} signature-cocktail-photo menu-photo-trigger${cocktail.alternateImage ? " has-photo-swap" : ""}" role="button" tabindex="0" aria-label="Enlarge ${esc(cocktail.name)} cocktail photo" data-menu-photo data-lightbox-frame="${esc(cocktail.frameClass || "frame-dark-wood")}" data-lightbox-frame-src="${esc(cocktail.frameSrc || "assets/frame-dark-wood.webp")}"><img class="${cocktail.alternateImage ? "menu-photo-swap menu-photo-swap-primary" : ""}" src="${esc(cocktail.image)}" alt="${esc(cocktail.imageAlt || cocktail.name)}" loading="lazy" decoding="async" draggable="false" />${cocktail.alternateImage ? `<img class="menu-photo-swap menu-photo-swap-secondary" src="${esc(cocktail.alternateImage)}" alt="" aria-hidden="true" loading="lazy" decoding="async" draggable="false" />` : ""}<img class="menu-photo-frame-overlay" src="${esc(cocktail.frameSrc || "assets/frame-dark-wood.webp")}" alt="" aria-hidden="true" loading="lazy" decoding="async" draggable="false" /></figure>` : ""}
     </article>`;
 
   panel.innerHTML = `
