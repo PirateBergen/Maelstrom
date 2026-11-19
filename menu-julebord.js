@@ -29,9 +29,9 @@ window.MAELSTROM_JULEBORD_MENU = {
       },
       {
         name: "Legend of the North Sea — Neptunia",
-        description: "Inspired by the wild Scottish coast, this blend brings together Neptunia’s coastal botanicals, the delicate sweetness of apricot and the peppery freshness of arugula.",
-        recipe: "Hendrick’s Neptunia Gin, apricot purée, house-made arugula syrup, fresh lime juice and egg white.",
-        allergens: "EGG*",
+        description: "Mineral and herbaceous, with bright lime acidity, crisp Chardonnay and the peppery freshness of arugula.",
+        recipe: "Hendrick’s Neptunia Gin, Chardonnay, house-made arugula syrup, arugula emulsion and fresh lime juice.",
+        allergens: "SUL*",
       },
     ],
   },
