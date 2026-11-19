@@ -71,6 +71,10 @@ window.MAELSTROM_JULEBORD_MENU = {
       description: "A rich and indulgent twist on the classic Old Fashioned, blending roasted pecans, caramelized banana and subtle cocoa notes for a smooth, warming finish.",
       recipe: "Monkey Shoulder Old Fashioned infused with roasted pecans, butter-roasted banana, caramelized banana-peel powder and Angostura Cocoa Bitters.",
       allergens: "NUT* · MLK*",
+      image: "assets/cocktail-desperate-measure.jpg",
+      imageAlt: "Desperate Measure signature cocktail with roasted pecans",
+      frameClass: "frame-gold",
+      frameSrc: "assets/frame-gold-ornate.webp",
     },
   ],
   classics: [
